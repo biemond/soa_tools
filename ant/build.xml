@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="soaDeployAll" default="deployAll">
+
+    <property environment="env"/> 
+
+    <property file="${env.CURRENT_FOLDER}/build.properties"/>  
+
+    <!-- Antcontrib path -->
+    <path id="antcontrib.path">
+      <pathelement path="lib/ant-contrib-1.0b3.jar" />
+    </path>
+
+    <taskdef classpathref="antcontrib.path" 
+             resource="net/sf/antcontrib/antlib.xml"/>
+
+
+    <target name="deployAll"> 
+       <!-- Build time -->
+       <tstamp>
+          <format property="build.date" pattern="yyyy-MM-dd HH:mm:ss" />
+       </tstamp>
+
+       <!-- Build number -->
+       <condition property="build.number" value="${env.BUILD_NUMBER}">
+          <isset property="env.BUILD_NUMBER" />
+       </condition>
+       <buildnumber file="build.num" />  
+
+			 <echo message="date  = ${build.date}"
+			       level="info"/>	
+			 <echo message="build = ${build.number}"
+			       level="info"/>	
+
+       <echo file="logs/instance-${build.number}.log" append="true" 
+             message="deployAll${line.separator}" 
+             level="info"/>
+
+       <echo file="logs/instance-${build.number}.log" append="true" 
+             message="basedir ${basedir}${line.separator}" 
+             level="debug"/>
+       <echo file="logs/instance-${build.number}.log" append="true" 
+             message="current folder ${env.CURRENT_FOLDER}${line.separator}"
+             level="debug"/>
+
+			 <echo file="logs/instance-${build.number}.log" append="true" 
+			       message="date  = ${build.date}${line.separator}"
+			       level="info"/>	
+			 <echo file="logs/instance-${build.number}.log" append="true" 
+			       message="build = ${build.number}${line.separator}"
+			       level="info"/>	
+			 <echo file="logs/instance-${build.number}.log" append="true" 
+			       message="environment = ${deployment.plan.environment}${line.separator}"
+			       level="info"/>	
+
+
+       <mkdir dir="builds/${build.number}"/>
+
+    	 <if> 
+          <equals arg1="${mds.enabled}" arg2="true"/>
+          <then>
+             <antcall target="deployMDS" inheritall="true"/>
+          </then>
+      </if>      
+      <foreach list="${applications}" 
+      	       param="application" 
+      	       target="deployApplication" 
+      	       inheritall="true" 
+      	       inheritrefs="false"/>
+    </target>
+
+
+    <target name="deployMDS">
+        <echo message="undeploy and deploy MDS"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="->deployMDS undeploy and deploy MDS${line.separator}"
+              level="info"/>
+        <if> 
+          <equals arg1="${mds.undeploy}" arg2="true"/>
+          <then>
+            <foreach list="${mds.applications}" 
+            	       param="mds.application" 
+            	       target="undeployMDSApplication" 
+            	       inheritall="true" 
+            	       inheritrefs="false"/>
+          </then>
+        </if>
+        <foreach list="${mds.applications}" 
+        	       param="mds.application" 
+        	       target="deployMDSApplication" 
+        	       inheritall="true" 
+        	       inheritrefs="false"/>
+    </target>
+
+    <target name="deployMDSApplication">
+        <echo message="deploy MDS application ${mds.application}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="${line.separator}-->deployMDSApplication deploy MDS application ${mds.application}${line.separator}"
+              level="info"/>
+
+        <echo message="remove and create local MDS temp"
+              level="debug"/>
+        <property name="mds.deploy.dir" value="${tmp.output.dir}/${mds.application}"/>
+				
+        <delete dir="${mds.deploy.dir}"/>
+        <mkdir dir="${mds.deploy.dir}"/>
+
+        <echo message="create zip from file MDS store"
+              level="debug"/>
+
+		    <zip destfile="${mds.deploy.dir}/${mds.application}_mds.jar" compress="false"> 
+    		  <fileset dir="${mds.repository}" includes="${mds.application}/**"/>
+    		</zip>
+
+        <echo message="create zip with MDS jar"
+              level="debug"/>
+		    <zip destfile="${mds.deploy.dir}/${mds.application}_mds.zip" compress="false"> 
+    		  <fileset dir="${mds.deploy.dir}" includes="*.jar"/>
+    		</zip>
+
+        <propertycopy name="deploy.serverURL"    from="${deployment.plan.environment}.serverURL"/>
+        <propertycopy name="deploy.overwrite"    from="${deployment.plan.environment}.overwrite"/>
+        <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+        <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+        <propertycopy name="deploy.forceDefault" from="${deployment.plan.environment}.forceDefault"/>
+
+        <echo message="deploy on ${deploy.serverURL} with user ${deploy.user}"
+              level="info"/>
+        <echo message="deploy sarFile ${mds.deploy.dir}/${mds.application}_mds.zip"
+              level="info"/>              
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="---->deploy on ${deploy.serverURL} with user ${deploy.user}${line.separator}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="---->deploy sarFile ${mds.deploy.dir}/${mds.application}_mds.zip${line.separator}"
+              level="info"/>   
+
+        <copy todir="builds/${build.number}" 
+              file="${mds.deploy.dir}/${mds.application}_mds.zip"/>
+
+
+    	  <if> 
+          <equals arg1="${demo.mode}" arg2="false"/>
+          <then>
+            <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="deploy">
+             <property name="wl_home" value="${wl_home}"/>
+             <property name="oracle.home" value="${oracle.home}"/>
+             <property name="serverURL" value="${deploy.serverURL}"/>
+             <property name="user" value="${deploy.user}"/>
+             <property name="password" value="${deploy.password}"/>
+             <property name="overwrite" value="${deploy.overwrite}"/>
+             <property name="forceDefault" value="${deploy.forceDefault}"/>
+             <property name="sarLocation" value="${mds.deploy.dir}/${mds.application}_mds.zip"/>
+            </ant>	  
+          </then>
+        </if>    
+
+    </target>
+
+    <target name="undeployMDSApplication">
+        <echo message="undeploy MDS application ${mds.application}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="${line.separator}-->undeployMDSApplication undeploy MDS application ${mds.application}${line.separator}"
+              level="info"/>
+
+
+        <propertycopy name="deploy.serverURL"    from="${deployment.plan.environment}.serverURL"/>
+        <propertycopy name="deploy.overwrite"    from="${deployment.plan.environment}.overwrite"/>
+        <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+        <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+        <propertycopy name="deploy.forceDefault" from="${deployment.plan.environment}.forceDefault"/>
+
+
+        <echo message="undeploy MDS app folder apps/${mds.application}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="---->undeploy MDS app folder apps/${mds.application}${line.separator}"
+              level="info"/>
+    	  <if> 
+          <equals arg1="${demo.mode}" arg2="false"/>
+          <then>
+            <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="removeSharedData">
+         	    <property name="wl_home" value="${wl_home}"/>
+              <property name="oracle.home" value="${oracle.home}"/>
+              <property name="serverURL" value="${deploy.serverURL}"/>
+              <property name="user" value="${deploy.user}"/>
+              <property name="password" value="${deploy.password}"/>
+             	<property name="folderName" value="${mds.application}"/>
+            </ant>	
+          </then>
+        </if>    
+    </target>
+
+
+    <target name="deployApplication">
+        <echo message="deploy application ${application}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="${line.separator}-->deployApplication deploy application ${application}${line.separator}"
+              level="info"/>
+        <property file="${env.CURRENT_FOLDER}/${applications.home}/${application}/build.properties"/>   
+        <foreach list="${projects}" param="project" target="deployProject" inheritall="true" inheritrefs="false"/>
+    </target>
+
+    <target name="deployProject">
+        <echo message="deploy project ${project} for environment ${deployment.plan.environment}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="${line.separator}---->deployProject deploy project ${project} for environment ${deployment.plan.environment}${line.separator}"
+              level="info"/>
+
+        <property name="proj.compositeName" value="${project}"/>
+        <property name="proj.compositeDir" value="${env.CURRENT_FOLDER}/${applications.home}/${application}"/>
+        <propertycopy name="proj.revision" from="${project}.revision"/>
+        <propertycopy name="proj.enabled" from="${project}.enabled"/>
+        <propertycopy name="proj.partition" from="${project}.partition"/>
+
+        <echo message="partition ${proj.partition} compositeName ${proj.compositeName} compositeDir ${proj.compositeDir}"
+              level="info"/>
+
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>partition ${proj.partition}${line.separator}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>compositeName ${proj.compositeName}${line.separator}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>revision ${proj.revision}${line.separator}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>compositeDir ${proj.compositeDir}${line.separator}"
+              level="info"/>
+
+        <echo message="build sar package"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>build sar package${line.separator}"
+              level="info"/>
+    	  <if> 
+          <equals arg1="${demo.mode}" arg2="false"/>
+          <then>
+            <ant antfile="${oracle.home}/bin/ant-sca-package.xml" inheritAll="false" target="package">
+             <property name="compositeDir" value="${proj.compositeDir}/${project}"/>
+             <property name="compositeName" value="${proj.compositeName}"/>
+             <property name="revision" value="${proj.revision}"/>
+             <property name="oracle.home" value="${oracle.home}"/>
+             <property name="java.passed.home" value="${java.passed.home}"/>
+             <property name="wl_home" value="${wl_home}"/>
+             <property name="sca.application.home" value="${proj.compositeDir}"/>
+             <property name="scac.application.home" value="${proj.compositeDir}"/>
+             <property name="scac.input" value="${proj.compositeDir}/${proj.compositeName}/composite.xml"/>
+             <property name="scac.output" value="${tmp.output.dir}/${proj.compositeName}.xml"/>
+             <property name="scac.error" value="${tmp.output.dir}/${proj.compositeName}.err"/>
+             <property name="scac.displayLevel" value="3"/>
+            </ant>	
+
+            <copy todir="builds/${build.number}" 
+                  file="${proj.compositeDir}/${proj.compositeName}/deploy/sca_${proj.compositeName}_rev${proj.revision}.jar"/>
+
+          </then>
+        </if>  
+        
+        <property name="deploy.sarLocation" 
+        	value="${proj.compositeDir}/${proj.compositeName}/deploy/sca_${proj.compositeName}_rev${proj.revision}.jar"/>
+        <property name="deploy.configplan"  
+        	value="${proj.compositeDir}/${proj.compositeName}/${proj.compositeName}_cfgplan_${deployment.plan.environment}.xml"/>
+
+        <propertycopy name="deploy.serverURL"    from="${deployment.plan.environment}.serverURL"/>
+        <propertycopy name="deploy.overwrite"    from="${deployment.plan.environment}.overwrite"/>
+        <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+        <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+        <propertycopy name="deploy.forceDefault" from="${deployment.plan.environment}.forceDefault"/>
+        <propertycopy name="deploy.server"       from="${deployment.plan.environment}.server"/>
+        <propertycopy name="deploy.port"         from="${deployment.plan.environment}.port"/>
+
+        <echo message="deploy on ${deploy.serverURL} with user ${deploy.user}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>deploy on ${deploy.serverURL} with user ${deploy.user}${line.separator}"
+              level="info"/>
+
+        <echo message="deploy sarFile ${deploy.sarLocation}"
+              level="info"/>
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>deploy sarFile ${deploy.sarLocation}${line.separator}"
+              level="info"/>
+
+        <echo file="logs/instance-${build.number}.log" append="true" 
+              message="------>deployment plan used ${deploy.configplan}${line.separator}"
+              level="info"/>
+
+
+    	  <if> 
+          <equals arg1="${demo.mode}" arg2="false"/>
+          <then>
+		         <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="deploy">
+		             <property name="wl_home" value="${wl_home}"/>
+		             <property name="oracle.home" value="${oracle.home}"/>
+		             <property name="serverURL" value="${deploy.serverURL}"/>
+		             <property name="user" value="${deploy.user}"/>
+		             <property name="password" value="${deploy.password}"/>
+		             <property name="overwrite" value="${deploy.overwrite}"/>
+		             <property name="forceDefault" value="${deploy.forceDefault}"/>
+		             <property name="sarLocation" value="${deploy.sarLocation}"/>
+		             <property name="configplan" value="${deploy.configplan}"/>
+		             <property name="partition" value="${proj.partition}"/>
+		        </ant>	
+          </then>
+        </if>  
+        
+        <if> 
+          <equals arg1="${proj.enabled}" arg2="false"/>
+          <then>
+		        <echo message="stop ${proj.compositeName}"
+    		          level="info"/>
+        		<echo file="logs/instance-${build.number}.log" append="true" 
+            		  message="------>stop ${proj.compositeName}${line.separator}"
+              		level="info"/>
+		    	  <if> 
+		          <equals arg1="${demo.mode}" arg2="false"/>
+		          <then>
+			            <ant antfile="${oracle.home}/bin/ant-sca-mgmt.xml" inheritAll="false" target="stopComposite">
+			                  <property name="host" value="${deploy.server}"/>
+			                  <property name="port" value="${deploy.port}"/>
+			                  <property name="user" value="${deploy.user}"/>
+			                  <property name="password" value="${deploy.password}"/>
+			                  <property name="compositeName" value="${proj.compositeName}"/>
+			                  <property name="revision" value="${proj.revision}"/>
+			                  <property name="partition" value="${proj.partition}"/>
+			            </ant>	
+		          </then>
+		        </if>  
+          </then>
+        </if>
+
+        <if> 
+          <equals arg1="${proj.enabled}" arg2="true"/>
+          <then>
+		        <echo message="stop activate ${proj.compositeName}"
+    		          level="info"/>
+        		<echo file="logs/instance-${build.number}.log" append="true" 
+            		  message="------>activate ${proj.compositeName}${line.separator}"
+              		level="info"/>
+		    	  <if> 
+		          <equals arg1="${demo.mode}" arg2="false"/>
+		          <then>
+			            <ant antfile="${oracle.home}/bin/ant-sca-mgmt.xml" inheritAll="false" 
+			            	   target="activateComposite">
+			                  <property name="host" value="${deploy.server}"/>
+			                  <property name="port" value="${deploy.port}"/>
+			                  <property name="user" value="${deploy.user}"/>
+			                  <property name="password" value="${deploy.password}"/>
+			                  <property name="compositeName" value="${proj.compositeName}"/>
+			                  <property name="revision" value="${proj.revision}"/>
+			                  <property name="partition" value="${proj.partition}"/>
+			            </ant>	
+		          </then>
+		        </if>  
+
+
+		        <echo message="unit test ${proj.compositeName}"
+    		          level="info"/>
+        		<echo file="logs/instance-${build.number}.log" append="true" 
+            		  message="------>unit test ${proj.compositeName}${line.separator}"
+              		level="info"/>
+		    	  <if> 
+		          <equals arg1="${demo.mode}" arg2="false"/>
+		          <then>
+		            <ant antfile="${oracle.home}/bin/ant-sca-test.xml" inheritAll="false" 
+		            	   target="test">
+		                 <property name="scatest.input" value="${project}"/>
+		                 <property name="scatest.partition" value="${proj.partition}"/>
+		                 <property name="scatest.format" value="junit"/>
+		                 <property name="scatest.result" value="${env.CURRENT_FOLDER}/${junit.output.dir}"/>
+		                 <property name="jndi.properties.input" value="${deployment.plan.environment}.jndi.properties"/>
+		            </ant>	
+		          </then>
+		        </if>  
+          </then>
+        </if>        
+        <echo message="finish"
+ 		          level="info"/>
+     		<echo file="logs/instance-${build.number}.log" append="true" 
+         		  message="------>finish${line.separator}"
+          		level="info"/>
+    </target>
+</project>

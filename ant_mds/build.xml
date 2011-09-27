@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="soaDeployAll" default="deployMDS">
+    <echo>basedir ${basedir}</echo>
+
+    <property environment="env"/> 
+    <echo>current folder ${env.CURRENT_FOLDER}</echo>
+
+    <property file="${env.CURRENT_FOLDER}/build.properties"/>  
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+    <target name="unDeployMDS">
+        <echo>undeploy MDS</echo>
+        <foreach list="${mds.applications}" param="mds.application" target="undeployMDSApplication" inheritall="true" inheritrefs="false"/>
+    </target>
+
+    <target name="deployMDS">
+        <echo>undeploy and deploy MDS</echo>
+        <if> 
+          <equals arg1="${mds.undeploy}" arg2="true"/>
+          <then>
+            <foreach list="${mds.applications}" param="mds.application" target="undeployMDSApplication" inheritall="true" inheritrefs="false"/>
+          </then>
+        </if>
+        <foreach list="${mds.applications}" param="mds.application" target="deployMDSApplication" inheritall="true" inheritrefs="false"/>
+    </target>
+
+    <target name="deployMDSApplication">
+        <echo>deploy MDS application ${mds.application}</echo>
+
+        <echo>remove and create local MDS temp</echo>
+        <property name="mds.deploy.dir" value="${tmp.output.dir}/${mds.application}"/>
+				
+        <delete dir="${mds.deploy.dir}"/>
+        <mkdir dir="${mds.deploy.dir}"/>
+
+        <echo>create zip from file MDS store</echo>
+		    <zip destfile="${mds.deploy.dir}/${mds.application}_mds.jar" compress="false"> 
+    		  <fileset dir="${mds.reposistory}" includes="${mds.application}/**"/>
+    		</zip>
+
+        <echo>create zip with MDS jar</echo>
+		    <zip destfile="${mds.deploy.dir}/${mds.application}_mds.zip" compress="false"> 
+    		  <fileset dir="${mds.deploy.dir}" includes="*.jar"/>
+    		</zip>
+
+        <propertycopy name="deploy.serverURL"    from="${deployment.plan.environment}.serverURL"/>
+        <propertycopy name="deploy.overwrite"    from="${deployment.plan.environment}.overwrite"/>
+        <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+        <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+        <propertycopy name="deploy.forceDefault" from="${deployment.plan.environment}.forceDefault"/>
+
+        <echo>deploy MDS app</echo>
+
+        <echo>deploy on ${deploy.serverURL} with user ${deploy.user}</echo>
+        <echo>deploy sarFile ${mds.deploy.dir}/${mds.application}_mds.zip</echo>
+
+        <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="deploy">
+             <property name="wl_home" value="${wl_home}"/>
+             <property name="oracle.home" value="${oracle.home}"/>
+             <property name="serverURL" value="${deploy.serverURL}"/>
+             <property name="user" value="${deploy.user}"/>
+             <property name="password" value="${deploy.password}"/>
+             <property name="overwrite" value="${deploy.overwrite}"/>
+             <property name="forceDefault" value="${deploy.forceDefault}"/>
+             <property name="sarLocation" value="${mds.deploy.dir}/${mds.application}_mds.zip"/>
+        </ant>	
+
+    </target>
+
+    <target name="undeployMDSApplication">
+        <echo>undeploy MDS application ${mds.application}</echo>
+
+        <propertycopy name="deploy.serverURL"    from="${deployment.plan.environment}.serverURL"/>
+        <propertycopy name="deploy.overwrite"    from="${deployment.plan.environment}.overwrite"/>
+        <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+        <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+        <propertycopy name="deploy.forceDefault" from="${deployment.plan.environment}.forceDefault"/>
+
+         <echo>undeploy MDS app folder apps/${mds.application} </echo>
+         <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="removeSharedData">
+         	    <property name="wl_home" value="${wl_home}"/>
+              <property name="oracle.home" value="${oracle.home}"/>
+              <property name="serverURL" value="${deploy.serverURL}"/>
+              <property name="user" value="${deploy.user}"/>
+              <property name="password" value="${deploy.password}"/>
+             	<property name="folderName" value="${mds.application}"/>
+         </ant>	
+    </target>
+
+</project>

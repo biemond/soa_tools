@@ -1,0 +1,24 @@
+<project name="ConfigExport">
+
+	<property file="./build.properties"/>
+	<property name="eclipse.home" value="${oracle.home}/oepe"/>
+	<property name="weblogic.home" value= "${oracle.home}/wlserver10.3"/>
+	<property name="metadata.dir" value="${workspace.dir}/.metadata"/>
+
+	<target name="export">
+		<available file="${metadata.dir}" type="dir" property="metadata.dir.exists"/>
+		<java dir="${eclipse.home}" jar="${eclipse.home}/plugins/org.eclipse.equinox.launcher_1.1.0.v20100507.jar" fork="true" failonerror="true" maxmemory="768m">
+			<arg line="-Duser.language=en -Duser.country=us -data ${workspace.dir}"/>
+			<arg line="-application com.bea.alsb.core.ConfigExport"/>
+			<arg line="-configProject ${config.project}"/>
+			<arg line="-configJar ${config.jar}"/>
+			<sysproperty key="weblogic.home" value="${weblogic.home}"/>
+		</java>
+
+		<antcall target="deleteMetadata"/>
+	</target>
+	
+	<target name="deleteMetadata" unless="metadata.dir.exists">
+			<delete failonerror="false" includeemptydirs="true" dir="${metadata.dir}"/>
+	</target>
+</project>
