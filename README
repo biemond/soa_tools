@@ -1,0 +1,4 @@
+# 3 test projects
+# ant is for soa suite 11g
+# ant_osb can only work for OSB
+# ant_mds , a standalone mds deployment for soa suite 11g, also in ant folder 
