@@ -1,4 +1,5 @@
 # 3 test projects
-# ant is for soa suite 11g
-# ant_osb can only work for OSB
-# ant_mds , a standalone mds deployment for soa suite 11g, also in ant folder 
+# ant is for soa suite 11g, flexible deployment of composites with plans + deployment of mds
+# ant_osb , deployment framework for OSB, export from OEPE, import & export WLS
+# ant_mds , a standalone mds deployment for soa suite 11g, also in ant folder
+# ant_wls , create users with group , reset datasources  
