@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="utilities" default="test">
+
+    <property environment="env"/> 
+    <property file="build.properties"/>  
+
+    <!-- Antcontrib path -->
+    <path id="antcontrib.path">
+      <pathelement path="lib/ant-contrib-1.0b3.jar" />
+    </path>
+
+    <taskdef classpathref="antcontrib.path" 
+             resource="net/sf/antcontrib/antlib.xml"/>
+
+    <path id="library.weblogic">
+       <fileset dir="${wl_home}/server/lib">
+         <include name="weblogic.jar"/>
+       </fileset>
+    </path>
+
+    <taskdef file="wlstTaskDefs.xml" 
+             classpathref="library.weblogic"/>
+
+
+    <target name="test"> 
+       <echo>usage target [resetJDBCSpecificDatasources | resetJDBCNonDatasources | createUsersAndGroup ]</echo>
+    </target>
+
+    <target name="resetJDBCSpecificDatasources">
+    	
+      <propertycopy name="admin.User"         from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
+      <propertycopy name="admin.ServerTarget" from="${wls.environment}.serverTarget"/>
+  
+      <wlResetDatasource adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              serverTarget="${admin.ServerTarget}" 
+              datasourceNames="${datasources}"/>
+    </target>
+
+    <target name="resetJDBCNonDatasources">
+    	
+      <propertycopy name="admin.User"         from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
+      <propertycopy name="admin.ServerTarget" from="${wls.environment}.serverTarget"/>
+  
+      <wlResetAllDatasourcesNotSOA adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}"/>
+    </target>
+
+    <target name="createUsersAndGroup">
+    	
+      <propertycopy name="admin.User"         from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
+  
+      <wlCreateUsersAndGroup adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}"
+              defaultPassword="${defaultPassword}"
+              users="${users}"
+              userGroup="${userGroup}"
+              />
+    </target>
+
+
+
+</project>

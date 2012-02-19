@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<antlib>
+
+   <taskdef name="wldeploy" 
+            classpathref="library.weblogic" 
+            classname="weblogic.ant.taskdefs.management.WLDeploy"/>   
+
+   <taskdef name="wlst" 
+            classpathref="library.weblogic" 
+            classname="weblogic.ant.taskdefs.management.WLSTTask"/>   
+
+  
+   <macrodef name="wlResetDatasource">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="serverTarget"/>
+    <attribute name="datasourceNames"/>
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="true" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{serverTarget} @{datasourceNames}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            serverTarget=sys.argv[3]
+            datasourceNames=String(sys.argv[4]).split(",")
+            connect(adminUser,adminPassword,adminUrl)
+            print 'all datasource: '+sys.argv[4]
+            domainRuntime()
+            for datasourceName in datasourceNames:
+             print 'resetting datasource: '+datasourceName
+             cd('/')
+             cd('ServerRuntimes/'+serverTarget+'/JDBCServiceRuntime/'+serverTarget+'/JDBCDataSourceRuntimeMBeans/'+datasourceName)
+             objs = jarray.array([], java.lang.Object)
+             strs = jarray.array([], java.lang.String)
+             invoke('reset', objs, strs)
+        </script>
+      </wlst>
+    </sequential>
+   </macrodef>
+
+   <macrodef name="wlResetAllDatasourcesNotSOA">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="true" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            connect(adminUser,adminPassword,adminUrl)
+
+            domainRuntime()
+            
+            drs = ObjectName("com.bea:Name=DomainRuntimeService,Type=weblogic.management.mbeanservers.domainruntime.DomainRuntimeServiceMBean"); 
+            servers = mbs.getAttribute(drs, "ServerRuntimes"); 
+            for server in servers:
+              serverName = mbs.getAttribute(server,'Name')
+              print 'server: '+serverName
+              if serverName == "AdminServer":
+                print 'server skipped'
+              else:
+                dsBean = ObjectName('com.bea:ServerRuntime='+serverName+',Name='+serverName+',Location='+serverName+',Type=JDBCServiceRuntime')
+                if dsBean is None:
+                  print 'not found'
+                else:
+                  datasourceObjects = mbs.getAttribute(dsBean, 'JDBCDataSourceRuntimeMBeans')  
+                  for datasourceObject in datasourceObjects:
+                    if datasourceObject is None:
+                      print 'datasource not found'
+                    else:
+                      Name = mbs.getAttribute(datasourceObject,'Name')
+                      if ( Name.find("SOA",0,3 ) == -1 and Name.find("mds",0,3 ) == -1 and Name.find("EDN",0,3 ) == -1 and Name.find("BAM",0,3 ) == -1 and Name.find("Ora",0,3 ) == -1):  
+                        mbs.invoke(datasourceObject, 'reset',None,None)  
+                        print 'reset: '+Name
+        </script>
+      </wlst>
+    </sequential>
+   </macrodef>
+
+
+   <macrodef name="wlCreateUsersAndGroup">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="defaultPassword"/>
+    <attribute name="users"/>
+    <attribute name="userGroup"/>
+    
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="true" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{defaultPassword} @{users} @{userGroup}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            connect(adminUser,adminPassword,adminUrl)
+
+            print 'lookup DefaultAuthenticator' 
+            
+            password = sys.argv[3]
+            users=String(sys.argv[4]).split(",")
+            
+            atnr=cmo.getSecurityConfiguration().getDefaultRealm().lookupAuthenticationProvider('DefaultAuthenticator')
+            
+            print 'create group'
+            group = sys.argv[5]
+            atnr.createGroup(group,group)
+            
+            for user in users:        
+              print 'create user: ',user
+              atnr.createUser(user,password,user)
+              atnr.addMemberToGroup(group,user)
+        </script>
+      </wlst>
+    </sequential>
+   </macrodef>
+
+</antlib>
