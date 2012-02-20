@@ -26,15 +26,15 @@
     </target>
 
     <target name="createResourceAdapterEntries">
-		 <echo>make adapter changes</echo>
+     <echo>make adapter changes</echo>
 
-	      <foreach list="${resourceAdapterEntries}" 
-        	       param="resourceAdapterEntry" 
-        	       target="createResourceAdapter" 
-        	       inheritall="true" 
-        	       inheritrefs="false"/>
+        <foreach list="${resourceAdapterEntries}" 
+                 param="resourceAdapterEntry" 
+                 target="createResourceAdapter" 
+                 inheritall="true" 
+                 inheritrefs="false"/>
 
-  	     <echo>check for adapter changes and redeploy</echo>
+         <echo>check for adapter changes and redeploy</echo>
          <var name="appDb"  value="false"/>
          <var name="appAq"  value="false"/>
          <var name="appJms" value="false"/>
@@ -43,85 +43,85 @@
          <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
 
          <for list="${resourceAdapterEntries}" param="resourceAdapter">
-	        <sequential>
+          <sequential>
              <propertycopy name="raType" from="@{resourceAdapter}.type" 
-			               override="true"/>
+                     override="true"/>
              <propertycopy name="appName" from="${raType}.appName" 
-			               override="true"/>
-     		 <echo>found ${raType}</echo>
-    		 <if>
+                     override="true"/>
+             <echo>found ${raType}</echo>
+             <if>
                 <equals arg1="${raType}" arg2="jms" />
                 <then>
-          		  <echo>found for JmsAdapter ${appName}</echo>
-      			  <if>
+                <echo>found for JmsAdapter ${appName}</echo>
+                <if>
                      <equals arg1="${appJms}" arg2="false" />
                      <then>
-          		        <echo>redeploy JmsAdapter</echo>
-						<var name="appJms" value="true"/>
-   		    	        <wlRedeployResourceAdapter
-	                       adminUser="${admin.User}" 
+                      <echo>redeploy JmsAdapter</echo>
+                      <var name="appJms" value="true"/>
+                      <wlRedeployResourceAdapter
+                         adminUser="${admin.User}" 
                            adminPassword="${admin.Password}" 
                            adminUrl="${admin.Url}" 
                            appName="${appName}"
-                        />				     
-					</then>
-					 <else>
-          		        <echo>skip JmsAdapter</echo>
-					 </else>
-				  </if>	 
- 			    </then>
-			 </if>
-    		 <if>
+                        />             
+                     </then>
+                     <else>
+                      <echo>skip JmsAdapter</echo>
+                     </else>
+               </if>   
+               </then>
+             </if>
+             <if>
                 <equals arg1="${raType}" arg2="db" />
                 <then>
-          		  <echo>found for DbAdapter ${appName}</echo>
-      			  <if>
+                <echo>found for DbAdapter ${appName}</echo>
+                 <if>
                      <equals arg1="${appJms}" arg2="false" />
                      <then>
-          		        <echo>redeploy DbAdapter</echo>
-						<var name="appDb" value="true"/>
-   		    	        <wlRedeployResourceAdapter
-	                       adminUser="${admin.User}" 
+                      <echo>redeploy DbAdapter</echo>
+                      <var name="appDb" value="true"/>
+                      <wlRedeployResourceAdapter
+                         adminUser="${admin.User}" 
                            adminPassword="${admin.Password}" 
                            adminUrl="${admin.Url}" 
                            appName="${appName}"
-                        />				     
- 					 </then>
-					 <else>
-          		        <echo>skip DbAdapter</echo>
-					 </else>
-				  </if>	 
- 			    </then>
-			 </if>
-    		 <if>
+                        />             
+                     </then>
+                  <else>
+                     <echo>skip DbAdapter</echo>
+                  </else>
+                 </if>   
+                 </then>
+             </if>
+             <if>
                 <equals arg1="${raType}" arg2="aq" />
                 <then>
-          		  <echo>found for AqAdapter ${appName}</echo>
-      			  <if>
+                <echo>found for AqAdapter ${appName}</echo>
+                <if>
                      <equals arg1="${appAq}" arg2="false" />
                      <then>
-          		        <echo>redeploy AqAdapter</echo>
-						<var name="appAq" value="true"/>
-   		    	        <wlRedeployResourceAdapter
-	                       adminUser="${admin.User}" 
+                      <echo>redeploy AqAdapter</echo>
+                      <var name="appAq" value="true"/>
+                      <wlRedeployResourceAdapter
+                         adminUser="${admin.User}" 
                            adminPassword="${admin.Password}" 
                            adminUrl="${admin.Url}" 
                            appName="${appName}"
-                        />				     
-					 </then>
-					 <else>
-          		        <echo>skip AqAdapter</echo>
-					 </else>
-				  </if>	 
- 			    </then>
-			 </if>
-			 </sequential>
+                        />             
+                     </then>
+                <else>
+                     <echo>skip AqAdapter</echo>
+                </else>
+                </if>  
+                </then>
+             </if>
+          </sequential>
          </for>
-		 
+     
     </target>
 
     <target name="createResourceAdapter">
-    	
+      
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
@@ -139,7 +139,7 @@
       <echo>eisName ${eisName}</echo>
 
       <wlCreateResourceAdapter 
-	          adminUser="${admin.User}" 
+            adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
               adminUrl="${admin.Url}" 
               eisName="${eisName}"
@@ -149,7 +149,7 @@
               appName="${appName}"
               appPath="${appPath}"
        />
-			  
+        
     </target>
 
 
