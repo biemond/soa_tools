@@ -132,8 +132,8 @@
       <propertycopy name="appPath"            from="${raType}.appPath"/>
 
       <propertycopy name="eisName"            from="${resourceAdapterEntry}.eisName"/>
-      <propertycopy name="cfName"             from="${resourceAdapterEntry}.property"/>
-      <propertycopy name="propertyName"       from="${resourceAdapterEntry}.value"/>
+      <propertycopy name="cfName"             from="${resourceAdapterEntry}.value"/>
+      <propertycopy name="propertyName"       from="${resourceAdapterEntry}.property"/>
 
       <echo>Create Resource</echo>
       <echo>eisName ${eisName}</echo>
