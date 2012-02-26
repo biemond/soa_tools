@@ -1,0 +1,61 @@
+import random
+
+eisName='eis/DB/hr7'
+cfName='jdbc/hrDS'
+
+propertyName='xADataSourceName'
+connectionFactoryInterface='javax.resource.cci.ConnectionFactory' 
+appName='DbAdapter'
+appPath='C:/oracle/MiddlewarePS3/Oracle_SOA1/soa/connectors/DbAdapter.rar'
+
+url='t3://soaps3:7001'
+username='weblogic'
+password='weblogic1'
+ 
+moduleOverrideName=appName+'.rar'
+moduleDescriptorName='META-INF/weblogic-ra.xml'
+idRandom=random.randint(10000,100000)
+connectionInstance='ConnectionInstance_eis/wls/MyCF_JNDIName_'+str(idRandom)
+configProperty='ConfigProperty_ConnectionFactoryLocation_Value_'+str(idRandom)
+
+
+def makeDeploymentPlanVariable(wlstPlan, name, value, xpath, origin='planbased'):
+ 
+	while wlstPlan.getVariableAssignment(name, moduleOverrideName, moduleDescriptorName):
+		wlstPlan.destroyVariableAssignment(name, moduleOverrideName, moduleDescriptorName)
+	
+	while wlstPlan.getVariable(name):
+		wlstPlan.destroyVariable(name)
+	
+	variableAssignment = wlstPlan.createVariableAssignment( name, moduleOverrideName, moduleDescriptorName )
+	variableAssignment.setXpath( xpath )
+	variableAssignment.setOrigin( origin )
+	wlstPlan.createVariable( name, value )
+ 
+ 
+def main():
+	
+	connect(username,password,url)
+	edit()
+	try:
+		startEdit()
+		
+		planPath = get('/AppDeployments/'+appName+'/PlanPath')
+		print '__ Using plan ' + planPath
+		
+		myPlan=loadApplication(appPath, planPath)
+		
+		print '___ BEGIN change plan'
+		makeDeploymentPlanVariable(myPlan, connectionInstance, eisName, '/weblogic-connector/outbound-resource-adapter/connection-definition-group/[connection-factory-interface="'+connectionFactoryInterface+'"]/connection-instance/[jndi-name="'+ eisName + '"]/jndi-name')
+		makeDeploymentPlanVariable(myPlan, configProperty, cfName, '/weblogic-connector/outbound-resource-adapter/connection-definition-group/[connection-factory-interface="'+connectionFactoryInterface+'"]/connection-instance/[jndi-name="'+ eisName + '"]/connection-properties/properties/property/[name="'+propertyName+'"]/value')
+		print '___ DONE change plan'
+		
+		myPlan.save();
+		save();
+		activate(block='true');
+		cd('/AppDeployments/'+appName+'/Targets');
+		redeploy(appName, planPath,targets=cmo.getTargets());
+		cd('/')
+	except:
+		stopEdit('y')
+main()
