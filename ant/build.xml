@@ -3,7 +3,7 @@
 
     <property environment="env"/> 
 
-    <property file="${env.CURRENT_FOLDER}/build.properties"/>  
+    <property file="build.properties"/>  
 
     <!-- Antcontrib path -->
     <path id="antcontrib.path">
@@ -386,4 +386,53 @@
          		  message="------>finish${line.separator}"
           		level="info"/>
     </target>
+
+    <target name="create-soa-partitions">
+       <echo>create-soa-partitions</echo>
+       <foreach list="${soa.partities}" param="partitie" target="internal_soa-partition-create" 
+               inheritall="true" inheritrefs="false"/>
+   </target>
+
+    <target name="delete-soa-partitions">
+       <echo>delete-soa-partitions</echo>
+       <foreach list="${soa.partities}" param="partitie" target="internal_soa-partition-delete" 
+               inheritall="true" inheritrefs="false"/>
+   </target>  
+
+  <target name="internal_soa-partition-create">
+    <echo>create soa partition ${partitie} </echo>
+    <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+    <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+    <propertycopy name="deploy.server"       from="${deployment.plan.environment}.server"/>
+    <propertycopy name="deploy.port"         from="${deployment.plan.environment}.port"/>
+    <echo message="deploy on ${deploy.server} with user ${deploy.user}" level="info"/>
+
+    <ant antfile="${oracle.home}/bin/ant-sca-mgmt.xml" inheritAll="false" target="createPartition">
+      <property name="host" value="${deploy.server}"/>
+      <property name="port" value="${deploy.port}"/>
+      <property name="user" value="${deploy.user}"/>
+      <property name="password" value="${deploy.password}"/>
+      <property name="partition" value="${partitie}" />
+    </ant>	 
+    <tstamp/>
+  </target>
+
+  <target name="internal_soa-partition-delete">
+    <echo>delete soa partition ${partitie} </echo>
+    <propertycopy name="deploy.user"         from="${deployment.plan.environment}.user"/>
+    <propertycopy name="deploy.password"     from="${deployment.plan.environment}.password"/>
+    <propertycopy name="deploy.server"       from="${deployment.plan.environment}.server"/>
+    <propertycopy name="deploy.port"         from="${deployment.plan.environment}.port"/>
+
+    <ant antfile="${oracle.home}/bin/ant-sca-mgmt.xml" inheritAll="false" target="deletePartition">
+      <property name="host" value="${deploy.server}"/>
+      <property name="port" value="${deploy.port}"/>
+      <property name="user" value="${deploy.user}"/>
+      <property name="password" value="${deploy.password}"/>
+      <property name="partition" value="${partitie}" />
+    </ant>	 
+    <tstamp/>
+  </target>  
+
+
 </project>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<antlib>
+
+   <taskdef name="wldeploy" 
+            classpathref="library.weblogic" 
+            classname="weblogic.ant.taskdefs.management.WLDeploy"/>   
+
+   <taskdef name="wlst" 
+            classpathref="library.weblogic" 
+            classname="weblogic.ant.taskdefs.management.WLSTTask"/>   
+
+   <macrodef name="wlRedeployResourceAdapter">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="appName"/>
+    
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{appName} ">
+        <script>
+            import random
+
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            
+            appPath=sys.argv[3]
+             
+            def main():
+            	
+            	connect(adminUser,adminPassword,adminUrl)
+            	edit()
+            	try:
+            		startEdit()
+            		
+            		planPath = get('/AppDeployments/'+appName+'/PlanPath')
+            		print '__ Using plan ' + planPath
+            		cd('/AppDeployments/'+appName+'/Targets');
+            		redeploy(appName, planPath,targets=cmo.getTargets());
+            		cd('/')
+            	except:
+            		stopEdit('y')
+            main()
+        </script>
+      </wlst>
+    </sequential>
+   </macrodef>
+		
+			
+  
+   <macrodef name="wlCreateResourceAdapter">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="eisName"/>
+    <attribute name="cfName"/>
+
+    <attribute name="propertyName"/>
+    <attribute name="connectionFactoryInterface"/>
+    <attribute name="appName"/>
+    <attribute name="appPath"/>
+
+    
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{eisName} @{cfName} @{propertyName} @{connectionFactoryInterface} @{appName} @{appPath} ">
+        <script>
+            import random
+
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            
+            eisName=sys.argv[3]
+            cfName=sys.argv[4]
+            
+            propertyName=sys.argv[5]
+            connectionFactoryInterface=sys.argv[6]
+            appName=sys.argv[7]
+            appPath=sys.argv[8]
+            
+             
+            moduleOverrideName=appName+'.rar'
+            moduleDescriptorName='META-INF/weblogic-ra.xml'
+            idRandom=random.randint(10000,100000)
+            connectionInstance='ConnectionInstance_eis/wls/MyCF_JNDIName_'+str(idRandom)
+            configProperty='ConfigProperty_ConnectionFactoryLocation_Value_'+str(idRandom)
+            
+            def makeDeploymentPlanVariable(wlstPlan, name, value, xpath, origin='planbased'):
+             
+            	while wlstPlan.getVariableAssignment(name, moduleOverrideName, moduleDescriptorName):
+            		wlstPlan.destroyVariableAssignment(name, moduleOverrideName, moduleDescriptorName)
+            	
+            	while wlstPlan.getVariable(name):
+            		wlstPlan.destroyVariable(name)
+            	
+            	variableAssignment = wlstPlan.createVariableAssignment( name, moduleOverrideName, moduleDescriptorName )
+            	variableAssignment.setXpath( xpath )
+            	variableAssignment.setOrigin( origin )
+            	wlstPlan.createVariable( name, value )
+             
+             
+            def main():
+            	
+            	connect(adminUser,adminPassword,adminUrl)
+            	edit()
+            	try:
+            		startEdit()
+            		
+            		planPath = get('/AppDeployments/'+appName+'/PlanPath')
+            		print '__ Using plan ' + planPath
+            		
+            		myPlan=loadApplication(appPath, planPath)
+            		
+            		print '___ BEGIN change plan'
+            		makeDeploymentPlanVariable(myPlan, connectionInstance, eisName, '/weblogic-connector/outbound-resource-adapter/connection-definition-group/[connection-factory-interface="'+connectionFactoryInterface+'"]/connection-instance/[jndi-name="'+ eisName + '"]/jndi-name')
+            		makeDeploymentPlanVariable(myPlan, configProperty, cfName, '/weblogic-connector/outbound-resource-adapter/connection-definition-group/[connection-factory-interface="'+connectionFactoryInterface+'"]/connection-instance/[jndi-name="'+ eisName + '"]/connection-properties/properties/property/[name="'+propertyName+'"]/value')
+            		print '___ DONE change plan'
+            		
+            		myPlan.save();
+            		save();
+            		activate(block='true');
+            	except:
+            		stopEdit('y')
+            main()
+        </script>
+      </wlst>
+    </sequential>
+   </macrodef>
+
+ 
+
+</antlib>
