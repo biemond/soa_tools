@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:proj="http://www.bea.com/wli/config/project">
+  <proj:description>This folder contains UDDI Registry resources</proj:description>
+  <proj:isImmutable>true</proj:isImmutable>
+</xml-fragment>

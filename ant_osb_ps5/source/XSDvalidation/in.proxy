@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:wsdl ref="XSDvalidation/wsdl/validation"/>
+      <con:binding>
+        <con:name>ValidationWSSOAP</con:name>
+        <con:namespace>http://whitehorses.nl/validation/</con:namespace>
+      </con:binding>
+      <con:selector type="SOAP body"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+    <ser:xopMtom isEnabled="true">
+      <ser:xopBinary>ByRef</ser:xopBinary>
+    </ser:xopMtom>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/XSDvalidation/in</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="PipelinePairNode1_request">
+      <con:stage name="stage Validation" errorHandler="_onErrorHandler-4000347705591763764-20f60c2b.1206825498f.-7d6a">
+        <con:context>
+          <con1:varNsDecl namespace="http://whitehorses.nl/request" prefix="req"/>
+        </con:context>
+        <con:actions>
+          <con2:validate>
+            <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7e0d</con1:id>
+            <con2:schema ref="XSDvalidation/xsd/request"/>
+            <con2:schemaElement xmlns:req="http://whitehorses.nl/request">req:request</con2:schemaElement>
+            <con2:varName>body</con2:varName>
+            <con2:location>
+              <con1:xpathText>./req:request</con1:xpathText>
+            </con2:location>
+          </con2:validate>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode1_response"/>
+    <con:pipeline type="error" name="_onErrorHandler-4000347705591763764-20f60c2b.1206825498f.-7d6a">
+      <con:stage name="stage validation error handler">
+        <con:context>
+          <con1:varNsDecl namespace="http://whitehorses.nl/request" prefix="req"/>
+          <con1:varNsDecl namespace="http://whitehorses.nl/response" prefix="res"/>
+        </con:context>
+        <con:actions>
+          <con2:assign varName="runid">
+            <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7c39</con1:id>
+            <con2:expr>
+              <con1:xqueryText>$body/req:request/req:runid/text()</con1:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:assign varName="body">
+            <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7c74</con1:id>
+            <con2:expr>
+              <con1:xqueryText><![CDATA[<soapenv:Body xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+<res:response xmlns:res="http://whitehorses.nl/response">
+  <res:runid/>
+  <res:message/>
+  <res:errorid/>
+  <res:error/>
+</res:response>
+</soapenv:Body>]]></con1:xqueryText>
+            </con2:expr>
+          </con2:assign>
+          <con2:insert varName="body">
+            <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7c1b</con1:id>
+            <con2:location>
+              <con1:xpathText>./res:response/res:runid</con1:xpathText>
+            </con2:location>
+            <con2:where>first-child</con2:where>
+            <con2:expr>
+              <con1:xqueryText>$runid</con1:xqueryText>
+            </con2:expr>
+          </con2:insert>
+          <con4:insert varName="body" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-4000347705591763764-20f60c2b.1206825498f.-7bf9</con6:id>
+            <con4:location>
+              <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">./res:response/res:error</con6:xpathText>
+            </con4:location>
+            <con4:where>first-child</con4:where>
+            <con4:expr>
+              <con2:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$fault/ctx:details</con2:xqueryText>
+            </con4:expr>
+          </con4:insert>
+          <con4:insert varName="body" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-4000347705591763764-20f60c2b.1206825498f.-7bf8</con6:id>
+            <con4:location>
+              <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">./res:response/res:errorid</con6:xpathText>
+            </con4:location>
+            <con4:where>first-child</con4:where>
+            <con4:expr>
+              <con2:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$fault/ctx:errorCode/text()</con2:xqueryText>
+            </con4:expr>
+          </con4:insert>
+          <con4:insert varName="body" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+            <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-4000347705591763764-20f60c2b.1206825498f.-7bf7</con6:id>
+            <con4:location>
+              <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">./res:response/res:message</con6:xpathText>
+            </con4:location>
+            <con4:where>first-child</con4:where>
+            <con4:expr>
+              <con2:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$fault/ctx:reason/text()</con2:xqueryText>
+            </con4:expr>
+          </con4:insert>
+          <con6:reply xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config" xmlns:con6="http://www.bea.com/wli/sb/stages/config">
+            <con6:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7bbe</con6:id>
+          </con6:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow>
+      <con:pipeline-node name="PipelinePairNode1">
+        <con:request>PipelinePairNode1_request</con:request>
+        <con:response>PipelinePairNode1_response</con:response>
+      </con:pipeline-node>
+      <con:route-node name="RouteNode1">
+        <con:context>
+          <con1:varNsDecl namespace="http://whitehorses.nl/request" prefix="req"/>
+          <con1:varNsDecl namespace="http://whitehorses.nl/response" prefix="res"/>
+          <con3:variable name="vars" path="$runid">
+            <con3:xml-schema type="string"/>
+          </con3:variable>
+        </con:context>
+        <con:actions>
+          <con4:route>
+            <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7faf</con1:id>
+            <con4:service ref="XSDvalidation/file" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:outboundTransform>
+              <con2:assign varName="runid">
+                <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7f77</con1:id>
+                <con2:expr>
+                  <con1:xqueryText>$body/req:request/req:runid/text()</con1:xqueryText>
+                </con2:expr>
+              </con2:assign>
+            </con4:outboundTransform>
+            <con4:responseTransform>
+              <con2:assign varName="body">
+                <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7f22</con1:id>
+                <con2:expr>
+                  <con1:xqueryText>&lt;soapenv:Body xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+&lt;res:response>
+  &lt;res:runid/>
+&lt;/res:response>
+&lt;/soapenv:Body></con1:xqueryText>
+                </con2:expr>
+              </con2:assign>
+              <con2:insert varName="body">
+                <con1:id>_ActionId-4000347705591763764-20f60c2b.1206825498f.-7e96</con1:id>
+                <con2:location>
+                  <con1:xpathText>./res:response/res:runid</con1:xpathText>
+                </con2:location>
+                <con2:where>first-child</con2:where>
+                <con2:expr>
+                  <con1:xqueryText>$runid</con1:xqueryText>
+                </con2:expr>
+              </con2:insert>
+            </con4:responseTransform>
+          </con4:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

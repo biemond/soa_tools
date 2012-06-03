@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:schemaEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:schema><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://whitehorses.nl/request" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://whitehorses.nl/request" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="unqualified">
+	<xs:element name="request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="runid" type="xs:short"/>
+				<xs:element name="message" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>]]></con:schema>
+    <con:targetNamespace>http://whitehorses.nl/request</con:targetNamespace>
+</con:schemaEntry>

@@ -1,0 +1,4 @@
+#Sun Jun 03 14:02:05 CEST 2012
+task-tag-projects-already-scanned=EndPointMonitoring,OSB Configuration,ReliableMessageWS,Splitjoin,TextToXml,XSDvalidation
+eclipse.preferences.version=1
+modelmanager.maxWaitDuringConcurrentLoad=30000

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:schemaEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:schema><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:tns="http://wsrm.osbbook" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+version="1.0" targetNamespace="http://wsrm.osbbook">
+  <xs:element name="sayHelloOneWay" type="tns:sayHelloOneWay" />
+
+  <xs:complexType name="sayHelloOneWay">
+    <xs:sequence />
+  </xs:complexType>
+
+</xs:schema>]]></con:schema>
+    <con:targetNamespace>http://wsrm.osbbook</con:targetNamespace>
+</con:schemaEntry>

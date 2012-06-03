@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:wsdlEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:wsdl><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="ld:physical/XmlData_ws" name="XmlData" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="ld:physical/XmlData_ws" xmlns:tns2="ld:XmlData_ws2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <documentation>AquaLogic Data Services Web Service</documentation>
+  <types>
+    <xs:schema targetNamespace="ld:XmlData_ws2" elementFormDefault="qualified" xmlns:stns="ld:XmlData_ws2">
+      <xs:element name="value" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="root">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns2:customer" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="transaction">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns2:label"/>
+            <xs:element ref="tns2:value"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="account">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns2:account_id"/>
+            <xs:element ref="tns2:transaction" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="customer">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns2:customer_id"/>
+            <xs:element ref="tns2:lastname"/>
+            <xs:element ref="tns2:firstname"/>
+            <xs:element ref="tns2:account" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="lastname" type="xs:string"/>
+      <xs:element name="label" type="xs:string"/>
+      <xs:element name="firstname" type="xs:string"/>
+      <xs:element name="customer_id" type="xs:string"/>
+      <xs:element name="account_id" type="xs:string"/>
+    </xs:schema>
+    <xs:schema targetNamespace="ld:physical/XmlData_ws" elementFormDefault="qualified" xmlns:stns="ld:physical/XmlData_ws">
+      <xs:element name="get">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="tns2:root"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </types>
+  <message name="getIn">
+    <part name="parameters" element="tns:get"/>
+  </message>
+  <message name="getOut">
+    <part name="parameters" element="tns:getResponse"/>
+  </message>
+  <portType name="XmlDataPT">
+    <operation name="get">
+      <input message="tns:getIn"/>
+      <output message="tns:getOut"/>
+    </operation>
+  </portType>
+  <binding name="XmlDataSoapBinding" type="tns:XmlDataPT">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="get">
+      <soap:operation soapAction="ld:physical/XmlData_ws/get" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="XmlDataSoapService">
+    <port binding="tns:XmlDataSoapBinding" name="XmlDataSoapPort">
+      <soap:address location="http://localhost:7001/MHS_DB/ALDSPWebService/ws/XmlData.ws"/>
+    </port>
+  </service>
+</definitions>]]></con:wsdl>
+    <con:targetNamespace>ld:physical/XmlData_ws</con:targetNamespace>
+</con:wsdlEntry>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:aler="http://www.bea.com/wli/monitoring/alert" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://www.bea.com/wli/config/env" xmlns:ema="http://www.bea.com/wli/sb/transports/email">
+  <aler:description/>
+  <aler:AlertToConsole>true</aler:AlertToConsole>
+  <aler:AlertToReportingDataSet>true</aler:AlertToReportingDataSet>
+  <aler:AlertToSNMP>false</aler:AlertToSNMP>
+</xml-fragment>

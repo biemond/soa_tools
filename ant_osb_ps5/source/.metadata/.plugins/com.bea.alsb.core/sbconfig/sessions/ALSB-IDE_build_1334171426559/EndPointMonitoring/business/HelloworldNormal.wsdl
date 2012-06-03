@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:wsdlEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:wsdl><![CDATA[<WL5G3N0:definitions name="HelloWorldService" targetNamespace="http://saml.ws.whitehorses.nl/" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://saml.ws.whitehorses.nl/" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xsd:schema xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://saml.ws.whitehorses.nl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://saml.ws.whitehorses.nl/" schemaLocation="Helloworld.xsd"/>
+    </xsd:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="sayHello">
+    <WL5G3N0:part element="WL5G3N1:sayHello" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="sayHelloResponse">
+    <WL5G3N0:part element="WL5G3N1:sayHelloResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="HelloWorldService">
+    <WL5G3N0:operation name="sayHello">
+      <WL5G3N0:input message="WL5G3N1:sayHello"/>
+      <WL5G3N0:output message="WL5G3N1:sayHelloResponse"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="HelloWorldServiceSoapHttpPortBinding" type="WL5G3N1:HelloWorldService">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="sayHello">
+      <WL5G3N2:operation/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="HelloWorldService">
+    <WL5G3N0:port binding="WL5G3N1:HelloWorldServiceSoapHttpPortBinding" name="HelloWorldServiceSoapHttpPort">
+      <WL5G3N2:address location="http://laptopedwin:7011/HelloService/HelloProxyService"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>]]></con:wsdl>
+    <con:dependencies>
+        <con:schemaRef isInclude="false" schemaLocation="Helloworld.xsd" namespace="http://saml.ws.whitehorses.nl/" ref="EndPointMonitoring/business/Helloworld"/>
+    </con:dependencies>
+    <con:targetNamespace>http://saml.ws.whitehorses.nl/</con:targetNamespace>
+</con:wsdlEntry>

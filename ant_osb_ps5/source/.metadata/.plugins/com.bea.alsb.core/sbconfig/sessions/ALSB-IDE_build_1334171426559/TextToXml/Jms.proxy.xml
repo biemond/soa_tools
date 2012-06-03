@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:request type="MFL">
+        <con2:mfl ref="TextToXml/mfl/personel" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config"/>
+      </con:request>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>jms</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>jms://localhost:7001/MhsConnectionFactory/ESBinQueue4</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:response-required>false</jms:response-required>
+        <jms:XA-required>false</jms:XA-required>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:flow xmlns:con="http://www.bea.com/wli/sb/pipeline/config">
+      <con:route-node name="RouteNode1">
+        <con:context>
+          <con1:variable name="xmlBody" path="$xml" asChild="false" xmlns:con1="http://www.bea.com/wli/sb/typesystem/config">
+            <con1:schema ref="TextToXml/xsd/personel" element="root"/>
+          </con1:variable>
+        </con:context>
+        <con:actions>
+          <con1:route xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config">
+            <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-8374549519693805949-1a15c0b0.11def490d1d.-7f79</con2:id>
+            <con1:service ref="TextToXml/C_temp" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con1:outboundTransform>
+              <con2:assign varName="xml" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-8374549519693805949-1a15c0b0.11def490d1d.-7ea6</con3:id>
+                <con2:expr>
+                  <con3:xqueryTransform xmlns:con3="http://www.bea.com/wli/sb/stages/config">
+                    <con3:resource ref="TextToXml/xquery/personel_to_xml"/>
+                    <con3:param name="personel1">
+                      <con3:path>$body/Personel</con3:path>
+                    </con3:param>
+                  </con3:xqueryTransform>
+                </con2:expr>
+              </con2:assign>
+              <con2:assign varName="body" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-8374549519693805949-1a15c0b0.11def490d1d.-7f2d</con3:id>
+                <con2:expr>
+                  <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">&lt;soapenv:Body xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+&lt;/soapenv:Body></con3:xqueryText>
+                </con2:expr>
+              </con2:assign>
+              <con2:insert varName="body" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-8374549519693805949-1a15c0b0.11def490d1d.-7f10</con3:id>
+                <con2:location>
+                  <con3:xpathText xmlns:con3="http://www.bea.com/wli/sb/stages/config">.</con3:xpathText>
+                </con2:location>
+                <con2:where>first-child</con2:where>
+                <con2:expr>
+                  <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">$xml</con3:xqueryText>
+                </con2:expr>
+              </con2:insert>
+            </con1:outboundTransform>
+            <con1:responseTransform/>
+          </con1:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:schemaEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:schema><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by aaaa22 (bbbb22) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msg="http://webshop/definition" targetNamespace="http://webshop/definition" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="OrderType">
+		<xs:sequence>
+			<xs:element name="OrderId" type="xs:integer"/>
+			<xs:element name="Customer" type="xs:integer"/>
+			<xs:element name="Status" type="xs:string"/>
+			<xs:element name="Total" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RequestOrders">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Orders">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element ref="msg:Order"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ResponseOrders">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Results">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="Order" type="msg:OrderType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Order" type="msg:OrderType"/>
+	<xs:element name="RequestOrder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="msg:Order"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ResponseOrder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="msg:Order"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>]]></con:schema>
+    <con:targetNamespace>http://webshop/definition</con:targetNamespace>
+</con:schemaEntry>

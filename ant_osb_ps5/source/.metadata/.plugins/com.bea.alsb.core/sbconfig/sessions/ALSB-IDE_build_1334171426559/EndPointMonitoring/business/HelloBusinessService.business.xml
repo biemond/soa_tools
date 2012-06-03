@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://www.bea.com/wli/config/env" xmlns:aler="http://www.bea.com/wli/monitoring/alert">
+  <ser:coreEntry isProxy="false" isEnabled="true">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:wsdl ref="EndPointMonitoring/business/HelloworldNormal"/>
+      <con:port>
+        <con:name>HelloWorldServiceSoapHttpPort</con:name>
+        <con:namespace>http://saml.ws.whitehorses.nl/</con:namespace>
+      </con:port>
+    </ser:binding>
+    <ser:monitoring isEnabled="true">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+    </ser:monitoring>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>false</tran:inbound>
+    <tran:URI>
+      <env:value>http://localhost:7001/HelloService/HelloProxyService</env:value>
+    </tran:URI>
+    <tran:outbound-properties>
+      <tran:load-balancing-algorithm>round-robin</tran:load-balancing-algorithm>
+      <tran:retry-count>0</tran:retry-count>
+      <tran:retry-interval>0</tran:retry-interval>
+      <tran:retry-application-errors>true</tran:retry-application-errors>
+      <tran:delay-interval-configuration isEnabled="true">
+        <tran:delay-interval>10</tran:delay-interval>
+      </tran:delay-interval-configuration>
+    </tran:outbound-properties>
+    <tran:provider-specific>
+      <http:outbound-properties>
+        <http:request-method>POST</http:request-method>
+        <http:timeout>0</http:timeout>
+        <http:connection-timeout>0</http:connection-timeout>
+        <http:follow-redirects>false</http:follow-redirects>
+        <http:chunked-streaming-mode>true</http:chunked-streaming-mode>
+      </http:outbound-properties>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:alertRules/>
+</xml-fragment>

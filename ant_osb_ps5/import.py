@@ -38,7 +38,7 @@ def importToALSBDomain():
             alsbImportPlan.setPassphrase(passphrase)
             alsbImportPlan.setPreserveExistingEnvValues(true)
             importResult = ALSBConfigurationMBean.importUploaded(alsbImportPlan)
-            SessionMBean.activateSession(sessionName, "Complete test import with customization using wlst")
+            SessionMBean.activateSession(sessionName, "Complete import without customization using wlst")
         else:
             print 'ALSB project', project, 'will get overlaid'
             alsbJarInfo = ALSBConfigurationMBean.getImportJarInfo()
@@ -67,8 +67,10 @@ def importToALSBDomain():
                     if op.getOperation() == ALSBImportOperation.Operation.Create:
                         print 'Unable to import a service account or a service provider on a target system', ref
                         abort = true
-                elif op.getOperation() == ALSBImportOperation.Operation.Create:
+#                elif op.getOperation() == ALSBImportOperation.Operation.Create:
+                else:
                     #keep the list of created resources
+                    print 'ref: ',ref
                     createdRef.add(ref)
 
             if abort == true :
@@ -105,7 +107,7 @@ def importToALSBDomain():
 
                 ALSBConfigurationMBean.customize(filteredCustomizationList)
 
-            SessionMBean.activateSession(sessionName, "Complete test import with customization using wlst")
+            SessionMBean.activateSession(sessionName, "Complete import with customization using wlst")
 
         print "Deployment of : " + importJar + " successful"
     except:

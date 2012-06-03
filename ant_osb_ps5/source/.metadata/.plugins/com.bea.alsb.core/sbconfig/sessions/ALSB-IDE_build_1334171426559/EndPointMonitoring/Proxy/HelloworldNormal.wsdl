@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:wsdlEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:wsdl><![CDATA[<definitions targetNamespace="http://saml.ws.whitehorses.nl/" name="HelloWorldService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://saml.ws.whitehorses.nl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+	<types>
+		<xsd:schema>
+			<xsd:import namespace="http://saml.ws.whitehorses.nl/" schemaLocation="Helloworld.xsd"/>
+		</xsd:schema>
+	</types>
+	<message name="sayHello">
+		<part name="parameters" element="tns:sayHello"/>
+	</message>
+	<message name="sayHelloResponse">
+		<part name="parameters" element="tns:sayHelloResponse"/>
+	</message>
+	<portType name="HelloWorldService">
+		<operation name="sayHello">
+			<input message="tns:sayHello"/>
+			<output message="tns:sayHelloResponse"/>
+		</operation>
+	</portType>
+	<binding name="HelloWorldServiceSoapHttpPortBinding" type="tns:HelloWorldService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+		<operation name="sayHello">
+			<soap:operation soapAction=""/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="HelloWorldService">
+		<port name="HelloWorldServiceSoapHttpPort" binding="tns:HelloWorldServiceSoapHttpPortBinding">
+			<soap:address location="http://localhost:7101/ws_saml-ws-context-root/HelloWorldServiceSoapHttpPort"/>
+		</port>
+	</service>
+</definitions>]]></con:wsdl>
+    <con:dependencies>
+        <con:schemaRef isInclude="false" schemaLocation="Helloworld.xsd" namespace="http://saml.ws.whitehorses.nl/" ref="EndPointMonitoring/Proxy/Helloworld"/>
+    </con:dependencies>
+    <con:targetNamespace>http://saml.ws.whitehorses.nl/</con:targetNamespace>
+</con:wsdlEntry>

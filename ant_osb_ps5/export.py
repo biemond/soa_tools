@@ -2,12 +2,16 @@ from java.io import FileInputStream
 from java.io import FileOutputStream
 from java.util import ArrayList
 from java.util import Collections
+from java.util import HashSet
 
 from com.bea.wli.sb.util import EnvValueTypes
-from com.bea.wli.config.env import EnvValueQuery;
+from com.bea.wli.sb.util import Refs
+from com.bea.wli.config.env import EnvValueQuery
+from com.bea.wli.config.env import QualifiedEnvValue
 from com.bea.wli.config import Ref
 from com.bea.wli.config.customization import Customization
 from com.bea.wli.config.customization import FindAndReplaceCustomization
+from com.bea.wli.config.customization import EnvValueCustomization
 
 import sys
 
@@ -44,11 +48,37 @@ def exportAll():
 
         if customFile != "None":
             print collection
-            query = EnvValueQuery(None, Collections.singleton(EnvValueTypes.WORK_MANAGER), collection, false, None, false)
-            customEnv = FindAndReplaceCustomization('Set the right Work Manager', query, 'Production System Work Manager')
+# see com.bea.wli.sb.util.EnvValueTypes in sb-kernel-api.jar for the values
+
+#EnvValueQuery evquery =
+#     new EnvValueQuery(
+#         null,        // search across all resource types
+#         Collections.singleton(EnvValueTypes.URI_ENV_VALUE_TYPE), // search only the URIs
+#         null,        // search across all projects and folders.
+#         true,        // only search across resources that are
+#                      // actually modified/imported in this session
+#         "localhost", // the string we want to replace
+#         false        // not a complete match of URI. any URI
+#                      // that has "localhost" as substring will match
+#         );
+
+            refTypes = HashSet()
+            refTypes.add(EnvValueTypes.SERVICE_URI_TABLE)
+            refTypes.add(EnvValueTypes.SERVICE_URI)
+            query = EnvValueQuery(Collections.singleton(Refs.BUSINESS_SERVICE_TYPE), refTypes, collection, false, "search string", false)
+#           query = EnvValueQuery(None, Collections.singleton(EnvValueTypes.SERVICE_URI_TABLE), collection, false, "search string", false)
+            customEnv = FindAndReplaceCustomization('new endpoint url', query, 'replace string')
+
+#            object = QualifiedEnvValue(Refs.makeBusinessSvcRef(ref,'file'), Refs.BUSINESS_SERVICE_TYPE, "XSDvalidation/file", "aaa")
+#            objects = ArrayList()
+#            objects.add(object)
+#            customEnv2 = EnvValueCustomization('Set the right endpoints', objects)
+
             print 'EnvValueCustomization created'
             customList = ArrayList()
             customList.add(customEnv)
+#            customList.add(customEnv2)
+
             print customList
             aFile = File(customFile)
             out = FileOutputStream(aFile)

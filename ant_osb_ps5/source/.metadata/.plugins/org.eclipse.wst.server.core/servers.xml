@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servers>
+  <server auto-publish-setting="1" hostname="localhost" id="Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]" name="Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]" runtime-id="Oracle WebLogic Server 11gR1 (10.3.6)" server-type="com.bea.weblogic1036.server" server-type-id="com.bea.weblogic1036.server" start-timeout="480" stop-timeout="240" timestamp="1" weblogic_domain_path="C:\oracle\MiddlewarePS5\user_projects\domains\osb" weblogic_host_name="localhost" weblogic_is_remote="false" weblogic_port="7001" weblogic_use_bootprop="true" weblogic_use_config_xml="true">
+    <list key="modules" value0="OSB Configuration::com.bea.alsb.core.internal.deployables:OSB Configuration::bea.alsb.container.module::1.0.100"/>
+  </server>
+</servers>
