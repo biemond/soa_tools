@@ -9,7 +9,244 @@
             classpathref="library.weblogic" 
             classname="weblogic.ant.taskdefs.management.WLSTTask"/>   
 
-  
+   <macrodef name="wlCreateFileStore">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="serverTarget"/>
+    <attribute name="fileStoreName"/>
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{serverTarget} @{fileStoreName}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            serverTarget=sys.argv[3]
+            fileStoreName=sys.argv[4]
+
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cmo.createFileStore(fileStoreName)
+                cd('/FileStores/'+fileStoreName)
+                set('Targets', jarray.array([ObjectName('com.bea:Name='+serverTarget+',Type=Server')], ObjectName))
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		
+
+   <macrodef name="wlCreateJDBCStore">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="serverTarget"/>
+    <attribute name="jdbcStoreName"/>
+    <attribute name="prefix"/>
+    <attribute name="datasource"/>
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{serverTarget} @{jdbcStoreName} @{prefix} @{datasource}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            serverTarget=sys.argv[3]
+            jdbcStoreName=sys.argv[4]
+            prefix=sys.argv[5]
+            datasource=sys.argv[6]
+
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cmo.createJDBCStore(jdbcStoreName)
+                cd('/JDBCStores/'+jdbcStoreName)
+                cmo.setDataSource(getMBean('/SystemResources/'+datasource))
+                cmo.setPrefixName(prefix)
+                set('Targets', jarray.array([ObjectName('com.bea:Name='+serverTarget+',Type=Server')], ObjectName))
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		
+
+
+   <macrodef name="wlCreateJMSServer">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="serverTarget"/>
+    <attribute name="storeName"/>
+    <attribute name="jmsServerName"/>
+    <attribute name="storeType"/>
+    
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{serverTarget} @{storeName} @{jmsServerName} @{storeType}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            serverTarget=sys.argv[3]
+            storeName=sys.argv[4]
+            jmsServerName=sys.argv[5]
+            storeType=sys.argv[6]
+            						
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cmo.createJMSServer(jmsServerName)
+                cd('/Deployments/'+jmsServerName)
+                if storeType == "file":
+                    cmo.setPersistentStore(getMBean('/FileStores/'+storeName))
+                else:
+                    cmo.setPersistentStore(getMBean('/JDBCStores/'+storeName))
+
+                set('Targets', jarray.array([ObjectName('com.bea:Name='+serverTarget+',Type=Server')], ObjectName))
+
+                ## Threshold (values are default)
+                # cmo.setBytesThresholdHigh(-1)
+                # cmo.setBytesThresholdLow(-1)
+                # cmo.setMessagesThresholdHigh(-1)
+                # cmo.setMessagesThresholdLow(-1)
+                ## Quotas (values are default, except MaxMsgSize set to 10MB)
+                # cmo.setBytesMaximum(-1)
+                # cmo.setMessagesMaximum(-1)
+                # cmo.setBlockingSendPolicy('FIFO')
+                cmo.setMaximumMessageSize(10000000)
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		   
+
+   <macrodef name="wlCreateJMSModule">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="target"/>
+    <attribute name="targetType"/>
+    <attribute name="jmsModuleName"/>
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{target} @{targetType} @{jmsModuleName}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            target=sys.argv[3]
+            targetType=sys.argv[4]
+            jmsModuleName=sys.argv[5]
+
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cmo.createJMSSystemResource(jmsModuleName)
+                cd('/SystemResources/'+jmsModuleName)
+                set('Targets', jarray.array([ObjectName('com.bea:Name='+target+',Type=Server')], ObjectName))
+				
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		   
+
+
+   <macrodef name="wlCreateJMSSubdeployment">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="target"/>
+    <attribute name="subName"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="targetType"/>
+    
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{target} @{subName} @{jmsModuleName} @{targetType}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            target=sys.argv[3]
+            subName=sys.argv[4]
+            jmsModuleName=sys.argv[5]
+            targetType=sys.argv[6]
+            
+            print "subName: ", subName, "target: ", target, " targetType: ",targetType, " jmsModule: ", jmsModuleName
+            						
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/SystemResources/'+jmsModuleName)
+                cmo.createSubDeployment(subName)
+                cd('/SystemResources/'+jmsModuleName+'/SubDeployments/'+subName)
+                if targetType == "Server":
+                    set('Targets',jarray.array([ObjectName('com.bea:Name='+target+',Type=Server')], ObjectName))
+                else:
+                    set('Targets',jarray.array([ObjectName('com.bea:Name='+target+',Type=JMSServer')], ObjectName))
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+      
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		   
+
+
+   
    <macrodef name="wlResetDatasource">
     <attribute name="adminUser"/>
     <attribute name="adminPassword"/>
@@ -19,7 +256,7 @@
     <sequential>
       <wlst classpathref="library.weblogic" 
             failonerror="true" 
-            debug="true" 
+            debug="false" 
             arguments="@{adminUser} @{adminPassword} @{adminUrl} @{serverTarget} @{datasourceNames}">
         <script>
             adminUser=sys.argv[0]
@@ -49,7 +286,7 @@
     <sequential>
       <wlst classpathref="library.weblogic" 
             failonerror="true" 
-            debug="true" 
+            debug="false" 
             arguments="@{adminUser} @{adminPassword} @{adminUrl}">
         <script>
             adminUser=sys.argv[0]
@@ -97,7 +334,7 @@
     <sequential>
       <wlst classpathref="library.weblogic" 
             failonerror="true" 
-            debug="true" 
+            debug="false" 
             arguments="@{adminUser} @{adminPassword} @{adminUrl} @{defaultPassword} @{users} @{userGroup}">
         <script>
             adminUser=sys.argv[0]
@@ -140,7 +377,7 @@
   <sequential>   
     <wlst classpathref="library.weblogic"
           failonerror="true" 
-          debug="true" 
+          debug="false" 
           arguments="@{adminUser} @{adminPassword} @{adminUrl} @{datasourceName} @{dsDriverName} @{dsUrl} @{datasourceTarget} @{dsJNDIName} @{dsUserName} @{dsPassword}">   
       <script>   
           adminUserName=sys.argv[0]   
@@ -168,35 +405,40 @@
           connect(adminUserName, adminPassword, adminUrl)
           edit()
           startEdit()
-          cd('/')
-          cmo.createJDBCSystemResource(dsName)
-          cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName)
-          cmo.setName(dsName)
 
-          cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName )
-          set('JNDINames',jarray.array([String('jdbc/' + dsName )], String))
+          try:
+                cd('/')
+                cmo.createJDBCSystemResource(dsName)
+                cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName)
+                cmo.setName(dsName)
 
-          cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName )
-          cmo.setUrl(dsURL)
-          cmo.setDriverName( dsDriverName )
-          cmo.setPassword(dsPassword)
+                cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName )
+                set('JNDINames',jarray.array([String('jdbc/' + dsName )], String))
 
-          cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCConnectionPoolParams/' + dsName )
-          cmo.setTestTableName('SQL SELECT 1 FROM DUAL')
-          cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName )
-          cmo.createProperty('user')
+                cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName )
+                cmo.setUrl(dsURL)
+                cmo.setDriverName( dsDriverName )
+                cmo.setPassword(dsPassword)
 
-          cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName + '/Properties/user')
-          cmo.setValue(dsUserName)
+                cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCConnectionPoolParams/' + dsName )
+                cmo.setTestTableName('SQL SELECT 1 FROM DUAL')
+                cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName )
+                cmo.createProperty('user')
 
-          cd('/SystemResources/' + dsName )
-          set('Targets',jarray.array([ObjectName('com.bea:Name=' + datasourceTarget + ',Type=Server')], ObjectName))
+                cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName + '/Properties/user')
+                cmo.setValue(dsUserName)
 
-          save()
-          activate()          
-          
-          exit()
-      </script>   
+                cd('/SystemResources/' + dsName )
+                set('Targets',jarray.array([ObjectName('com.bea:Name=' + datasourceTarget + ',Type=Server')], ObjectName))
+
+                save()
+                activate()          
+
+          except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+       </script>   
     </wlst>   
   </sequential>   
  </macrodef>   

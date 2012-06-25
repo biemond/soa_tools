@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<project name="utilities" default="test">
+<project name="utilities" default="help">
 
     <property environment="env"/> 
     <property file="build.properties"/>  
@@ -24,30 +24,161 @@
              classpathref="library.weblogic"/>
 
 
-    <target name="test"> 
+    <target name="help"> 
        <echo>usage target [resetJDBCSpecificDatasources | resetJDBCNonDatasources | createUsersAndGroup ]</echo>
     </target>
 
+    <target name="internal_FileStore-create">
+    	
+      <propertycopy name="admin.User"         from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
+      <propertycopy name="fileStore.target"   from="${fileStore}.${wls.environment}.target"/>
+  
+      <wlCreateFileStore adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              serverTarget="${fileStore.target}" 
+              fileStoreName="${fileStore}"/>
+
+    </target>
+
+	
+    <target name="createFileStores">
+    	
+       <echo>create-File-Stores</echo>
+       <foreach list="${fileStores}" param="fileStore" target="internal_FileStore-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>	
+
+    <target name="internal_JDBCStore-create">
+    	
+      <propertycopy name="admin.User"       from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"   from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"        from="${wls.environment}.serverURL"/>
+      <propertycopy name="target"           from="${jdbcStore}.${wls.environment}.target"/>
+      <propertycopy name="prefix"           from="${jdbcStore}.prefix"/>
+      <propertycopy name="datasource"       from="${jdbcStore}.datasource"/>
+  
+      <wlCreateJDBCStore adminUser="${admin.User}" 
+              					 adminPassword="${admin.Password}" 
+                         adminUrl="${admin.Url}" 
+                         serverTarget="${target}" 
+                         jdbcStoreName="${jdbcStore}"
+                         prefix="${prefix}"
+                         datasource="${datasource}" />
+
+    </target>
+
+	
+    <target name="createJDBCStores">
+    	
+       <echo>create-JDBC-Stores</echo>
+       <foreach list="${jdbcStores}" param="jdbcStore" target="internal_JDBCStore-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>	
+
+
+    <target name="internal_JMSServer-create">
+    	
+      <propertycopy name="admin.User"          from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"      from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"           from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsServer.target"    from="${jmsServer}.${wls.environment}.target"/>
+      <propertycopy name="jmsServer.store"     from="${jmsServer}.${wls.environment}.store"/>
+      <propertycopy name="jmsServer.storeType" from="${jmsServer}.${wls.environment}.type"/>
+      	  
+      <wlCreateJMSServer adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              serverTarget="${jmsServer.target}" 
+              storeName="${jmsServer.store}"
+			  			jmsServerName="${jmsServer}"
+			  			storeType="${jmsServer.storeType}"/>
+			  
+    </target>
+
+
+	
+    <target name="createJMSServers">
+    	
+       <echo>create-JMSServers</echo>
+       <foreach list="${jmsServers}" param="jmsServer" target="internal_JMSServer-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>	
+	
+    <target name="internal_JMSModule-create">
+    	
+      <propertycopy name="admin.User"              from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModule.target"        from="${jmsModule}.${wls.environment}.target"/>
+      <propertycopy name="jmsModule.targetType"    from="${jmsModule}.${wls.environment}.targetType"/>
+	  
+      <wlCreateJMSModule adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              target="${jmsModule.target}" 
+              targetType="${jmsModule.targetType}"
+			        jmsModuleName="${jmsModule}"/>
+			  
+    </target>
+
+	
+    <target name="createJMSModules">
+    	
+       <echo>create-JMSServers</echo>
+       <foreach list="${jmsModules}" param="jmsModule" target="internal_JMSModule-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>	
+
+    <target name="internal_JMSSubdeployment-create">
+    	
+      <propertycopy name="admin.User"              from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
+      <propertycopy name="target"                  from="${JMSSubDeployment}.${wls.environment}.target"/>
+      <propertycopy name="subName"                 from="${JMSSubDeployment}.name"/>
+      <propertycopy name="jmsModuleName"           from="${JMSSubDeployment}.jmsModule"/>
+      <propertycopy name="targetType"              from="${JMSSubDeployment}.${wls.environment}.targetType"/>
+	  
+      <wlCreateJMSSubdeployment adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              target="${target}" 
+              subName="${subName}"
+			        jmsModuleName="${jmsModuleName}"
+			        targetType="${targetType}"/>
+			  
+    </target>
+
+    <target name="createJMSSubDeployments">
+    	
+       <echo>create-JMSServers</echo>
+       <foreach list="${JMSSubDeployments}" param="JMSSubDeployment" target="internal_JMSSubdeployment-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>	
+
+	
     <target name="resetJDBCSpecificDatasources">
     	
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
-      <propertycopy name="admin.ServerTarget" from="${wls.environment}.serverTarget"/>
+      <propertycopy name="admin.target" 			from="${wls.environment}.target"/>
   
       <wlResetDatasource adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
               adminUrl="${admin.Url}" 
-              serverTarget="${admin.ServerTarget}" 
+              serverTarget="${admin.target}" 
               datasourceNames="${datasources}"/>
     </target>
 
-    <target name="resetJDBCNonDatasources">
+    <target name="resetJDBCNotSoaDatasources">
     	
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
-      <propertycopy name="admin.ServerTarget" from="${wls.environment}.serverTarget"/>
   
       <wlResetAllDatasourcesNotSOA adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
@@ -59,7 +190,7 @@
        <foreach list="${datasources}" param="createDatasource" target="internal_jdbc-create" 
                inheritall="true" inheritrefs="false"/>
    </target>
-  
+
   
   <target name="internal_jdbc-create">   
     
@@ -68,15 +199,15 @@
    <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
    <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
 
-   <property name="target" value="${db.datasourceTarget}"/>   
-   <property name="dsDriverName" value="${db.dsDriverName}"/>   
+   <propertycopy name="target"             from="db.${createDatasource}.${wls.environment}.target"/>
+   <propertycopy name="dsDriverName"       from="db.${createDatasource}.dsDriverName"/>
 
    <!-- #var --> 
    <propertycopy name="datasource"       from="db.${createDatasource}.datasourceName"/>
-   <propertycopy name="dsUrl"            from="db.${createDatasource}.dsUrl"/>   
+   <propertycopy name="dsUrl"            from="db.${createDatasource}.${wls.environment}.dsUrl"/>   
    <propertycopy name="dsJNDIName"       from="db.${createDatasource}.dsJNDIName"/>   
-   <propertycopy name="dsUserName"       from="db.${createDatasource}.dsUserName"/>   
-   <propertycopy name="dsPassword"       from="db.${createDatasource}.dsPassword"/>   
+   <propertycopy name="dsUserName"       from="db.${createDatasource}.${wls.environment}.dsUserName"/>   
+   <propertycopy name="dsPassword"       from="db.${createDatasource}.${wls.environment}.dsPassword"/>   
   
     <wlDatasourceCreate adminUser="${admin.User}"    
             adminPassword="${admin.Password}"    

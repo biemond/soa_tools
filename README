@@ -1,5 +1,7 @@
-# 3 test projects
+# ANT macrodef around WebLogic WLST scripts
 # ant is for soa suite 11g, flexible deployment of composites with plans + deployment of mds
 # ant_osb , deployment framework for OSB, export from OEPE, import & export WLS
+# ant_osb_ps5 , deployment framework for OSB for PS5 , plus a demo workspace + export from OEPE, import & export WLS
 # ant_mds , a standalone mds deployment for soa suite 11g, also in ant folder
-# ant_wls , create users with group , reset datasources  
+# ant_wls , create users with group , reset & create datasources, JMS file/jdbc persistence store , JMS servers , JMS modules , Sub Deployments
+# ant_resourceAdapter, deploy jms ,aq and db resource adapters   
