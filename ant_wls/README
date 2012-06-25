@@ -1,0 +1,16 @@
+# ANT macrodef around WebLogic WLST scripts
+# ant_wls , create users with group , reset & create datasources, JMS file/jdbc persistence store , JMS servers , JMS modules , Sub Deployments
+#
+# ant -f build.xml xxxx 
+# createFileStores
+# createJDBCStores
+# createJMSServers
+# createJMSModules
+# createJMSSubDeployments
+# resetJDBCSpecificDatasources
+# resetJDBCNotSoaDatasources
+# create-JDBC-Datasources
+# createUsersAndGroup
+
+
+
