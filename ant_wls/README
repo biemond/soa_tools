@@ -1,16 +1,42 @@
 # ANT macrodef around WebLogic WLST scripts
-# ant_wls , create users with group , reset & create datasources, JMS file/jdbc persistence store , JMS servers , JMS modules , Sub Deployments
+# ant_wls , create users with group , reset & create datasources, JMS file/jdbc persistence store , JMS servers , JMS modules , Sub Deployments, Foreign Servers
 #
+# use start.bat or set the following environments vars
+#set ORACLE_HOME=C:\oracle\JDev11114PS
+#set JAVA_HOME=C:\oracle\jrockit-jdk1.6.0_26-R28
+#set ANT_HOME=%ORACLE_HOME%\jdeveloper\ant
+#set ANT_OPTS=%ANT_OPTS% -XX:MaxPermSize=128m  
+#set CLASSPATH=%CLASSPATH%;%ORACLE_HOME%\wlserver_10.3\server\lib\weblogic.jar 
+#set CURRENT_FOLDER=%CD%
+#set PATH=%ANT_HOME%\bin;%PATH%
+#
+# use
 # ant -f build.xml xxxx 
-# createFileStores
-# createJDBCStores
-# createJMSServers
-# createJMSModules
-# createJMSSubDeployments
-# resetJDBCSpecificDatasources
-# resetJDBCNotSoaDatasources
-# create-JDBC-Datasources
-# createUsersAndGroup
+#
+# Set the environment
+# wls.environment=dev
+#
+#
+# provide env details
+# dev deployment server weblogic
+# dev.serverURL=t3://localhost:7001
+# dev.user=weblogic
+# dev.password=weblogic1
+# dev.target=AdminServer
+#
+# ant -f build.xml create-JDBC-Datasources
+#
+# ant -f build.xml createFileStores
+# ant -f build.xml createJDBCStores
+# ant -f build.xml createJMSServers
+# ant -f build.xml createJMSModules
+# ant -f build.xml createJMSSubDeployments
+# ant -f build.xml createJMSForeignServer
+#
+# ant -f build.xml resetJDBCSpecificDatasources
+# ant -f build.xml resetJDBCNotSoaDatasources
+#
+# ant -f build.xml createUsersAndGroup
 
 
 

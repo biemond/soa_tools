@@ -180,7 +180,7 @@
                 cd('/')
                 cmo.createJMSSystemResource(jmsModuleName)
                 cd('/SystemResources/'+jmsModuleName)
-                set('Targets', jarray.array([ObjectName('com.bea:Name='+target+',Type=Server')], ObjectName))
+                set('Targets', jarray.array([ObjectName('com.bea:Name='+target+',Type='+targetType)], ObjectName))
 				
                 save()
                 activate()          
@@ -193,6 +193,63 @@
     </sequential>
    </macrodef>		   
 
+ 
+   <macrodef name="wlCreateJMSForeignServer">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="subDeployment"/>
+    <attribute name="JNDIInitialContextFactory"/>
+    <attribute name="JNDIpropertyName"/>
+    <attribute name="JNDIpropertyValue"/>
+    <attribute name="FSName"/>
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{jmsModuleName} @{subDeployment} @{JNDIInitialContextFactory} @{JNDIpropertyName} @{JNDIpropertyValue} @{FSName}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            jmsModuleName=sys.argv[3]
+            subDeployment=sys.argv[4]
+            JNDIInitialContextFactory=sys.argv[5]
+            JNDIpropertyName=sys.argv[6] 
+            JNDIpropertyValue=sys.argv[7]
+            name=sys.argv[8] 
+			
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/SystemResources/'+jmsModuleName)
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName)
+                cmo.createForeignServer(name)
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ForeignServers/'+name)
+                cmo.setDefaultTargetingEnabled(false)
+                # cmo.setConnectionURL('some.url')
+                cmo.setInitialContextFactory(JNDIInitialContextFactory)
+                cmo.setSubDeploymentName(subDeployment)
+                cmo.unSet('JNDIPropertiesCredentialEncrypted')
+                cmo.createJNDIProperty(JNDIpropertyName)
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ForeignServers/'+name+'/JNDIProperties/'+JNDIpropertyName)
+                cmo.setValue(JNDIpropertyValue)
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>	 
+   
 
    <macrodef name="wlCreateJMSSubdeployment">
     <attribute name="adminUser"/>
@@ -373,12 +430,13 @@
   <attribute name="dsJNDIName"/>
   <attribute name="dsUserName"/>
   <attribute name="dsPassword"/>
+  <attribute name="datasourceTargetType"/>
 
   <sequential>   
     <wlst classpathref="library.weblogic"
           failonerror="true" 
           debug="false" 
-          arguments="@{adminUser} @{adminPassword} @{adminUrl} @{datasourceName} @{dsDriverName} @{dsUrl} @{datasourceTarget} @{dsJNDIName} @{dsUserName} @{dsPassword}">   
+          arguments="@{adminUser} @{adminPassword} @{adminUrl} @{datasourceName} @{dsDriverName} @{dsUrl} @{datasourceTarget} @{dsJNDIName} @{dsUserName} @{dsPassword} @{datasourceTargetType}">   
       <script>   
           adminUserName=sys.argv[0]   
           adminPassword=sys.argv[1]   
@@ -386,8 +444,9 @@
           dsName=sys.argv[3]
           print "datasource " +dsName
 
-          datasourceTarget=sys.argv[6]
-          print "datasourceTarget " +datasourceTarget
+          datasourceTargets=String(sys.argv[6]).split(",")
+          for datasourceTarget in datasourceTargets:
+            print "Datasource Target",datasourceTarget
 
           dsJNDIName=sys.argv[7]
           print "dsJNDIName " +dsJNDIName
@@ -401,6 +460,7 @@
           print "dsUserName " +dsUserName
 
           dsPassword=sys.argv[9]
+          datasourceTargetType=sys.argv[10]
 
           connect(adminUserName, adminPassword, adminUrl)
           edit()
@@ -429,7 +489,11 @@
                 cmo.setValue(dsUserName)
 
                 cd('/SystemResources/' + dsName )
-                set('Targets',jarray.array([ObjectName('com.bea:Name=' + datasourceTarget + ',Type=Server')], ObjectName))
+                targetList = []
+                for datasourceTarget in datasourceTargets:
+                  targetList.append( ObjectName('com.bea:Name=' + datasourceTarget + ',Type='+datasourceTargetType) )				
+
+                set('Targets',jarray.array(targetList, ObjectName))
 
                 save()
                 activate()          

@@ -120,7 +120,7 @@
               adminUrl="${admin.Url}" 
               target="${jmsModule.target}" 
               targetType="${jmsModule.targetType}"
-			        jmsModuleName="${jmsModule}"/>
+			  jmsModuleName="${jmsModule}"/>
 			  
     </target>
 
@@ -147,18 +147,46 @@
               adminUrl="${admin.Url}" 
               target="${target}" 
               subName="${subName}"
-			        jmsModuleName="${jmsModuleName}"
-			        targetType="${targetType}"/>
+			  jmsModuleName="${jmsModuleName}"
+			  targetType="${targetType}"/>
 			  
     </target>
 
     <target name="createJMSSubDeployments">
     	
-       <echo>create-JMSServers</echo>
+       <echo>create-JMSSubDeployments</echo>
        <foreach list="${JMSSubDeployments}" param="JMSSubDeployment" target="internal_JMSSubdeployment-create" 
                inheritall="true" inheritrefs="false"/>
     </target>	
 
+    <target name="internal_JMSForeignServer-create">
+    	
+      <propertycopy name="admin.User"                from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModuleName"             from="${foreignServer}.jmsModule"/>
+      <propertycopy name="subName"                   from="${foreignServer}.subDeployment"/>
+      <propertycopy name="JNDIInitialContextFactory" from="${foreignServer}.JNDIInitialContextFactory"/>
+      <propertycopy name="JNDIpropertyName"          from="${foreignServer}.JNDIpropertyName"/>
+      <propertycopy name="JNDIpropertyValue"         from="${foreignServer}.JNDIpropertyValue"/>
+	  
+      <wlCreateJMSForeignServer adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              jmsModuleName="${jmsModuleName}"
+              subDeployment="${subName}"
+              JNDIInitialContextFactory="${JNDIInitialContextFactory}"
+              JNDIpropertyName="${JNDIpropertyName}"
+              JNDIpropertyValue="${JNDIpropertyValue}"
+              FSName="${foreignServer}"	/>		  
+    </target>
+
+    <target name="createJMSForeignServer">
+    	
+       <echo>create-JMSForeignServer</echo>
+       <foreach list="${foreignServers}" param="foreignServer" target="internal_JMSForeignServer-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>		
 	
     <target name="resetJDBCSpecificDatasources">
     	
@@ -200,6 +228,8 @@
    <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
 
    <propertycopy name="target"             from="db.${createDatasource}.${wls.environment}.target"/>
+   <propertycopy name="targetType"         from="db.${createDatasource}.${wls.environment}.targetType"/>
+
    <propertycopy name="dsDriverName"       from="db.${createDatasource}.dsDriverName"/>
 
    <!-- #var --> 
@@ -219,6 +249,7 @@
             dsJNDIName="${dsJNDIName}"
             dsUserName="${dsUserName}"
             dsPassword="${dsPassword}"
+            datasourceTargetType="${targetType}"
             />
   </target>
 
