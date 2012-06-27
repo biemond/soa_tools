@@ -29,7 +29,7 @@
     </target>
 
     <target name="internal_FileStore-create">
-    	
+      
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
@@ -43,16 +43,16 @@
 
     </target>
 
-	
+  
     <target name="createFileStores">
-    	
+      
        <echo>create-File-Stores</echo>
        <foreach list="${fileStores}" param="fileStore" target="internal_FileStore-create" 
                inheritall="true" inheritrefs="false"/>
-    </target>	
+    </target> 
 
     <target name="internal_JDBCStore-create">
-    	
+      
       <propertycopy name="admin.User"       from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"   from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"        from="${wls.environment}.serverURL"/>
@@ -61,7 +61,7 @@
       <propertycopy name="datasource"       from="${jdbcStore}.datasource"/>
   
       <wlCreateJDBCStore adminUser="${admin.User}" 
-              					 adminPassword="${admin.Password}" 
+                         adminPassword="${admin.Password}" 
                          adminUrl="${admin.Url}" 
                          serverTarget="${target}" 
                          jdbcStoreName="${jdbcStore}"
@@ -70,70 +70,70 @@
 
     </target>
 
-	
+  
     <target name="createJDBCStores">
-    	
+      
        <echo>create-JDBC-Stores</echo>
        <foreach list="${jdbcStores}" param="jdbcStore" target="internal_JDBCStore-create" 
-               inheritall="true" inheritrefs="false"/>
-    </target>	
+                inheritall="true" inheritrefs="false"/>
+    </target> 
 
 
     <target name="internal_JMSServer-create">
-    	
+      
       <propertycopy name="admin.User"          from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"      from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"           from="${wls.environment}.serverURL"/>
       <propertycopy name="jmsServer.target"    from="${jmsServer}.${wls.environment}.target"/>
       <propertycopy name="jmsServer.store"     from="${jmsServer}.${wls.environment}.store"/>
       <propertycopy name="jmsServer.storeType" from="${jmsServer}.${wls.environment}.type"/>
-      	  
+          
       <wlCreateJMSServer adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
               adminUrl="${admin.Url}" 
               serverTarget="${jmsServer.target}" 
               storeName="${jmsServer.store}"
-			  			jmsServerName="${jmsServer}"
-			  			storeType="${jmsServer.storeType}"/>
-			  
+              jmsServerName="${jmsServer}"
+              storeType="${jmsServer.storeType}"/>
+        
     </target>
 
 
-	
+  
     <target name="createJMSServers">
-    	
+      
        <echo>create-JMSServers</echo>
        <foreach list="${jmsServers}" param="jmsServer" target="internal_JMSServer-create" 
                inheritall="true" inheritrefs="false"/>
-    </target>	
-	
+    </target> 
+  
     <target name="internal_JMSModule-create">
-    	
+      
       <propertycopy name="admin.User"              from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
       <propertycopy name="jmsModule.target"        from="${jmsModule}.${wls.environment}.target"/>
       <propertycopy name="jmsModule.targetType"    from="${jmsModule}.${wls.environment}.targetType"/>
-	  
+    
       <wlCreateJMSModule adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
               adminUrl="${admin.Url}" 
               target="${jmsModule.target}" 
               targetType="${jmsModule.targetType}"
-			  jmsModuleName="${jmsModule}"/>
-			  
+              jmsModuleName="${jmsModule}"/>
+        
     </target>
 
-	
+  
     <target name="createJMSModules">
-    	
+      
        <echo>create-JMSServers</echo>
        <foreach list="${jmsModules}" param="jmsModule" target="internal_JMSModule-create" 
                inheritall="true" inheritrefs="false"/>
-    </target>	
+    </target> 
 
     <target name="internal_JMSSubdeployment-create">
-    	
+      
       <propertycopy name="admin.User"              from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
@@ -141,26 +141,58 @@
       <propertycopy name="subName"                 from="${JMSSubDeployment}.name"/>
       <propertycopy name="jmsModuleName"           from="${JMSSubDeployment}.jmsModule"/>
       <propertycopy name="targetType"              from="${JMSSubDeployment}.${wls.environment}.targetType"/>
-	  
+    
       <wlCreateJMSSubdeployment adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
               adminUrl="${admin.Url}" 
               target="${target}" 
               subName="${subName}"
-			  jmsModuleName="${jmsModuleName}"
-			  targetType="${targetType}"/>
-			  
+              jmsModuleName="${jmsModuleName}"
+              targetType="${targetType}"/>
+        
     </target>
 
     <target name="createJMSSubDeployments">
-    	
+      
        <echo>create-JMSSubDeployments</echo>
        <foreach list="${JMSSubDeployments}" param="JMSSubDeployment" target="internal_JMSSubdeployment-create" 
                inheritall="true" inheritrefs="false"/>
-    </target>	
+    </target> 
+
+    <target name="internal_JMSSafAgent-create">
+      
+      <propertycopy name="admin.User"              from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
+      <propertycopy name="target"                  from="${JMSSafAgent}.${wls.environment}.target"/>
+      <propertycopy name="serviceType"             from="${JMSSafAgent}.serviceType"/>
+      <propertycopy name="storeType"               from="${JMSSafAgent}.storeType"/>
+      <propertycopy name="storeName"               from="${JMSSafAgent}.storeName"/>
+      <propertycopy name="safName"                 from="${JMSSafAgent}.safName"/>
+    
+      <wlCreateJMSSafAgent adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              target="${target}" 
+              serviceType="${serviceType}"
+              storeType="${storeType}"
+              storeName="${storeName}"
+              safName="${safName}"
+              
+              />
+        
+    </target>
+
+    <target name="createJMSSafAgents">
+      
+       <echo>create-JMSSafAgents</echo>
+       <foreach list="${JMSSafAgents}" param="JMSSafAgent" target="internal_JMSSafAgent-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target> 
+
 
     <target name="internal_JMSForeignServer-create">
-    	
+      
       <propertycopy name="admin.User"                from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
@@ -169,7 +201,7 @@
       <propertycopy name="JNDIInitialContextFactory" from="${foreignServer}.JNDIInitialContextFactory"/>
       <propertycopy name="JNDIpropertyName"          from="${foreignServer}.JNDIpropertyName"/>
       <propertycopy name="JNDIpropertyValue"         from="${foreignServer}.JNDIpropertyValue"/>
-	  
+    
       <wlCreateJMSForeignServer adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
               adminUrl="${admin.Url}" 
@@ -178,22 +210,95 @@
               JNDIInitialContextFactory="${JNDIInitialContextFactory}"
               JNDIpropertyName="${JNDIpropertyName}"
               JNDIpropertyValue="${JNDIpropertyValue}"
-              FSName="${foreignServer}"	/>		  
+              FSName="${foreignServer}" />      
     </target>
 
     <target name="createJMSForeignServer">
-    	
+      
        <echo>create-JMSForeignServer</echo>
        <foreach list="${foreignServers}" param="foreignServer" target="internal_JMSForeignServer-create" 
                inheritall="true" inheritrefs="false"/>
-    </target>		
-	
+    </target>   
+
+
+    <target name="internal_JMSConnectionFactory-create">
+      
+      <propertycopy name="admin.User"                from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModuleName"             from="${connectionFactory}.jmsModule"/>
+      <propertycopy name="subDeploymentName"         from="${connectionFactory}.subDeployment"/>
+      <propertycopy name="cfName"                    from="${connectionFactory}.cfName"/>
+      <propertycopy name="cfJNDIName"                from="${connectionFactory}.cfJNDIName"/>
+      <propertycopy name="transacted"                from="${connectionFactory}.transacted"/>
+      <propertycopy name="timeout"                   from="${connectionFactory}.timeout"/>
+    
+      <wlCreateJMSConnectionFactory adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              jmsModuleName="${jmsModuleName}"
+              subDeploymentName="${subDeploymentName}"
+              cfName="${cfName}"
+              cfJNDIName="${cfJNDIName}"
+              transacted="${transacted}"
+              timeout="${timeout}" />      
+    </target>
+
+    <target name="createJMSConnectionFactory">
+      
+       <echo>create-JMSConnectionFactory</echo>
+       <foreach list="${connectionFactories}" param="connectionFactory" target="internal_JMSConnectionFactory-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>   
+
+    <target name="internal_JMSQueueOrTopic-create">
+      
+      <propertycopy name="admin.User"                from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModuleName"             from="${queueOrTopic}.jmsModule"/>
+      <propertycopy name="subDeploymentName"         from="${queueOrTopic}.subDeployment"/>
+      <propertycopy name="jmsName"                   from="${queueOrTopic}.jmsName"/>
+      <propertycopy name="jmsJNDIName"               from="${queueOrTopic}.jmsJNDIName"/>
+      <propertycopy name="jmsType"                   from="${queueOrTopic}.jmsType"/>
+      <propertycopy name="distributed"               from="${queueOrTopic}.distributed"/>
+      <propertycopy name="balancingPolicy"           from="${queueOrTopic}.balancingPolicy"/>
+      <propertycopy name="redirect"                  from="${queueOrTopic}.redirect"/>
+      <propertycopy name="limit"                     from="${queueOrTopic}.limit"/>
+      <propertycopy name="policy"                    from="${queueOrTopic}.policy"/>
+      <propertycopy name="errorObject"               from="${queueOrTopic}.errorObject"/>
+    
+      <wlCreateJMSQueueOrTopic adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              jmsModuleName="${jmsModuleName}"
+              subDeploymentName="${subDeploymentName}"
+              jmsName="${jmsName}"
+              jmsJNDIName="${jmsJNDIName}"
+              jmsType="${jmsType}"
+              distributed="${distributed}" 
+              balancingPolicy="${balancingPolicy}"
+              redirect="${redirect}"     
+              limit="${limit}"        
+              policy="${policy}"       
+              errorObject="${errorObject}"  
+              />      
+    </target>
+
+    <target name="createCreateJMSQueuesOrTopics">
+      
+       <echo>create JMS Queues Or Topics</echo>
+       <foreach list="${queuesOrTopics}" param="queueOrTopic" target="internal_JMSQueueOrTopic-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>   
+
+  
     <target name="resetJDBCSpecificDatasources">
-    	
+      
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
-      <propertycopy name="admin.target" 			from="${wls.environment}.target"/>
+      <propertycopy name="admin.target"       from="${wls.environment}.target"/>
   
       <wlResetDatasource adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
@@ -202,8 +307,12 @@
               datasourceNames="${datasources}"/>
     </target>
 
+
+
+
+
     <target name="resetJDBCNotSoaDatasources">
-    	
+      
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>
@@ -256,7 +365,7 @@
 
 
     <target name="createUsersAndGroup">
-    	
+      
       <propertycopy name="admin.User"         from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"     from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"          from="${wls.environment}.serverURL"/>

@@ -249,6 +249,62 @@
       </wlst>
     </sequential>
    </macrodef>	 
+
+ 
+
+   <macrodef name="wlCreateJMSSafAgent">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="target"/>
+    <attribute name="serviceType"/>
+    <attribute name="storeType"/>
+    <attribute name="storeName"/>
+    <attribute name="safName"/>
+    
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{target} @{serviceType} @{storeType} @{storeName} @{safName}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            serverTarget=sys.argv[3]
+            serviceType=sys.argv[4]
+            storeType=sys.argv[5]
+            storeName=sys.argv[6]
+            safName=sys.argv[7]
+            						
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cmo.createSAFAgent(safName)
+                cd('/SAFAgents/'+safName)
+
+                if storeType == "file":
+                    cmo.setStore(getMBean('/FileStores/'+storeName))
+                else:
+                    cmo.setStore(getMBean('/JDBCStores/'+storeName))
+
+                set('Targets', jarray.array([ObjectName('com.bea:Name='+serverTarget+',Type=Server')], ObjectName))
+                cmo.setServiceType(serviceType)
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+      
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		    
    
 
    <macrodef name="wlCreateJMSSubdeployment">
@@ -298,6 +354,167 @@
                 stopEdit('y')
       
 		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		   
+
+   <macrodef name="wlCreateJMSConnectionFactory">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="subDeploymentName"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="cfName"/>
+    <attribute name="cfJNDIName"/>
+    <attribute name="transacted"/>
+    <attribute name="timeout"/>    
+        
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{subDeploymentName} @{jmsModuleName} @{cfName} @{cfJNDIName} @{transacted} @{timeout}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            subDeploymentName=sys.argv[3]
+            jmsModuleName=sys.argv[4]
+            cfName=sys.argv[5]
+            cfJNDIName=sys.argv[6]
+            transacted=sys.argv[7]
+            timeout=sys.argv[8]
+
+            print "subDeploymentName: ", subDeploymentName, " jmsModule: ", jmsModuleName, "cfName: ",cfName , "cfJNDIName: ",cfJNDIName
+
+            						
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName)
+                cmo.createConnectionFactory(cfName)
+
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ConnectionFactories/'+cfName+'/SecurityParams/'+cfName)
+                cmo.setAttachJMSXUserId(false)
+
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ConnectionFactories/'+cfName+'/ClientParams/'+cfName)
+                cmo.setClientIdPolicy('Restricted')
+                cmo.setSubscriptionSharingPolicy('Exclusive')
+                cmo.setMessagesMaximum(10)
+
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ConnectionFactories/'+cfName)
+                cmo.setJNDIName(cfJNDIName)
+                cmo.setDefaultTargetingEnabled(false)
+                cmo.setSubDeploymentName(subDeploymentName)
+
+                if transacted == "true":
+                    cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ConnectionFactories/'+cfName+'/TransactionParams/'+cfName)
+                    cmo.setXAConnectionFactoryEnabled(true)
+                    cmo.setTransactionTimeout( int(timeout) )
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+      
+		</script>
+      </wlst>
+    </sequential>
+   </macrodef>		   
+
+   <macrodef name="wlCreateJMSQueueOrTopic">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="subDeploymentName"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="jmsName"/>
+    <attribute name="jmsJNDIName"/>
+    <attribute name="jmsType"/>
+    <attribute name="distributed"/>    
+    <attribute name="balancingPolicy"/>  
+    <attribute name="redirect"/>  
+    <attribute name="limit"/>  
+    <attribute name="policy"/>  
+    <attribute name="errorObject"/>  
+        
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{subDeploymentName} @{jmsModuleName} @{jmsName} @{jmsJNDIName} @{jmsType} @{distributed} @{balancingPolicy} @{redirect} @{limit} @{policy} @{errorObject}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            subDeploymentName=sys.argv[3]
+            jmsModuleName=sys.argv[4]
+            jmsName=sys.argv[5]
+            jmsJNDIName=sys.argv[6]
+            jmsType=sys.argv[7]
+            distributed=sys.argv[8]
+            balancingPolicy=sys.argv[9]
+            useRedirect=sys.argv[10]
+            limit=sys.argv[11]
+            policy=sys.argv[12]
+            errorObject=sys.argv[13]
+            
+            print "subDeploymentName: ", subDeploymentName, " jmsModule: ", jmsModuleName, "Name: ",jmsName , "JNDIName: ",jmsJNDIName
+
+            						
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName)
+                 
+                if jmsType == "queue":
+                    if distributed == "true":
+                        cmo.createUniformDistributedQueue(jmsName)
+                        jmsWlsType = '/UniformDistributedQueues/'
+                    else:
+                        cmo.createQueue(jmsName)
+                        jmsWlsType = '/Queues/'
+                if jmsType == "topic":
+                    if distributed == "true":
+                        cmo.createUniformDistributedTopic(jmsName)
+                        jmsWlsType = '/UniformDistributedTopics/'
+                    else:
+                        cmo.createTopic(jmsName)
+                        jmsWlsType = '/Topics/'
+                 
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+jmsWlsType+jmsName)
+                cmo.setJNDIName(jmsJNDIName)
+                cmo.setSubDeploymentName(subDeploymentName)
+
+                print "distributed: ",distributed
+                if distributed == "true":
+                  print "distributed"
+                  cmo.setLoadBalancingPolicy(balancingPolicy)
+
+                print "redirect: ",useRedirect
+                if useRedirect == "true":
+                  print "redirect to ",errorObject
+                  cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+jmsWlsType+jmsName+'/DeliveryFailureParams/'+jmsName)
+                  cmo.setRedeliveryLimit( int(limit) )
+                  cmo.setExpirationPolicy(policy)
+                  cmo.setErrorDestination(getMBean('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+jmsWlsType+errorObject))
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+      
+		     </script>
       </wlst>
     </sequential>
    </macrodef>		   
