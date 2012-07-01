@@ -1,7 +1,7 @@
 # ANT macrodef around WebLogic WLST scripts
 # ant_wls , create users with group , reset & create datasources file/jdbc persistence stores
-#  					JMS servers , JMS modules , SAF agents , Sub Deployments, Foreign Servers 
-#						Connection Factory, Queues, Topics, SAF Agents
+#  					JMS servers , JMS modules , SAF agents , Sub Deployments, Foreign Servers , FS entries
+#						Connection Factory, Queues, Topics, SAF Agents, SAF Remote Destinations, SAf imported Destinations
 #
 # use start.bat or set the following environments vars
 #set ORACLE_HOME=C:\oracle\JDev11114PS
@@ -34,7 +34,13 @@
 # ant -f build.xml createJMSModules
 # ant -f build.xml createJMSSafAgents
 # ant -f build.xml createJMSSubDeployments
+#
 # ant -f build.xml createJMSForeignServer
+# ant -f build.xml createJMSForeignServerObjects
+#
+# ant -f build.xml createSAFRemoteContext
+# ant -f build.xml createSAFImportedDestinations
+#
 # ant -f build.xml createJMSConnectionFactory
 # ant -f build.xml createCreateJMSQueuesOrTopics
 #

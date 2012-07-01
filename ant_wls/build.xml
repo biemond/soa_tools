@@ -191,6 +191,66 @@
     </target> 
 
 
+    <target name="internal_SAFRemoteContext-create">
+      
+      <propertycopy name="admin.User"                from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModuleName"             from="${safRemoteContext}.jmsModuleName"/>
+      <propertycopy name="desName"                   from="${safRemoteContext}.desName"/>
+      <propertycopy name="desUsername"               from="${safRemoteContext}.desUsername"/>
+      <propertycopy name="desPassword"               from="${safRemoteContext}.desPassword"/>
+      <propertycopy name="desUrl"                    from="${safRemoteContext}.desUrl"/>
+    
+      <wlCreateSAFRemoteContext adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              jmsModuleName="${jmsModuleName}"
+              desName="${desName}"
+              desUsername="${desUsername}"
+              desPassword="${desPassword}"
+              desUrl="${desUrl}"
+              />      
+    </target>
+
+
+    <target name="createSAFRemoteContext">
+      
+       <echo>create-SAFRemoteContext</echo>
+       <foreach list="${safRemoteContexts}" param="safRemoteContext" target="internal_SAFRemoteContext-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>
+
+    <target name="internal_SAFImportedDestination-create">
+      
+      <propertycopy name="admin.User"                from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModuleName"             from="${safImportedDestination}.jmsModuleName"/>
+      <propertycopy name="impDesName"                from="${safImportedDestination}.impDesName"/>
+      <propertycopy name="desName"                   from="${safImportedDestination}.desName"/>
+      <propertycopy name="subDeployment"             from="${safImportedDestination}.subDeployment"/>
+      <propertycopy name="jndiPrefix"                from="${safImportedDestination}.jndiPrefix"/>
+    
+      <wlCreateSAFImportedDestination adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              jmsModuleName="${jmsModuleName}"
+              impDesName="${impDesName}"
+              desName="${desName}"
+              subDeployment="${subDeployment}"
+              jndiPrefix="${jndiPrefix}"
+              />      
+    </target>
+
+
+    <target name="createSAFImportedDestinations">
+      
+       <echo>create-SAFImportedDestination</echo>
+       <foreach list="${safImportedDestinations}" param="safImportedDestination" target="internal_SAFImportedDestination-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>
+
     <target name="internal_JMSForeignServer-create">
       
       <propertycopy name="admin.User"                from="${wls.environment}.user"/>
@@ -213,10 +273,42 @@
               FSName="${foreignServer}" />      
     </target>
 
+
     <target name="createJMSForeignServer">
       
        <echo>create-JMSForeignServer</echo>
        <foreach list="${foreignServers}" param="foreignServer" target="internal_JMSForeignServer-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>   
+
+    <target name="internal_JMSForeignServerObject-create">
+      
+      <propertycopy name="admin.User"                from="${wls.environment}.user"/>
+      <propertycopy name="admin.Password"            from="${wls.environment}.password"/>
+      <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
+      <propertycopy name="jmsModuleName"             from="${foreignServerObject}.jmsModuleName"/>
+      <propertycopy name="FSName"                    from="${foreignServerObject}.FSName"/>
+      <propertycopy name="FSType"                    from="${foreignServerObject}.FSType"/>
+      <propertycopy name="objectName"                from="${foreignServerObject}.objectName"/>
+      <propertycopy name="localJNDI"                 from="${foreignServerObject}.localJNDI"/>
+      <propertycopy name="remoteJNDI"                from="${foreignServerObject}.remoteJNDI"/>
+    
+      <wlCreateJMSForeignServerObject adminUser="${admin.User}" 
+              adminPassword="${admin.Password}" 
+              adminUrl="${admin.Url}" 
+              jmsModuleName="${jmsModuleName}"
+              FSName="${FSName}"
+              FSType="${FSType}"
+              objectName="${objectName}"
+              localJNDI="${localJNDI}" 
+              remoteJNDI="${remoteJNDI}" 
+              />      
+    </target>
+
+    <target name="createJMSForeignServerObjects">
+      
+       <echo>create-JMSForeignServer Object</echo>
+       <foreach list="${foreignServerObjects}" param="foreignServerObject" target="internal_JMSForeignServerObject-create" 
                inheritall="true" inheritrefs="false"/>
     </target>   
 

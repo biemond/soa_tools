@@ -42,10 +42,10 @@
                 print "Unexpected error:", sys.exc_info()[0]
                 undo('true','y')
                 stopEdit('y')
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		
+   </macrodef>    
 
    <macrodef name="wlCreateJDBCStore">
     <attribute name="adminUser"/>
@@ -86,10 +86,10 @@
                 print "Unexpected error:", sys.exc_info()[0]
                 undo('true','y')
                 stopEdit('y')
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		
+   </macrodef>    
 
 
    <macrodef name="wlCreateJMSServer">
@@ -114,7 +114,7 @@
             storeName=sys.argv[4]
             jmsServerName=sys.argv[5]
             storeType=sys.argv[6]
-            						
+                        
             connect(adminUser,adminPassword,adminUrl)
             edit()
             startEdit()
@@ -147,10 +147,10 @@
                 print "Unexpected error:", sys.exc_info()[0]
                 undo('true','y')
                 stopEdit('y')
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		   
+   </macrodef>       
 
    <macrodef name="wlCreateJMSModule">
     <attribute name="adminUser"/>
@@ -181,17 +181,17 @@
                 cmo.createJMSSystemResource(jmsModuleName)
                 cd('/SystemResources/'+jmsModuleName)
                 set('Targets', jarray.array([ObjectName('com.bea:Name='+target+',Type='+targetType)], ObjectName))
-				
+        
                 save()
                 activate()          
             except:
                 print "Unexpected error:", sys.exc_info()[0]
                 undo('true','y')
                 stopEdit('y')
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		   
+   </macrodef>       
 
  
    <macrodef name="wlCreateJMSForeignServer">
@@ -219,7 +219,7 @@
             JNDIpropertyName=sys.argv[6] 
             JNDIpropertyValue=sys.argv[7]
             name=sys.argv[8] 
-			
+      
             connect(adminUser,adminPassword,adminUrl)
             edit()
             startEdit()
@@ -245,12 +245,69 @@
                 print "Unexpected error:", sys.exc_info()[0]
                 undo('true','y')
                 stopEdit('y')
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>	 
+   </macrodef>   
 
- 
+   <macrodef name="wlCreateJMSForeignServerObject">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="FSName"/>
+    <attribute name="FSType"/>
+    <attribute name="objectName"/>
+    <attribute name="localJNDI"/>
+    <attribute name="remoteJNDI"/>
+
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{jmsModuleName} @{FSName}  @{FSType} @{objectName} @{localJNDI} @{remoteJNDI}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            jmsModuleName=sys.argv[3]
+            fsName=sys.argv[4]
+            fsType=sys.argv[5]
+            objectName=sys.argv[6] 
+            localJNDI=sys.argv[7] 
+            remoteJNDI=sys.argv[8] 
+      
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ForeignServers/'+fsName)
+                if fsType == "destination":
+                    cmo.createForeignDestination(objectName)
+                    cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ForeignServers/'+fsName+'/ForeignDestinations/'+objectName)
+                    cmo.setLocalJNDIName(localJNDI)
+                    cmo.setRemoteJNDIName(remoteJNDI)
+
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ForeignServers/'+fsName)
+
+                if fsType == "cf":
+                    cmo.createForeignConnectionFactory(objectName)
+                    cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/ForeignServers/'+fsName+'/ForeignConnectionFactories/'+objectName)
+                    cmo.setLocalJNDIName(localJNDI)
+                    cmo.setRemoteJNDIName(remoteJNDI)
+                
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+    </script>
+      </wlst>
+    </sequential>
+   </macrodef>   
 
    <macrodef name="wlCreateJMSSafAgent">
     <attribute name="adminUser"/>
@@ -276,7 +333,7 @@
             storeType=sys.argv[5]
             storeName=sys.argv[6]
             safName=sys.argv[7]
-            						
+                        
             connect(adminUser,adminPassword,adminUrl)
             edit()
             startEdit()
@@ -301,10 +358,10 @@
                 undo('true','y')
                 stopEdit('y')
       
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		    
+   </macrodef>        
    
 
    <macrodef name="wlCreateJMSSubdeployment">
@@ -331,7 +388,7 @@
             targetType=sys.argv[6]
             
             print "subName: ", subName, "target: ", target, " targetType: ",targetType, " jmsModule: ", jmsModuleName
-            						
+                        
             connect(adminUser,adminPassword,adminUrl)
             edit()
             startEdit()
@@ -341,10 +398,7 @@
                 cd('/SystemResources/'+jmsModuleName)
                 cmo.createSubDeployment(subName)
                 cd('/SystemResources/'+jmsModuleName+'/SubDeployments/'+subName)
-                if targetType == "Server":
-                    set('Targets',jarray.array([ObjectName('com.bea:Name='+target+',Type=Server')], ObjectName))
-                else:
-                    set('Targets',jarray.array([ObjectName('com.bea:Name='+target+',Type=JMSServer')], ObjectName))
+                set('Targets',jarray.array([ObjectName('com.bea:Name='+target+',Type='+targetType)], ObjectName))
 
                 save()
                 activate()          
@@ -353,10 +407,119 @@
                 undo('true','y')
                 stopEdit('y')
       
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		   
+   </macrodef>       
+
+
+   <macrodef name="wlCreateSAFRemoteContext">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="desName"/>
+    <attribute name="desUsername"/>
+    <attribute name="desPassword"/>
+    <attribute name="desUrl"/>
+
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{jmsModuleName} @{desName}  @{desUsername} @{desPassword} @{desUrl}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            jmsModuleName=sys.argv[3]
+            desName=sys.argv[4]
+            desUsername=sys.argv[5]
+            desPassword=sys.argv[6] 
+            desUrl=sys.argv[7] 
+      
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName)
+                cmo.createSAFRemoteContext(desName)
+                
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/SAFRemoteContexts/'+desName+'/SAFLoginContext/'+desName)
+                cmo.setLoginURL(desUrl)
+                if desUsername != "xxxx":
+                    cmo.setUsername(desUsername)
+                    cmo.setPassword(desPassword)
+                
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+    </script>
+      </wlst>
+    </sequential>
+   </macrodef>   
+
+   <macrodef name="wlCreateSAFImportedDestination">
+    <attribute name="adminUser"/>
+    <attribute name="adminPassword"/>
+    <attribute name="adminUrl"/>
+    <attribute name="jmsModuleName"/>
+    <attribute name="impDesName"/>
+    <attribute name="desName"/>
+    <attribute name="subDeployment"/>
+    <attribute name="jndiPrefix"/>
+
+    <sequential>
+      <wlst classpathref="library.weblogic" 
+            failonerror="true" 
+            debug="false" 
+            arguments="@{adminUser} @{adminPassword} @{adminUrl} @{jmsModuleName} @{impDesName}  @{desName} @{subDeployment} @{jndiPrefix}">
+        <script>
+            adminUser=sys.argv[0]
+            adminPassword=sys.argv[1]
+            adminUrl=sys.argv[2]
+            jmsModuleName=sys.argv[3]
+            impDesName=sys.argv[4]
+            desName=sys.argv[5]
+            subDeployment=sys.argv[6] 
+            jndiPrefix=sys.argv[7] 
+      
+            connect(adminUser,adminPassword,adminUrl)
+            edit()
+            startEdit()
+
+            try:
+                cd('/')
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName)
+                cmo.createSAFImportedDestinations(impDesName)
+                
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/SAFImportedDestinations/'+impDesName)
+                cmo.setSAFRemoteContext(getMBean('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/SAFRemoteContexts/'+desName))
+                cmo.setJNDIPrefix(jndiPrefix)
+                cmo.setSAFErrorHandling(None)
+                cmo.setTimeToLiveDefault(0)
+                cmo.setUseSAFTimeToLiveDefault(false)
+                
+                cd('/JMSSystemResources/'+jmsModuleName+'/JMSResource/'+jmsModuleName+'/SAFImportedDestinations/'+impDesName)
+                cmo.setSubDeploymentName(subDeployment)                
+
+                save()
+                activate()          
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                undo('true','y')
+                stopEdit('y')
+    </script>
+      </wlst>
+    </sequential>
+   </macrodef>   
+
+
 
    <macrodef name="wlCreateJMSConnectionFactory">
     <attribute name="adminUser"/>
@@ -387,7 +550,7 @@
 
             print "subDeploymentName: ", subDeploymentName, " jmsModule: ", jmsModuleName, "cfName: ",cfName , "cfJNDIName: ",cfJNDIName
 
-            						
+                        
             connect(adminUser,adminPassword,adminUrl)
             edit()
             startEdit()
@@ -422,10 +585,10 @@
                 undo('true','y')
                 stopEdit('y')
       
-		</script>
+    </script>
       </wlst>
     </sequential>
-   </macrodef>		   
+   </macrodef>       
 
    <macrodef name="wlCreateJMSQueueOrTopic">
     <attribute name="adminUser"/>
@@ -466,7 +629,7 @@
             
             print "subDeploymentName: ", subDeploymentName, " jmsModule: ", jmsModuleName, "Name: ",jmsName , "JNDIName: ",jmsJNDIName
 
-            						
+                        
             connect(adminUser,adminPassword,adminUrl)
             edit()
             startEdit()
@@ -514,10 +677,10 @@
                 undo('true','y')
                 stopEdit('y')
       
-		     </script>
+         </script>
       </wlst>
     </sequential>
-   </macrodef>		   
+   </macrodef>       
 
 
    
@@ -708,7 +871,7 @@
                 cd('/SystemResources/' + dsName )
                 targetList = []
                 for datasourceTarget in datasourceTargets:
-                  targetList.append( ObjectName('com.bea:Name=' + datasourceTarget + ',Type='+datasourceTargetType) )				
+                  targetList.append( ObjectName('com.bea:Name=' + datasourceTarget + ',Type='+datasourceTargetType) )       
 
                 set('Targets',jarray.array(targetList, ObjectName))
 
