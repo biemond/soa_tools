@@ -198,9 +198,9 @@
       <propertycopy name="admin.Url"                 from="${wls.environment}.serverURL"/>
       <propertycopy name="jmsModuleName"             from="${safRemoteContext}.jmsModuleName"/>
       <propertycopy name="desName"                   from="${safRemoteContext}.desName"/>
-      <propertycopy name="desUsername"               from="${safRemoteContext}.desUsername"/>
-      <propertycopy name="desPassword"               from="${safRemoteContext}.desPassword"/>
-      <propertycopy name="desUrl"                    from="${safRemoteContext}.desUrl"/>
+      <propertycopy name="desUsername"               from="${safRemoteContext}.${wls.environment}.desUsername"/>
+      <propertycopy name="desPassword"               from="${safRemoteContext}.${wls.environment}.desPassword"/>
+      <propertycopy name="desUrl"                    from="${safRemoteContext}.${wls.environment}.desUrl"/>
     
       <wlCreateSAFRemoteContext adminUser="${admin.User}" 
               adminPassword="${admin.Password}" 
