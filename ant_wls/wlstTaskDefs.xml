@@ -744,7 +744,6 @@
       </wlst>
     </sequential>
    </macrodef>   
-
    
    <macrodef name="wlResetDatasource">
     <attribute name="adminUser"/>
@@ -873,12 +872,13 @@
   <attribute name="dsUserName"/>
   <attribute name="dsPassword"/>
   <attribute name="datasourceTargetType"/>
+  <attribute name="globalTransactionsProtocol"/>
 
   <sequential>   
     <wlst classpathref="library.weblogic"
           failonerror="true" 
           debug="false" 
-          arguments="@{adminUser} @{adminPassword} @{adminUrl} @{datasourceName} @{dsDriverName} @{dsUrl} @{datasourceTarget} @{dsJNDIName} @{dsUserName} @{dsPassword} @{datasourceTargetType}">   
+          arguments="@{adminUser} @{adminPassword} @{adminUrl} @{datasourceName} @{dsDriverName} @{dsUrl} @{datasourceTarget} @{dsJNDIName} @{dsUserName} @{dsPassword} @{datasourceTargetType} @{globalTransactionsProtocol}">   
       <script>   
           adminUserName=sys.argv[0]   
           adminPassword=sys.argv[1]   
@@ -903,7 +903,8 @@
 
           dsPassword=sys.argv[9]
           datasourceTargetType=sys.argv[10]
-
+          globalTransactionsProtocol=sys.argv[11]
+		  
           connect(adminUserName, adminPassword, adminUrl)
           edit()
           startEdit()
@@ -930,6 +931,10 @@
                 cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDriverParams/' + dsName + '/Properties/' + dsName + '/Properties/user')
                 cmo.setValue(dsUserName)
 
+                if globalTransactionsProtocol != "xxxx":
+                    cd('/JDBCSystemResources/' + dsName + '/JDBCResource/' + dsName + '/JDBCDataSourceParams/' + dsName)
+                    cmo.setGlobalTransactionsProtocol('None')
+				
                 cd('/SystemResources/' + dsName )
                 targetList = []
                 for datasourceTarget in datasourceTargets:

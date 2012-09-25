@@ -133,7 +133,7 @@
     </target> 
 
     <target name="internal_JMSSubdeployment-create">
-      
+      <echo>jms subdeployment ${JMSSubDeployment}</echo>      
       <propertycopy name="admin.User"              from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
@@ -160,7 +160,7 @@
     </target> 
 
     <target name="internal_JMSSafAgent-create">
-      
+      <echo>saf agent ${JMSSafAgent}</echo>
       <propertycopy name="admin.User"              from="${wls.environment}.user"/>
       <propertycopy name="admin.Password"          from="${wls.environment}.password"/>
       <propertycopy name="admin.Url"               from="${wls.environment}.serverURL"/>
@@ -253,6 +253,7 @@
 
 
 
+
 	<target name="internal_SafImportedDestinationObject">
       
       <propertycopy name="admin.User"                from="${wls.environment}.user"/>
@@ -288,7 +289,13 @@
 
 	
 	
-
+	
+    <target name="createJMSForeignServer">
+      
+       <echo>create-JMSForeignServer</echo>
+       <foreach list="${foreignServers}" param="foreignServer" target="internal_JMSForeignServer-create" 
+               inheritall="true" inheritrefs="false"/>
+    </target>   
 
     <target name="internal_JMSForeignServer-create">
       
@@ -311,15 +318,8 @@
               JNDIpropertyValue="${JNDIpropertyValue}"
               FSName="${foreignServer}" />      
     </target>
-
-
-    <target name="createJMSForeignServer">
-      
-       <echo>create-JMSForeignServer</echo>
-       <foreach list="${foreignServers}" param="foreignServer" target="internal_JMSForeignServer-create" 
-               inheritall="true" inheritrefs="false"/>
-    </target>   
-
+	
+	
     <target name="internal_JMSForeignServerObject-create">
       
       <propertycopy name="admin.User"                from="${wls.environment}.user"/>
@@ -478,6 +478,7 @@
    <propertycopy name="dsJNDIName"       from="db.${createDatasource}.dsJNDIName"/>   
    <propertycopy name="dsUserName"       from="db.${createDatasource}.${wls.environment}.dsUserName"/>   
    <propertycopy name="dsPassword"       from="db.${createDatasource}.${wls.environment}.dsPassword"/>   
+   <propertycopy name="globalTransactionsProtocol"  from="db.${createDatasource}.globalTransactionsProtocol"/>   
   
     <wlDatasourceCreate adminUser="${admin.User}"    
             adminPassword="${admin.Password}"    
@@ -490,6 +491,7 @@
             dsUserName="${dsUserName}"
             dsPassword="${dsPassword}"
             datasourceTargetType="${targetType}"
+			globalTransactionsProtocol="${globalTransactionsProtocol}"
             />
   </target>
 
