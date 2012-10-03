@@ -70,7 +70,7 @@
    <target name="exportFromWorkspace">
       <!--delete failonerror="false" includeemptydirs="true"
               dir="${metadata.dir}"/-->
-      <java dir="C:/oracle/MiddlewarePS5/Oracle_OSB1/lib" classpathref="library.osb"
+      <java dir="${osb.home}/lib" classpathref="library.osb"
             jar="${eclipse.home}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar"
             fork="true" failonerror="true" maxmemory="768m">
          <jvmarg line="-XX:MaxPermSize=256m"/>   
