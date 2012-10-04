@@ -1,0 +1,28 @@
+Ant OSB deployment scripts for OSB PS5 patch set 5
+
+deploy 1 or more OSB project from a OEPE workspace to a jar with the exportFromWorkspace ant target
+deploy an OSB to an OSB server with the importToOSB ant target
+export a project from an OSB server with a deployment plan with the exportToOSB ant target
+
+
+For more info see http://biemond.blogspot.nl/2010/07/osb-11g-ant-deployment-scripts.html
+
+Requirements 
+  A weblogic middleware home
+  matching OEPE
+  matching OSB install
+
+How to run
+
+change osb.bat or osb.sh with you own settings.
+export FMW_HOME=/opt/oracle/wls/wls11g
+export ANT_HOME=/opt/apache/apache-ant-1.8.4
+export PATH=$ANT_HOME/bin:$PATH
+export JAVA_HOME=/usr/java/jdk1.7.0_07
+
+change the build.properties file with your setting and what you want to deploy
+
+run osb.bat or osb.sh
+ant -f build.xml exportFromWorkspace
+ant -f build.xml importToOSB
+ant -f build.xml exportToOSB
