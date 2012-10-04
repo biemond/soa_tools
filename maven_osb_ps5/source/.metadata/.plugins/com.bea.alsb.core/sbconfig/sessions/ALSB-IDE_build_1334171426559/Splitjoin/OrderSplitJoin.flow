@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:flowEntry xmlns:con="http://www.bea.com/alsb/flow/resources/config">
+    <con:flow><![CDATA[<bpel:process name="OrderSplitJoin" targetNamespace="http://www.example.com/flow/Splitjoin/OrderSplitJoin" bea:name="OrderSplitJoin" xmlns:tns="http://www.example.com/flow/Splitjoin/OrderSplitJoin" xmlns:bind="http://webshop/OrderWS/" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:rescon="http://www.bea.com/alsb/flow/resources/config" xmlns:bea="http://www.bea.com/bpel/ui/extensions" xmlns:ext="http://www.bea.com/bpel/extensions" xmlns:expr="http://www.bea.com/wli/sb/stages/config" xmlns:trf="http://www.bea.com/wli/sb/stages/transform/config" xmlns:def="http://webshop/definition" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://webshop/OrdersWS/">
+     <bpel:partnerLinks>
+			<bpel:partnerLink name="OrderSplitJoin" partnerLinkType="tns:OrderSplitJoin" myRole="OrderSplitJoin">
+			</bpel:partnerLink>
+		</bpel:partnerLinks>
+
+		<bpel:variables>
+  		<bpel:variable name="request" messageType="ns0:CheckOperationRequest">
+			</bpel:variable>
+			<bpel:variable name="response" messageType="ns0:CheckOperationResponse">
+			</bpel:variable>
+		</bpel:variables>
+
+     <bpel:sequence>
+     <bpel:receive partnerLink="OrderSplitJoin" operation="CheckOperation" createInstance="yes" variable="request">
+			<rescon:receiveInfo>
+        		<rescon:wsdl ref="Splitjoin/resource/OrdersWS" binding="ns0:OrdersWSSOAP"/>
+    		</rescon:receiveInfo>
+     </bpel:receive>
+     <bpel:assign>
+     	<bpel:extensionAssignOperation>
+     		<trf:assign varName="response.parameters">
+     			<trf:expr>
+     				<expr:xqueryText>&lt;def:Response >&lt;def:Results/>&lt;/def:Response></expr:xqueryText></trf:expr></trf:assign>
+     	</bpel:extensionAssignOperation>
+     </bpel:assign>
+     
+     <bpel:forEach parallel="yes" counterName="counter">
+     	<bpel:startCounterValue>number(1)</bpel:startCounterValue>
+     	<bpel:finalCounterValue>count($request.parameters/def:Orders/def:Order)</bpel:finalCounterValue>
+     	<bpel:scope>
+     		<bpel:variables>
+     			<bpel:variable name="order" element="def:Order"/>
+     			
+     			</bpel:variables>
+     		<bpel:sequence>
+     			
+     			<bpel:assign>
+     				<bpel:copy>
+     					<bpel:from>$request.parameters/def:Orders/def:Order[$counter]</bpel:from>
+     					<bpel:to variable="order"/>
+     				</bpel:copy>
+     			<bpel:copy>
+		<bpel:from>
+			<bpel:literal>processed</bpel:literal></bpel:from>
+		<bpel:to variable="order">
+			<bpel:query>def:Status</bpel:query></bpel:to>
+     			</bpel:copy></bpel:assign>
+     			
+     			
+     			<bpel:assign>
+     				<bpel:extensionAssignOperation>
+     					<trf:insert varName="response.parameters">
+     						<trf:location>
+     							<expr:xpathText>./def:Results</expr:xpathText></trf:location>
+     						<trf:where>first-child</trf:where>
+     					<trf:expr>
+     						<expr:xqueryText>$order</expr:xqueryText></trf:expr></trf:insert>
+     				</bpel:extensionAssignOperation>
+     			</bpel:assign></bpel:sequence>
+     	</bpel:scope>
+     </bpel:forEach>
+     <bpel:reply partnerLink="OrderSplitJoin" operation="CheckOperation" variable="response"/>
+     </bpel:sequence>
+</bpel:process>]]></con:flow>
+</con:flowEntry>

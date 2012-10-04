@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:wsdlEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:wsdl><![CDATA[<wsdl:definitions name="OrderWS" targetNamespace="http://webshop/OrderWS/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://webshop/OrderWS/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://webshop/definition">
+  <wsdl:types>
+  	<xsd:schema>
+  		<xsd:import namespace="http://webshop/definition" schemaLocation="messages.xsd">
+  		</xsd:import></xsd:schema></wsdl:types>
+  <wsdl:message name="CheckOperationRequest">
+    <wsdl:part element="xsd1:RequestOrder" name="parameters"/>
+
+  </wsdl:message>
+  <wsdl:message name="CheckOperationResponse">
+    <wsdl:part element="xsd1:ResponseOrder" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="OrderWS">
+    <wsdl:operation name="CheckOperation">
+      <wsdl:input message="tns:CheckOperationRequest"/>
+      <wsdl:output message="tns:CheckOperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderWSSOAP" type="tns:OrderWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CheckOperation">
+      <soap:operation soapAction="http://webshop/OrderWS/CheckOperation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderWS">
+    <wsdl:port binding="tns:OrderWSSOAP" name="OrderWSSOAP">
+      <soap:address location="http://webshop/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:wsdl>
+    <con:dependencies>
+        <con:schemaRef isInclude="false" schemaLocation="messages.xsd" namespace="http://webshop/definition" ref="Splitjoin/resource/messages"/>
+    </con:dependencies>
+    <con:targetNamespace>http://webshop/OrderWS/</con:targetNamespace>
+</con:wsdlEntry>

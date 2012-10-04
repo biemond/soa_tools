@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="C:\oracle\MiddlewarePS5\jdk160_29" version="1.6.0_29">
+<bootpath>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\resources.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\rt.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\sunrsasign.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\jsse.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\jce.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\charsets.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\modules\jdk.boot.jar"/>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\oracle\MiddlewarePS5\jdk160_29\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

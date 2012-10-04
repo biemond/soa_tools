@@ -1,0 +1,1696 @@
+!SESSION 2012-04-10 23:25:06.756 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.jface 2 0 2012-04-10 23:25:58.775
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-04-10 23:25:58.775
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(oracle.eclipse.tools.common.services.ui.refactor.rename.command,Rename,
+		Rename the selected text.,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		oracle.eclipse.tools.common.services.ui.refactor.internal.ArtifactRefactoringCommandHandler,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-04-10 23:25:58.775
+!MESSAGE A conflict occurred for CTRL+DEL:
+Binding(CTRL+DEL,
+	ParameterizedCommand(Command(org.eclipse.datatools.sqltools.result.removeInstance,Remove Result,
+		,
+		Category(org.eclipse.datatools.sqltools.result.category,SQL Results View,null,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+DEL,
+	ParameterizedCommand(Command(org.eclipse.graphiti.ui.internal.action.RemoveAction,Remove,
+		Remove selected Pictogram Elements,
+		Category(org.eclipse.graphiti.ui.Graphiti_Category,Edit,Graphiti Diagram Editor,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.python.pydev.core 4 4 2012-04-10 23:26:00.897
+!MESSAGE Server returned HTTP response code: 500 for URL: https://ping.aptana.com/ping.php
+!STACK 0
+java.io.IOException: Server returned HTTP response code: 500 for URL: https://ping.aptana.com/ping.php
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1436)
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:234)
+	at org.python.pydev.logging.ping.LogPingSender.sendPing(LogPingSender.java:72)
+	at org.python.pydev.logging.ping.SynchedLogPing.send(SynchedLogPing.java:164)
+	at org.python.pydev.logging.ping.AsyncLogPing.consumeAllCommands(AsyncLogPing.java:131)
+	at org.python.pydev.logging.ping.AsyncLogPing.access$0(AsyncLogPing.java:100)
+	at org.python.pydev.logging.ping.AsyncLogPing$1.run(AsyncLogPing.java:47)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY oracle.eclipse.tools.weblogic 1 0 2012-04-10 23:29:50.874
+!MESSAGE Executing WLST script:
+if __name__ == '__main__': 
+    from wlstModule import *#@UnusedWildImport
+    
+import os
+
+beaHome="C:/Oracle/MiddlewarePS5"
+wlHome="C:/oracle/MiddlewarePS5/wlserver_10.3"
+password= "weblogic1"
+installJRF = "%INSTALL_JRF%"
+
+print "beaHome="+beaHome
+print "wlHome="+wlHome
+
+try:
+    readTemplate(wlHome + "/common/templates/domains/wls.jar")
+except:
+    print 'Failed to read template '  + wlHome + "/common/templates/domains/wls.jar"
+    dumpStack()
+
+cd('Servers/AdminServer')
+set('ListenAddress','')
+set('ListenPort', 7001)
+
+create('AdminServer','SSL')
+cd('SSL/AdminServer')
+set('Enabled', 'True')
+set('ListenPort', 7002)
+
+#=======================================================================================
+# Define the user password for weblogic.
+#=======================================================================================
+print 'Setting WebLogic domain password'
+
+cd('/')
+cmo=cd('Security/base_domain/User/weblogic')
+# Please set password here before using this script, e.g. cmo.setPassword('value')
+cmo.setPassword( password )
+
+#=======================================================================================
+# Add extension templates.
+#=======================================================================================
+addTemplate('C:/Oracle/MiddlewarePS5/oracle_common/common/templates/applications/jrf_template_11.1.1.jar')
+addTemplate('C:/oracle/MiddlewarePS5/wlserver_10.3/common/templates/applications/wls_webservice.jar')
+addTemplate('C:/oracle/MiddlewarePS5/Oracle_OSB1/common/templates/applications/wlsb_single_server.jar')
+addTemplate('C:/Oracle/MiddlewarePS5/oracle_common/common/templates/applications/oracle.em_11_1_1_0_0_template.jar')
+addTemplate('C:/Oracle/MiddlewarePS5/oracle_common/common/templates/applications/oracle.wsmpm_template_11.1.1.jar')
+
+
+#=======================================================================================
+# Write the domain and close the domain template.
+#=======================================================================================
+
+setOption('OverwriteDomain', 'true')
+
+print 'Saving WebLogic domain'
+writeDomain( r'C:/oracle/MiddlewarePS5/user_projects/domains//osb' )
+closeTemplate()
+print "script returns SUCCESS"   
+
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:30:49.584
+!MESSAGE Started WebLogic Server Monitor [osb@localhost:7001, Version:10.3.6.0]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:37:56.393
+!MESSAGE Server watcher[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]:running Weblogic detected, validating...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:01.423
+!MESSAGE Creating Deployment manager...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:01.423
+!MESSAGE Elapsed time 2620ms
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:01.423
+!MESSAGE Deployment manager created :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@24983989
+
+!ENTRY com.bea.alsb.debug.core 1 0 2012-04-10 23:38:02.500
+!MESSAGE canSupport() invoked!
+
+!ENTRY com.bea.alsb.debug.core 1 0 2012-04-10 23:38:02.500
+!MESSAGE Found ALSB server!
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:02.562
+!MESSAGE Publishing beginning.
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:02.562
+!MESSAGE Found new module:[OSB Configuration]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:02.562
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:02.562
+!MESSAGE Releasing deployment manager :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@24983989
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:04.107
+!MESSAGE Creating Deployment manager...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:04.107
+!MESSAGE Elapsed time 1514ms
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:04.107
+!MESSAGE Deployment manager created :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@2088988
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:06.041
+!MESSAGE Total deleted modules: 0
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-10 23:38:06.072
+!MESSAGE Starting ALSB publish.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-10 23:38:06.072
+!MESSAGE Added 1 modules out of 1
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-10 23:38:06.072
+!MESSAGE Publishing new ALSB configuration: OSB Configuration
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-10 23:38:07.637
+!MESSAGE Beginning import to ALSB server.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-10 23:38:07.777
+!MESSAGE Import to ALSB server completed.
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:07.777
+!MESSAGE No Weblogic J2EE module to publish
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:38:07.777
+!MESSAGE Publishing finished.
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:46:32.143
+!MESSAGE Releasing deployment manager :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@2088988
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-10 23:46:39.488
+!MESSAGE Stopped WebLogic Server Monitor [osb@localhost:7001, Version:10.3.6.0]
+!SESSION 2012-04-11 21:08:01.237 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.jface 2 0 2012-04-11 21:08:22.937
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-04-11 21:08:22.937
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(oracle.eclipse.tools.common.services.ui.refactor.rename.command,Rename,
+		Rename the selected text.,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		oracle.eclipse.tools.common.services.ui.refactor.internal.ArtifactRefactoringCommandHandler,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-04-11 21:08:22.937
+!MESSAGE A conflict occurred for CTRL+DEL:
+Binding(CTRL+DEL,
+	ParameterizedCommand(Command(org.eclipse.datatools.sqltools.result.removeInstance,Remove Result,
+		,
+		Category(org.eclipse.datatools.sqltools.result.category,SQL Results View,null,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+DEL,
+	ParameterizedCommand(Command(org.eclipse.graphiti.ui.internal.action.RemoveAction,Remove,
+		Remove selected Pictogram Elements,
+		Category(org.eclipse.graphiti.ui.Graphiti_Category,Edit,Graphiti Diagram Editor,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.python.pydev.core 4 4 2012-04-11 21:08:25.090
+!MESSAGE Server returned HTTP response code: 500 for URL: https://ping.aptana.com/ping.php
+!STACK 0
+java.io.IOException: Server returned HTTP response code: 500 for URL: https://ping.aptana.com/ping.php
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1436)
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:234)
+	at org.python.pydev.logging.ping.LogPingSender.sendPing(LogPingSender.java:72)
+	at org.python.pydev.logging.ping.SynchedLogPing.send(SynchedLogPing.java:164)
+	at org.python.pydev.logging.ping.AsyncLogPing.consumeAllCommands(AsyncLogPing.java:131)
+	at org.python.pydev.logging.ping.AsyncLogPing.access$0(AsyncLogPing.java:100)
+	at org.python.pydev.logging.ping.AsyncLogPing$1.run(AsyncLogPing.java:47)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:08:26.977
+!MESSAGE Started WebLogic Server Monitor [osb@localhost:7001, Version:10.3.6.0]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:00.424
+!MESSAGE Server watcher[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]:running Weblogic detected, validating...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:05.792
+!MESSAGE Creating Deployment manager...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:05.792
+!MESSAGE Elapsed time 2152ms
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:05.792
+!MESSAGE Deployment manager created :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@5345209
+
+!ENTRY com.bea.alsb.debug.core 1 0 2012-04-11 21:10:07.118
+!MESSAGE canSupport() invoked!
+
+!ENTRY com.bea.alsb.debug.core 1 0 2012-04-11 21:10:07.118
+!MESSAGE Found ALSB server!
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.181
+!MESSAGE Publishing beginning.
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Module not changed:[OSB Configuration]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Found new module:[OSB Configuration,TextToXml]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Found new module:[OSB Configuration,XSDvalidation]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.196
+!MESSAGE Found new module:[OSB Configuration,EndPointMonitoring]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.212
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.212
+!MESSAGE Found new module:[OSB Configuration,ReliableMessageWS]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.212
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.212
+!MESSAGE Found new module:[OSB Configuration,Splitjoin]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.212
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:10:07.212
+!MESSAGE Total deleted modules: 0
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:07.274
+!MESSAGE Starting ALSB publish.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:07.274
+!MESSAGE Added 6 modules out of 6
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.367
+!MESSAGE ALSB Publish Summary: Deleted Projects
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.367
+!MESSAGE No deleted projects to publish.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE ALSB Publish Summary: Added/Removed/Changed
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE Will publish: ReliableMessageWS
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE Will publish: XSDvalidation
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE Will publish: EndPointMonitoring
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE Will publish: TextToXml
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE Will publish: Splitjoin
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:09.414
+!MESSAGE No removed resources to publish.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-04-11 21:10:11.333
+!MESSAGE Beginning import to ALSB server.
+
+!ENTRY com.bea.alsb.server.publish 4 0 2012-04-11 21:10:16.591
+!MESSAGE Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory: Failed to lookup connection factory MhsConnectionFactory
+!STACK 0
+com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4000 2012-04-11 21:17:56.803
+!MESSAGE Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+!STACK 0
+com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4 2012-04-11 21:17:56.803
+!MESSAGE Task failed
+!STACK 1
+org.eclipse.core.runtime.CoreException: Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.alsb.server.publish.ALSBPublishOperation.checkPublishStatus(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.doImport(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+!SUBENTRY 1 oracle.eclipse.tools.weblogic 4 4000 2012-04-11 21:17:56.803
+!MESSAGE Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+!STACK 0
+com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4000 2012-04-11 21:17:56.813
+!MESSAGE Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+!STACK 1
+org.eclipse.core.runtime.CoreException: Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.alsb.server.publish.ALSBPublishOperation.checkPublishStatus(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.doImport(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+!SUBENTRY 1 oracle.eclipse.tools.weblogic 4 4000 2012-04-11 21:17:56.813
+!MESSAGE Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+!STACK 0
+com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:17:56.813
+!MESSAGE Publishing finished.
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4000 2012-04-11 21:17:56.823
+!MESSAGE Activation of publish session failed for:OSB Configuration
+
+Failed to lookup connection factory MhsConnectionFactory
+!STACK 0
+com.bea.wli.sb.transports.TransportException: Failed to lookup connection factory MhsConnectionFactory
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkQueueExists(JmsTransportProvider.java:846)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.checkDestinationExists(JmsTransportProvider.java:779)
+	at com.bea.wli.sb.transports.jms.JmsTransportProvider.makeWLSChangesOnCreate(JmsTransportProvider.java:222)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.bea.wli.sb.transports.Util$1.invoke(Util.java:83)
+	at $Proxy118.makeWLSChangesOnCreate(Unknown Source)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl$WLSArtifactCreateEntry.exec(WLSArtifactDeployerImpl.java:939)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.handleAdd(WLSArtifactDeployerImpl.java:393)
+	at com.bea.wli.sb.transports.WLSArtifactDeployerImpl.beforeSessionActivate(WLSArtifactDeployerImpl.java:314)
+	at com.bea.wli.config.deployment.ConfigDeploymentInitiator.notifyBeforeSessionActivate(ConfigDeploymentInitiator.java:113)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.__serverCommit(ServerDeploymentInitiator.java:469)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.access$200(ServerDeploymentInitiator.java:91)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator$1.run(ServerDeploymentInitiator.java:370)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.serverCommit(ServerDeploymentInitiator.java:363)
+	at com.bea.wli.config.deployment.server.ServerDeploymentInitiator.execute(ServerDeploymentInitiator.java:243)
+	at com.bea.wli.config.session.impl.SessionManager.commitSessionUnlocked(SessionManager.java:314)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:233)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:190)
+	at com.bea.wli.config.session.impl.SessionManager.commitSession(SessionManager.java:199)
+	at com.bea.wli.config.mbeans.Session.commitSession(Session.java:94)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:93)
+	at com.sun.jmx.mbeanserver.StandardMBeanIntrospector.invokeM2(StandardMBeanIntrospector.java:27)
+	at com.sun.jmx.mbeanserver.MBeanIntrospector.invokeM(MBeanIntrospector.java:208)
+	at com.sun.jmx.mbeanserver.PerInterface.invoke(PerInterface.java:120)
+	at com.sun.jmx.mbeanserver.MBeanSupport.invoke(MBeanSupport.java:262)
+	at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:836)
+	at com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:761)
+	at weblogic.management.mbeanservers.domainruntime.internal.FederatedMBeanServerInterceptor.invoke(FederatedMBeanServerInterceptor.java:349)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.JMXContextInterceptor.invoke(JMXContextInterceptor.java:263)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityMBeanMgmtOpsInterceptor.invoke(SecurityMBeanMgmtOpsInterceptor.java:65)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase$16.run(WLSMBeanServerInterceptorBase.java:449)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServerInterceptorBase.invoke(WLSMBeanServerInterceptorBase.java:447)
+	at weblogic.management.mbeanservers.internal.SecurityInterceptor.invoke(SecurityInterceptor.java:444)
+	at weblogic.management.jmx.mbeanserver.WLSMBeanServer.invoke(WLSMBeanServer.java:323)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11$1.run(JMXConnectorSubjectForwarder.java:663)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder$11.run(JMXConnectorSubjectForwarder.java:661)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.management.mbeanservers.internal.JMXConnectorSubjectForwarder.invoke(JMXConnectorSubjectForwarder.java:654)
+	at javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1427)
+	at javax.management.remote.rmi.RMIConnectionImpl.access$200(RMIConnectionImpl.java:72)
+	at javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1265)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1367)
+	at javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:788)
+	at javax.management.remote.rmi.RMIConnectionImpl_WLSkel.invoke(Unknown Source)
+	at weblogic.rmi.internal.BasicServerRef.invoke(BasicServerRef.java:667)
+	at weblogic.rmi.internal.BasicServerRef$1.run(BasicServerRef.java:522)
+	at weblogic.security.acl.internal.AuthenticatedSubject.doAs(AuthenticatedSubject.java:363)
+	at weblogic.security.service.SecurityManager.runAs(SecurityManager.java:146)
+	at weblogic.rmi.internal.BasicServerRef.handleRequest(BasicServerRef.java:518)
+	at weblogic.rmi.internal.wls.WLSExecuteRequest.run(WLSExecuteRequest.java:118)
+	at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
+	at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-04-11 21:18:07.029
+!MESSAGE Releasing deployment manager :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@5345209
+!SESSION 2012-06-03 14:01:50.190 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.jface 2 0 2012-06-03 14:02:04.479
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-06-03 14:02:04.479
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(oracle.eclipse.tools.common.services.ui.refactor.rename.command,Rename,
+		Rename the selected text.,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		oracle.eclipse.tools.common.services.ui.refactor.internal.ArtifactRefactoringCommandHandler,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-06-03 14:02:04.479
+!MESSAGE A conflict occurred for CTRL+DEL:
+Binding(CTRL+DEL,
+	ParameterizedCommand(Command(org.eclipse.datatools.sqltools.result.removeInstance,Remove Result,
+		,
+		Category(org.eclipse.datatools.sqltools.result.category,SQL Results View,null,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+DEL,
+	ParameterizedCommand(Command(org.eclipse.graphiti.ui.internal.action.RemoveAction,Remove,
+		Remove selected Pictogram Elements,
+		Category(org.eclipse.graphiti.ui.Graphiti_Category,Edit,Graphiti Diagram Editor,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.python.pydev.core 4 4 2012-06-03 14:02:06.788
+!MESSAGE Server returned HTTP response code: 500 for URL: https://ping.aptana.com/ping.php
+!STACK 0
+java.io.IOException: Server returned HTTP response code: 500 for URL: https://ping.aptana.com/ping.php
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1436)
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:234)
+	at org.python.pydev.logging.ping.LogPingSender.sendPing(LogPingSender.java:72)
+	at org.python.pydev.logging.ping.SynchedLogPing.send(SynchedLogPing.java:164)
+	at org.python.pydev.logging.ping.AsyncLogPing.consumeAllCommands(AsyncLogPing.java:131)
+	at org.python.pydev.logging.ping.AsyncLogPing.access$0(AsyncLogPing.java:100)
+	at org.python.pydev.logging.ping.AsyncLogPing$1.run(AsyncLogPing.java:47)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:02:07.240
+!MESSAGE Started WebLogic Server Monitor [osb@localhost:7001, Version:10.3.6.0]
+!SESSION 2012-06-03 14:03:37.600 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar c:/temp/export2.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+Command-line arguments:  -data C:/projecten/osb/osb11g_ps5 -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar c:/temp/export2.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+
+!ENTRY org.eclipse.core.resources 4 4 2012-06-03 14:03:44.745
+!MESSAGE Exception occurred while saving project preferences: /OSB Configuration/.settings/com.bea.alsb.core.prefs.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Resource is out of sync with the file system: '/OSB Configuration/.settings/com.bea.alsb.core.prefs'.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.write(FileSystemResourceManager.java:1076)
+	at org.eclipse.core.internal.resources.File.internalSetContents(File.java:321)
+	at org.eclipse.core.internal.resources.File.setContents(File.java:360)
+	at org.eclipse.core.internal.resources.ProjectPreferences$2.run(ProjectPreferences.java:604)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
+	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:628)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.flush(EclipsePreferences.java:353)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:380)
+	at com.bea.alsb.core.internal.containers.ContainerProject.setProperty(Unknown Source)
+	at com.bea.alsb.core.internal.containers.Container.setProperty(Unknown Source)
+	at com.bea.alsb.core.internal.containers.Container.setServer(Unknown Source)
+	at com.bea.alsb.core.internal.containers.Container.initProperties(Unknown Source)
+	at com.bea.alsb.core.internal.containers.Container.<init>(Unknown Source)
+	at com.bea.alsb.core.internal.containers.ContainerService.addContainer(Unknown Source)
+	at com.bea.alsb.core.internal.containers.ContainerService.initialize(Unknown Source)
+	at com.bea.alsb.core.internal.containers.ContainerService.start(Unknown Source)
+	at com.bea.alsb.core.AlsbCore.start(Unknown Source)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:476)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:345)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1207)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:191)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+!SUBENTRY 1 org.eclipse.core.resources 4 274 2012-06-03 14:03:44.745
+!MESSAGE Resource is out of sync with the file system: '/OSB Configuration/.settings/com.bea.alsb.core.prefs'.
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:05:55.067
+!MESSAGE Server watcher[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]:running Weblogic detected, validating...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:05:59.534
+!MESSAGE Creating Deployment manager...
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:05:59.536
+!MESSAGE Elapsed time 2491ms
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:05:59.539
+!MESSAGE Deployment manager created :[Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]]@27390606
+
+!ENTRY com.bea.alsb.debug.core 1 0 2012-06-03 14:06:00.310
+!MESSAGE canSupport() invoked!
+
+!ENTRY com.bea.alsb.debug.core 1 0 2012-06-03 14:06:00.313
+!MESSAGE Found ALSB server!
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.379
+!MESSAGE Publishing beginning.
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.385
+!MESSAGE Module not changed:[OSB Configuration]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.388
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.390
+!MESSAGE Found new module:[OSB Configuration,TextToXml]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.392
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.394
+!MESSAGE Found new module:[OSB Configuration,XSDvalidation]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.396
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.397
+!MESSAGE Found new module:[OSB Configuration,EndPointMonitoring]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.400
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.401
+!MESSAGE Found new module:[OSB Configuration,ReliableMessageWS]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.403
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.405
+!MESSAGE Found new module:[OSB Configuration,Splitjoin]
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.407
+!MESSAGE Found deployable module: com.bea.alsb.core.internal.deployables:OSB Configuration : bea.alsb.container.module
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:00.409
+!MESSAGE Total deleted modules: 0
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:00.463
+!MESSAGE Starting ALSB publish.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:00.467
+!MESSAGE Added 6 modules out of 6
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.945
+!MESSAGE ALSB Publish Summary: Deleted Projects
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.948
+!MESSAGE No deleted projects to publish.
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.985
+!MESSAGE ALSB Publish Summary: Added/Removed/Changed
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.987
+!MESSAGE Will publish: Splitjoin
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.989
+!MESSAGE Will publish: XSDvalidation
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.990
+!MESSAGE Will publish: TextToXml
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.992
+!MESSAGE Will publish: ReliableMessageWS
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.993
+!MESSAGE Will publish: EndPointMonitoring
+
+!ENTRY com.bea.alsb.server.publish 1 0 2012-06-03 14:06:01.995
+!MESSAGE No removed resources to publish.
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4000 2012-06-03 14:06:26.589
+!MESSAGE Error publishing project changes for: OSB Configuration
+!STACK 0
+com.bea.alsb.core.repositories.RepositoryException: Error creating the Configuration Jar.
+	at com.bea.alsb.core.internal.repositories.jar.ConfigFactory.createForResources(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.io.FileNotFoundException: C:\projecten\osb\osb11g_ps5\.metadata\.plugins\com.bea.alsb.core\sbconfig\sessions\ALSB-IDE_build_1338724836122\TextToXml\xquery\personel_to_xml.xquery (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:120)
+	at com.bea.wli.config.transaction.TransactionalFileManager.getBytes(TransactionalFileManager.java:813)
+	at com.bea.wli.config.transaction.TransactionalFile.getBytes(TransactionalFile.java:93)
+	at com.bea.wli.config.persistence.BinaryIndexedFile.readData(BinaryIndexedFile.java:436)
+	at com.bea.wli.config.persistence.SimpleLazyPersistenceHandler.readData0(SimpleLazyPersistenceHandler.java:44)
+	at com.bea.wli.config.persistence.AbstractLazyPersistenceHandler.readData(AbstractLazyPersistenceHandler.java:101)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:97)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:35)
+	at com.bea.wli.config.component.impl.LazyValueCache$DataCacheEntry.evaluate(LazyValueCache.java:30)
+	at com.bea.wli.config.component.impl.LazyValue.getValue(LazyValue.java:91)
+	at com.bea.wli.config.component.impl.DataCache.getValue(DataCache.java:87)
+	at com.bea.wli.config.component.impl.ComponentTypeImpl.getValue(ComponentTypeImpl.java:776)
+	at com.bea.wli.config.impl.ConfigContextImpl.getResourceData(ConfigContextImpl.java:920)
+	at com.bea.wli.config.importexport.ConfigJar$CanonicalForm.<init>(ConfigJar.java:336)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:172)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:62)
+	at com.bea.wli.config.task.impl.SessionedTask$1.execute(SessionedTask.java:233)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecute(TransactionalTask.java:217)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecuteWithRetry(TransactionalTask.java:162)
+	at com.bea.wli.config.transaction.TransactionalTask.doExecute(TransactionalTask.java:142)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:236)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:191)
+	at com.bea.wli.config.task.impl.ExportTask.exportResourceLevel(ExportTask.java:166)
+	at com.bea.wli.config.mbeans.Config.export(Config.java:494)
+	... 11 more
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4 2012-06-03 14:06:26.593
+!MESSAGE Task failed
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error publishing project changes for: OSB Configuration
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: com.bea.alsb.core.repositories.RepositoryException: Error creating the Configuration Jar.
+	at com.bea.alsb.core.internal.repositories.jar.ConfigFactory.createForResources(Unknown Source)
+	... 10 more
+Caused by: java.io.FileNotFoundException: C:\projecten\osb\osb11g_ps5\.metadata\.plugins\com.bea.alsb.core\sbconfig\sessions\ALSB-IDE_build_1338724836122\TextToXml\xquery\personel_to_xml.xquery (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:120)
+	at com.bea.wli.config.transaction.TransactionalFileManager.getBytes(TransactionalFileManager.java:813)
+	at com.bea.wli.config.transaction.TransactionalFile.getBytes(TransactionalFile.java:93)
+	at com.bea.wli.config.persistence.BinaryIndexedFile.readData(BinaryIndexedFile.java:436)
+	at com.bea.wli.config.persistence.SimpleLazyPersistenceHandler.readData0(SimpleLazyPersistenceHandler.java:44)
+	at com.bea.wli.config.persistence.AbstractLazyPersistenceHandler.readData(AbstractLazyPersistenceHandler.java:101)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:97)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:35)
+	at com.bea.wli.config.component.impl.LazyValueCache$DataCacheEntry.evaluate(LazyValueCache.java:30)
+	at com.bea.wli.config.component.impl.LazyValue.getValue(LazyValue.java:91)
+	at com.bea.wli.config.component.impl.DataCache.getValue(DataCache.java:87)
+	at com.bea.wli.config.component.impl.ComponentTypeImpl.getValue(ComponentTypeImpl.java:776)
+	at com.bea.wli.config.impl.ConfigContextImpl.getResourceData(ConfigContextImpl.java:920)
+	at com.bea.wli.config.importexport.ConfigJar$CanonicalForm.<init>(ConfigJar.java:336)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:172)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:62)
+	at com.bea.wli.config.task.impl.SessionedTask$1.execute(SessionedTask.java:233)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecute(TransactionalTask.java:217)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecuteWithRetry(TransactionalTask.java:162)
+	at com.bea.wli.config.transaction.TransactionalTask.doExecute(TransactionalTask.java:142)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:236)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:191)
+	at com.bea.wli.config.task.impl.ExportTask.exportResourceLevel(ExportTask.java:166)
+	at com.bea.wli.config.mbeans.Config.export(Config.java:494)
+	... 11 more
+!SUBENTRY 1 oracle.eclipse.tools.weblogic 4 4000 2012-06-03 14:06:26.593
+!MESSAGE Error publishing project changes for: OSB Configuration
+!STACK 0
+com.bea.alsb.core.repositories.RepositoryException: Error creating the Configuration Jar.
+	at com.bea.alsb.core.internal.repositories.jar.ConfigFactory.createForResources(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.io.FileNotFoundException: C:\projecten\osb\osb11g_ps5\.metadata\.plugins\com.bea.alsb.core\sbconfig\sessions\ALSB-IDE_build_1338724836122\TextToXml\xquery\personel_to_xml.xquery (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:120)
+	at com.bea.wli.config.transaction.TransactionalFileManager.getBytes(TransactionalFileManager.java:813)
+	at com.bea.wli.config.transaction.TransactionalFile.getBytes(TransactionalFile.java:93)
+	at com.bea.wli.config.persistence.BinaryIndexedFile.readData(BinaryIndexedFile.java:436)
+	at com.bea.wli.config.persistence.SimpleLazyPersistenceHandler.readData0(SimpleLazyPersistenceHandler.java:44)
+	at com.bea.wli.config.persistence.AbstractLazyPersistenceHandler.readData(AbstractLazyPersistenceHandler.java:101)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:97)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:35)
+	at com.bea.wli.config.component.impl.LazyValueCache$DataCacheEntry.evaluate(LazyValueCache.java:30)
+	at com.bea.wli.config.component.impl.LazyValue.getValue(LazyValue.java:91)
+	at com.bea.wli.config.component.impl.DataCache.getValue(DataCache.java:87)
+	at com.bea.wli.config.component.impl.ComponentTypeImpl.getValue(ComponentTypeImpl.java:776)
+	at com.bea.wli.config.impl.ConfigContextImpl.getResourceData(ConfigContextImpl.java:920)
+	at com.bea.wli.config.importexport.ConfigJar$CanonicalForm.<init>(ConfigJar.java:336)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:172)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:62)
+	at com.bea.wli.config.task.impl.SessionedTask$1.execute(SessionedTask.java:233)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecute(TransactionalTask.java:217)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecuteWithRetry(TransactionalTask.java:162)
+	at com.bea.wli.config.transaction.TransactionalTask.doExecute(TransactionalTask.java:142)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:236)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:191)
+	at com.bea.wli.config.task.impl.ExportTask.exportResourceLevel(ExportTask.java:166)
+	at com.bea.wli.config.mbeans.Config.export(Config.java:494)
+	... 11 more
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4000 2012-06-03 14:06:26.596
+!MESSAGE Error publishing project changes for: OSB Configuration
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error publishing project changes for: OSB Configuration
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: com.bea.alsb.core.repositories.RepositoryException: Error creating the Configuration Jar.
+	at com.bea.alsb.core.internal.repositories.jar.ConfigFactory.createForResources(Unknown Source)
+	... 10 more
+Caused by: java.io.FileNotFoundException: C:\projecten\osb\osb11g_ps5\.metadata\.plugins\com.bea.alsb.core\sbconfig\sessions\ALSB-IDE_build_1338724836122\TextToXml\xquery\personel_to_xml.xquery (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:120)
+	at com.bea.wli.config.transaction.TransactionalFileManager.getBytes(TransactionalFileManager.java:813)
+	at com.bea.wli.config.transaction.TransactionalFile.getBytes(TransactionalFile.java:93)
+	at com.bea.wli.config.persistence.BinaryIndexedFile.readData(BinaryIndexedFile.java:436)
+	at com.bea.wli.config.persistence.SimpleLazyPersistenceHandler.readData0(SimpleLazyPersistenceHandler.java:44)
+	at com.bea.wli.config.persistence.AbstractLazyPersistenceHandler.readData(AbstractLazyPersistenceHandler.java:101)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:97)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:35)
+	at com.bea.wli.config.component.impl.LazyValueCache$DataCacheEntry.evaluate(LazyValueCache.java:30)
+	at com.bea.wli.config.component.impl.LazyValue.getValue(LazyValue.java:91)
+	at com.bea.wli.config.component.impl.DataCache.getValue(DataCache.java:87)
+	at com.bea.wli.config.component.impl.ComponentTypeImpl.getValue(ComponentTypeImpl.java:776)
+	at com.bea.wli.config.impl.ConfigContextImpl.getResourceData(ConfigContextImpl.java:920)
+	at com.bea.wli.config.importexport.ConfigJar$CanonicalForm.<init>(ConfigJar.java:336)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:172)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:62)
+	at com.bea.wli.config.task.impl.SessionedTask$1.execute(SessionedTask.java:233)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecute(TransactionalTask.java:217)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecuteWithRetry(TransactionalTask.java:162)
+	at com.bea.wli.config.transaction.TransactionalTask.doExecute(TransactionalTask.java:142)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:236)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:191)
+	at com.bea.wli.config.task.impl.ExportTask.exportResourceLevel(ExportTask.java:166)
+	at com.bea.wli.config.mbeans.Config.export(Config.java:494)
+	... 11 more
+!SUBENTRY 1 oracle.eclipse.tools.weblogic 4 4000 2012-06-03 14:06:26.596
+!MESSAGE Error publishing project changes for: OSB Configuration
+!STACK 0
+com.bea.alsb.core.repositories.RepositoryException: Error creating the Configuration Jar.
+	at com.bea.alsb.core.internal.repositories.jar.ConfigFactory.createForResources(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.io.FileNotFoundException: C:\projecten\osb\osb11g_ps5\.metadata\.plugins\com.bea.alsb.core\sbconfig\sessions\ALSB-IDE_build_1338724836122\TextToXml\xquery\personel_to_xml.xquery (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:120)
+	at com.bea.wli.config.transaction.TransactionalFileManager.getBytes(TransactionalFileManager.java:813)
+	at com.bea.wli.config.transaction.TransactionalFile.getBytes(TransactionalFile.java:93)
+	at com.bea.wli.config.persistence.BinaryIndexedFile.readData(BinaryIndexedFile.java:436)
+	at com.bea.wli.config.persistence.SimpleLazyPersistenceHandler.readData0(SimpleLazyPersistenceHandler.java:44)
+	at com.bea.wli.config.persistence.AbstractLazyPersistenceHandler.readData(AbstractLazyPersistenceHandler.java:101)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:97)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:35)
+	at com.bea.wli.config.component.impl.LazyValueCache$DataCacheEntry.evaluate(LazyValueCache.java:30)
+	at com.bea.wli.config.component.impl.LazyValue.getValue(LazyValue.java:91)
+	at com.bea.wli.config.component.impl.DataCache.getValue(DataCache.java:87)
+	at com.bea.wli.config.component.impl.ComponentTypeImpl.getValue(ComponentTypeImpl.java:776)
+	at com.bea.wli.config.impl.ConfigContextImpl.getResourceData(ConfigContextImpl.java:920)
+	at com.bea.wli.config.importexport.ConfigJar$CanonicalForm.<init>(ConfigJar.java:336)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:172)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:62)
+	at com.bea.wli.config.task.impl.SessionedTask$1.execute(SessionedTask.java:233)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecute(TransactionalTask.java:217)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecuteWithRetry(TransactionalTask.java:162)
+	at com.bea.wli.config.transaction.TransactionalTask.doExecute(TransactionalTask.java:142)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:236)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:191)
+	at com.bea.wli.config.task.impl.ExportTask.exportResourceLevel(ExportTask.java:166)
+	at com.bea.wli.config.mbeans.Config.export(Config.java:494)
+	... 11 more
+
+!ENTRY oracle.eclipse.tools.weblogic 1 2000 2012-06-03 14:06:26.598
+!MESSAGE Publishing finished.
+
+!ENTRY oracle.eclipse.tools.weblogic 4 4000 2012-06-03 14:06:26.605
+!MESSAGE Error publishing project changes for: OSB Configuration
+!STACK 0
+com.bea.alsb.core.repositories.RepositoryException: Error creating the Configuration Jar.
+	at com.bea.alsb.core.internal.repositories.jar.ConfigFactory.createForResources(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.publish(Unknown Source)
+	at com.bea.alsb.server.publish.ALSBPublishOperation.execute(Unknown Source)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.performTasks(WeblogicServerBehaviour.java:1311)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishToServer(WeblogicServerBehaviour.java:855)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publishOnce(WeblogicServerBehaviour.java:686)
+	at oracle.eclipse.tools.weblogic.server.internal.WeblogicServerBehaviour.publish(WeblogicServerBehaviour.java:539)
+	at org.eclipse.wst.server.core.model.ServerBehaviourDelegate.publish(ServerBehaviourDelegate.java:774)
+	at org.eclipse.wst.server.core.internal.Server.publishImpl(Server.java:3027)
+	at org.eclipse.wst.server.core.internal.Server$PublishJob.run(Server.java:341)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.io.FileNotFoundException: C:\projecten\osb\osb11g_ps5\.metadata\.plugins\com.bea.alsb.core\sbconfig\sessions\ALSB-IDE_build_1338724836122\TextToXml\xquery\personel_to_xml.xquery (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(FileInputStream.java:120)
+	at com.bea.wli.config.transaction.TransactionalFileManager.getBytes(TransactionalFileManager.java:813)
+	at com.bea.wli.config.transaction.TransactionalFile.getBytes(TransactionalFile.java:93)
+	at com.bea.wli.config.persistence.BinaryIndexedFile.readData(BinaryIndexedFile.java:436)
+	at com.bea.wli.config.persistence.SimpleLazyPersistenceHandler.readData0(SimpleLazyPersistenceHandler.java:44)
+	at com.bea.wli.config.persistence.AbstractLazyPersistenceHandler.readData(AbstractLazyPersistenceHandler.java:101)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:97)
+	at com.bea.wli.config.component.impl.DataCache.evaluateKey(DataCache.java:35)
+	at com.bea.wli.config.component.impl.LazyValueCache$DataCacheEntry.evaluate(LazyValueCache.java:30)
+	at com.bea.wli.config.component.impl.LazyValue.getValue(LazyValue.java:91)
+	at com.bea.wli.config.component.impl.DataCache.getValue(DataCache.java:87)
+	at com.bea.wli.config.component.impl.ComponentTypeImpl.getValue(ComponentTypeImpl.java:776)
+	at com.bea.wli.config.impl.ConfigContextImpl.getResourceData(ConfigContextImpl.java:920)
+	at com.bea.wli.config.importexport.ConfigJar$CanonicalForm.<init>(ConfigJar.java:336)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:172)
+	at com.bea.wli.config.task.impl.ExportTask._execute(ExportTask.java:62)
+	at com.bea.wli.config.task.impl.SessionedTask$1.execute(SessionedTask.java:233)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecute(TransactionalTask.java:217)
+	at com.bea.wli.config.transaction.TransactionalTask._doExecuteWithRetry(TransactionalTask.java:162)
+	at com.bea.wli.config.transaction.TransactionalTask.doExecute(TransactionalTask.java:142)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:236)
+	at com.bea.wli.config.task.impl.SessionedTask.doExecute(SessionedTask.java:191)
+	at com.bea.wli.config.task.impl.ExportTask.exportResourceLevel(ExportTask.java:166)
+	at com.bea.wli.config.mbeans.Config.export(Config.java:494)
+	... 11 more
+!SESSION 2012-06-03 14:09:10.134 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar export/Rel_XSD.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+Command-line arguments:  -data C:/projecten/osb/osb11g_ps5 -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar export/Rel_XSD.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-06-03 14:09:17.919
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.bea.alsb.core 4 0 2012-06-03 14:09:22.551
+!MESSAGE Error during configuration jar export.: Error during configuration jar export.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error during configuration jar export.
+	at com.bea.alsb.core.AlsbCore.newCoreException(Unknown Source)
+	at com.bea.alsb.core.internal.repositories.ConfigExportApplication.export(Unknown Source)
+	at com.bea.alsb.core.internal.repositories.ConfigExportApplication.start(Unknown Source)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+Caused by: java.io.FileNotFoundException: export\Rel_XSD.jar (The system cannot find the path specified)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:194)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:84)
+	... 15 more
+!SUBENTRY 1 com.bea.alsb.core 4 -1 2012-06-03 14:09:22.553
+!MESSAGE Error during configuration jar export.
+!STACK 0
+java.io.FileNotFoundException: export\Rel_XSD.jar (The system cannot find the path specified)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:194)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:84)
+	at com.bea.alsb.core.internal.repositories.ConfigExportApplication.export(Unknown Source)
+	at com.bea.alsb.core.internal.repositories.ConfigExportApplication.start(Unknown Source)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+!SESSION 2012-06-03 14:10:36.282 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar C:\projecten\git\soa_tools\ant_osb_ps5/export/Rel_XSD.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+Command-line arguments:  -data C:/projecten/osb/osb11g_ps5 -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar C:\projecten\git\soa_tools\ant_osb_ps5/export/Rel_XSD.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-06-03 14:10:42.767
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+!SESSION 2012-06-03 14:15:43.493 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar C:\projecten\git\soa_tools\ant_osb_ps5/export/Rel_XSD.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+Command-line arguments:  -data C:\projecten\git\soa_tools\ant_osb_ps5/source -application com.bea.alsb.core.ConfigExport -configProject OSB Configuration -configJar C:\projecten\git\soa_tools\ant_osb_ps5/export/Rel_XSD.jar -configSubProjects ReliableMessageWS,XSDvalidation -includeDependencies true
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-06-03 14:15:49.949
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.core.resources 4 567 2012-06-03 14:15:50.168
+!MESSAGE Workspace restored, but some problems occurred.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2012-06-03 14:15:50.168
+!MESSAGE Could not read metadata for 'EndPointMonitoring'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: The project description file (.project) for 'EndPointMonitoring' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:851)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:873)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:853)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:702)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1527)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2503)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2251)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:439)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:473)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at com.bea.alsb.core.AlsbCore.start(Unknown Source)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:476)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:345)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1207)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:191)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2012-06-03 14:15:50.169
+!MESSAGE The project description file (.project) for 'EndPointMonitoring' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2012-06-03 14:15:50.169
+!MESSAGE Could not read metadata for 'Splitjoin'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: The project description file (.project) for 'Splitjoin' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:851)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:873)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:853)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:702)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1527)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2503)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2251)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:439)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:473)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at com.bea.alsb.core.AlsbCore.start(Unknown Source)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:476)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:345)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1207)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:191)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2012-06-03 14:15:50.169
+!MESSAGE The project description file (.project) for 'Splitjoin' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2012-06-03 14:15:50.169
+!MESSAGE Could not read metadata for 'TextToXml'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: The project description file (.project) for 'TextToXml' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:851)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:873)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:853)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:702)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1527)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2503)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2251)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:439)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:473)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at com.bea.alsb.core.AlsbCore.start(Unknown Source)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:462)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:476)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:345)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1207)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:191)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:344)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:622)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2012-06-03 14:15:50.170
+!MESSAGE The project description file (.project) for 'TextToXml' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.

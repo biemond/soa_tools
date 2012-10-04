@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:con="http://www.bea.com/wli/domain/config">
+    <con:monitoring>true</con:monitoring>
+    <con:reporting>true</con:reporting>
+    <con:logging>true</con:logging>
+    <con:sla-alerting>true</con:sla-alerting>
+    <con:pipeline-alerting>true</con:pipeline-alerting>
+    <con:result-caching>true</con:result-caching>
+</xml-fragment>

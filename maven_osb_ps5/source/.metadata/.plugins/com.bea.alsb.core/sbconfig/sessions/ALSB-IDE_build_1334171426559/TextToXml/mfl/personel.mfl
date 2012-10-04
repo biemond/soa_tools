@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:mflEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:mfl><![CDATA[<?xml version='1.0' encoding='windows-1252'?>
+<!DOCTYPE MessageFormat SYSTEM 'mfl.dtd'>
+<!--     Enter description of the message format here.     -->
+<MessageFormat name='Personel' version='2.01'>
+    <StructFormat name='Customer' delimOptional='n' repeat='*'>
+        <TagField type='String' value='10;'/>
+        <FieldFormat name='CustomerId' type='String' delimRef='' delim=';' delimOptional='n' codepage='windows-1252'/>
+        <FieldFormat name='Gender' type='String' delimRef='' delim=';' delimOptional='n' codepage='windows-1252'/>
+        <FieldFormat name='Firstname' type='String' delimRef='' delim=';' delimOptional='n' codepage='windows-1252'/>
+        <FieldFormat name='Lastname' type='String' delimRef='' delim='\n' delimOptional='n' codepage='windows-1252'/>
+        <StructFormat name='Account' delimOptional='n' repeat='*'>
+            <TagField type='String' value='20;'/>
+            <FieldFormat name='CustomerId' type='String' delimRef='' delim=';' delimOptional='n' codepage='windows-1252'/>
+            <FieldFormat name='AccountT' type='String' delimRef='' delim='\n' delimOptional='n' codepage='windows-1252'/>
+            <StructFormat name='Transactions' delimOptional='n' repeat='*'>
+                <TagField type='String' value='30;'/>
+                <FieldFormat name='CustomerId' type='String' delimRef='' delim=';' delimOptional='n' codepage='windows-1252'/>
+                <FieldFormat name='Description' type='String' delimRef='' delim=';' delimOptional='n' codepage='windows-1252'/>
+                <FieldFormat name='Amount' type='String' delimRef='' delim='\n' delimOptional='n' codepage='windows-1252'/>
+            </StructFormat>
+        </StructFormat>
+    </StructFormat>
+</MessageFormat>]]></con:mfl>
+</con:mflEntry>

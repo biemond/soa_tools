@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:schemaEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:schema><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://saml.ws.whitehorses.nl/" xmlns:tns="http://saml.ws.whitehorses.nl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="sayHello" type="tns:sayHello"/>
+
+<xs:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
+
+<xs:complexType name="sayHello">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="sayHelloResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>]]></con:schema>
+    <con:targetNamespace>http://saml.ws.whitehorses.nl/</con:targetNamespace>
+</con:schemaEntry>

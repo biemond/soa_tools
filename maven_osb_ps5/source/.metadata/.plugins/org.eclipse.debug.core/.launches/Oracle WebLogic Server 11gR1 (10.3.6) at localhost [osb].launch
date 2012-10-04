@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.bea.wlw.server.launchConfigurationType">
+<booleanAttribute key="attr-allow-hot-attach" value="true"/>
+<stringAttribute key="attr-start-script" value="startWebLogic.cmd"/>
+<booleanAttribute key="attr-weblogic-initialized" value="true"/>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="debugFlag" value="true"/>
+</mapAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.ALLOW_TERMINATE" value="false"/>
+<mapAttribute key="org.eclipse.jdt.launching.CONNECT_MAP">
+<mapEntry key="hostname" value="localhost"/>
+<mapEntry key="port" value="8453"/>
+</mapAttribute>
+<stringAttribute key="server-id" value="Oracle WebLogic Server 11gR1 (10.3.6) at localhost [osb]"/>
+</launchConfiguration>

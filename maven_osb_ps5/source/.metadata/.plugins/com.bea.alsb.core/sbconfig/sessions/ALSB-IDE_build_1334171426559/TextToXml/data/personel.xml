@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:xmlEntry xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:xml-content><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Personel>
+  <Customer>
+    <CustomerId>0123456789</CustomerId>
+    <Gender>MR</Gender>
+    <Firstname>JOHN</Firstname>
+    <Lastname>SMITH</Lastname>
+    <Account>
+      <CustomerId>0123456789</CustomerId>
+      <AccountT>ACCT1</AccountT>
+      <Transactions>
+        <CustomerId>0123456789</CustomerId>
+        <Description>SALARY</Description>
+        <Amount>500000</Amount>
+      </Transactions>
+      <Transactions>
+        <CustomerId>0123456789</CustomerId>
+        <Description>BONUS</Description>
+        <Amount>1000</Amount>
+      </Transactions>
+    </Account>
+    <Account>
+      <CustomerId>0123456789</CustomerId>
+      <AccountT>ACCT2</AccountT>
+      <Transactions>
+        <CustomerId>0123456789</CustomerId>
+        <Description>OTHER</Description>
+        <Amount>100</Amount>
+      </Transactions>
+    </Account>
+  </Customer>
+  <Customer>
+    <CustomerId>1234566790</CustomerId>
+    <Gender>MR</Gender>
+    <Firstname>DAVID</Firstname>
+    <Lastname>DOE</Lastname>
+    <Account>
+      <CustomerId>1234567890</CustomerId>
+      <AccountT>ACCT1</AccountT>
+      <Transactions>
+        <CustomerId>1234567890</CustomerId>
+        <Description>SALARY</Description>
+        <Amount>10000</Amount>
+      </Transactions>
+      <Transactions>
+        <CustomerId>1234567890</CustomerId>
+        <Description>SALARY</Description>
+        <Amount>10000</Amount>
+      </Transactions>
+    </Account>
+  </Customer>
+</Personel>]]></con:xml-content>
+</con:xmlEntry>
