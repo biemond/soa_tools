@@ -1,6 +1,6 @@
 Maven OSB build and deployment scripts for Oracle Service Bus PS5 patch set 5
 
-run the pom.xml with "mvn package" or just do it with java directly
+run the pom.xml with "mvn package" or "mvn deploy" or just do it with java directly
 
 
 My Environment Oracle OSB PS6 or 11.1.1.6
@@ -28,7 +28,7 @@ my maven settings.xml
         <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>
         <wls.username>weblogic</wls.username>
         <wls.password>weblogic1</wls.password>
-        <wls.server>t3://devagent1.alfa.local:9001</wls.server>
+        <wls.server>t3://devagent1.alfa.local:7001</wls.server>
       </properties>
 
     </profile>
@@ -39,7 +39,7 @@ my maven settings.xml
   </activeProfiles>
 
 
-manual run without maven with a java command
+manual export from workspace amd run without maven with a java command
 
 java -classpath "/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.configfwk_1.6.0.0.jar:
             /opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar:
@@ -72,6 +72,27 @@ or run it with maven
 
 . osb.sh
 mvn package
+
+
+for deployment use
+mvn deploy
+
+or do it manually with java ( deployment with WLST)
+
+java -classpath /opt/oracle/wls/wls11g/wlserver_10.3/server/lib/weblogic.jar:
+                /opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar:
+                /opt/oracle/wls/wls11g/Oracle_OSB1/lib/alsb.jar:
+                /opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-wls.jar:
+                /opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-impl.jar:
+                /opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-api.jar:
+                /opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.configfwk_1.6.0.0.jar 
+                weblogic.WLST import.py 
+                weblogic 
+                weblogic1 
+                t3://devagent1.alfa.local:7001 
+                None 
+                /home/oracle/projects/soa_tools/maven_osb_ps5/export/Rel_XSD.jar 
+                None
 
 
 
