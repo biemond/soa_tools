@@ -1,6 +1,6 @@
-Maven OSB deployment scripts for OSB PS5 patch set 5
+Maven OSB build and deployment scripts for Oracle Service Bus PS5 patch set 5
 
-run the pom.xml with "mvn test" or just with java directly
+run the pom.xml with "mvn package" or just do it with java directly
 
 
 My Environment Oracle OSB PS6 or 11.1.1.6
@@ -9,11 +9,37 @@ OSB & Oracle home /opt/oracle/wls/wls11g/Oracle_OSB1
 WebLogic home     /opt/oracle/wls/wls11g/wlserver_10.3
 Oepe home         /opt/oracle/wls/wls11g/oepe11.1.1.8
 
-somehow with java or with maven you need to do the following
-copy everything from /opt/oracle/wls/wls11g/Oracle_OSB1/eclipse140
-to /opt/oracle/wls/wls11g/oepe11.1.1.8
+my maven settings.xml
 
-run with a java command
+    <profile>
+      <id>env-dev</id>
+
+      <activation>
+        <property>
+          <name>target-env</name>
+          <value>dev</value>
+        </property>
+      </activation>
+
+      <properties>
+        <fmw.home>/opt/oracle/wls/wls11g</fmw.home>
+        <eclipse.home>/opt/oracle/wls/wls11g/oepe11.1.1.8</eclipse.home>
+        <weblogic.home>/opt/oracle/wls/wls11g/wlserver_10.3</weblogic.home>
+        <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>
+        <wls.username>weblogic</wls.username>
+        <wls.password>weblogic1</wls.password>
+        <wls.server>t3://devagent1.alfa.local:9001</wls.server>
+      </properties>
+
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>env-dev</activeProfile>
+  </activeProfiles>
+
+
+manual run without maven with a java command
 
 java -classpath "/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.configfwk_1.6.0.0.jar:
             /opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar:
@@ -45,7 +71,7 @@ or run it with maven
 # load environment
 
 . osb.sh
-mvn test
+mvn package
 
 
 
