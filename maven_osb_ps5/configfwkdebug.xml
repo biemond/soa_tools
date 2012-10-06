@@ -1,0 +1,9 @@
+<java:config-fwk-debug-logger xmlns:java="java:com.bea.wli.config.debug">
+  <java:config-fwk-debug>false</java:config-fwk-debug>
+  <java:config-fwk-validation-debug>false</java:config-fwk-validation-debug>
+  <java:config-fwk-transaction-debug>false</java:config-fwk-transaction-debug>
+  <java:config-fwk-deployment-debug>false</java:config-fwk-deployment-debug>
+  <java:config-fwk-component-debug>false</java:config-fwk-component-debug>
+  <java:config-fwk-security-debug>false</java:config-fwk-security-debug>
+  <java:config-fwk-persistence-debug>false</java:config-fwk-persistence-debug>
+</java:config-fwk-debug-logger>

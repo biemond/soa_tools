@@ -1,18 +1,17 @@
 Maven OSB deployment scripts for OSB PS5 patch set 5
 
-Export from maven or just java directly
+run the pom.xml with "mvn test" or just with java directly
 
-Oracle OSB PS6 or 11.1.1.6
+
+My Environment Oracle OSB PS6 or 11.1.1.6
 middleware home   /opt/oracle/wls/wls11g
 OSB & Oracle home /opt/oracle/wls/wls11g/Oracle_OSB1
 WebLogic home     /opt/oracle/wls/wls11g/wlserver_10.3
 Oepe home         /opt/oracle/wls/wls11g/oepe11.1.1.8
 
-
 somehow with java or with maven you need to do the following
 copy everything from /opt/oracle/wls/wls11g/Oracle_OSB1/eclipse140
 to /opt/oracle/wls/wls11g/oepe11.1.1.8
-
 
 run with a java command
 
@@ -51,14 +50,15 @@ mvn test
 
 
 
-with java as goal, it does not work because you are running inside maven and need to set MAVEN_OPTS parameters
-to pass on -D parameters  
+with java as goal does not seems to work because you are running inside the maven jvm ( no fork ) 
+and need to set MAVEN_OPTS parameters to pass on -D parameters but all this
+Also adding dependecies libraries and using includeProjectDependencies does also work.
 
-need to use exec as goal to start a new process also can't use dependencies because the jars are added 
-to a local repository and this will errors. 
+need to use exec as goal to start a new process and use commandlineArgs, you can't use arguments
 
 
-one time add jars to your local repository
+
+Just how to add the OSB jars to your local repository
 
 mvn install:install-file -DgroupId=ora.osb -DartifactId=configfwk -Dversion=1.6.0.0 -Dpackaging=jar 
 -Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.configfwk_1.6.0.0.jar 

@@ -1,0 +1,5 @@
+#surefire
+#Sat Oct 06 12:37:21 CEST 2012
+user.dir=/home/oracle/projects/soa_tools/maven_osb_ps5
+localRepository=/home/oracle/.m2/repository
+basedir=/home/oracle/projects/soa_tools/maven_osb_ps5
