@@ -1,6 +1,7 @@
 Maven OSB build and deployment scripts for Oracle Service Bus PS5 patch set 5
 
-run the pom.xml with "mvn package" or "mvn deploy" or just do it with java directly
+run the pom.xml with "mvn package" or "mvn deploy -Dtarget-env=dev" 
+or just do it with java directly
 
 
 My Environment Oracle OSB PS6 or 11.1.1.6
@@ -10,6 +11,19 @@ WebLogic home     /opt/oracle/wls/wls11g/wlserver_10.3
 Oepe home         /opt/oracle/wls/wls11g/oepe11.1.1.8
 
 my maven settings.xml
+
+    <profile>
+      <id>env-default</id>
+
+      <properties>
+        <fmw.home>/opt/oracle/wls/wls11g</fmw.home>
+        <eclipse.home>/opt/oracle/wls/wls11g/oepe11.1.1.8</eclipse.home>
+        <weblogic.home>/opt/oracle/wls/wls11g/wlserver_10.3</weblogic.home>
+        <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>        
+      </properties>
+
+    </profile>
+
 
     <profile>
       <id>env-dev</id>
@@ -22,22 +36,22 @@ my maven settings.xml
       </activation>
 
       <properties>
-        <fmw.home>/opt/oracle/wls/wls11g</fmw.home>
-        <eclipse.home>/opt/oracle/wls/wls11g/oepe11.1.1.8</eclipse.home>
-        <weblogic.home>/opt/oracle/wls/wls11g/wlserver_10.3</weblogic.home>
-        <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>
+
         <wls.username>weblogic</wls.username>
         <wls.password>weblogic1</wls.password>
-        <wls.server>t3://devagent1.alfa.local:7001</wls.server>
+        <wls.server>t3://devagent1.alfa.local:9001</wls.server>
+
+        <osb.all.projects>None</osb.all.projects>
+        <osb.all.plan>None</osb.all.plan>
+        
       </properties>
 
     </profile>
   </profiles>
 
   <activeProfiles>
-    <activeProfile>env-dev</activeProfile>
+    <activeProfile>env-default</activeProfile>
   </activeProfiles>
-
 
 manual export from workspace amd run without maven with a java command
 
@@ -72,10 +86,7 @@ or run it with maven
 
 . osb.sh
 mvn package
-
-
-for deployment use
-mvn deploy
+mvn deploy -Dtarget-env=dev
 
 or do it manually with java ( deployment with WLST)
 
@@ -96,9 +107,9 @@ java -classpath /opt/oracle/wls/wls11g/wlserver_10.3/server/lib/weblogic.jar:
 
 
 
-
-with java as goal does not seems to work because you are running inside the maven jvm ( no fork ) 
-and need to set MAVEN_OPTS parameters to pass on -D parameters but all this
+Important:
+with java as goal for the exec-maven-plugin does not seems to work because you are running inside 
+the maven jvm ( no fork ) and need to set MAVEN_OPTS parameters to pass on -D parameters but all this
 Also adding dependecies libraries and using includeProjectDependencies does also work.
 
 need to use exec as goal to start a new process and use commandlineArgs, you can't use arguments
