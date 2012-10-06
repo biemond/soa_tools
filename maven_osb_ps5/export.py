@@ -91,6 +91,20 @@ def exportAll():
 
 # EXPORT script init
 try:
+
+    adminUser=sys.argv[1]  
+    adminPassword=sys.argv[2]  
+    adminUrl=sys.argv[3]
+
+    exportJar = sys.argv[5]
+    customFile = sys.argv[6]
+    passphrase = "osb"
+    project = sys.argv[4]
+
+    connect(adminUser,adminPassword,adminUrl) 
+    domainRuntime()
+
+
     exportAll()
 
 except:

@@ -1,10 +1,19 @@
 Maven OSB build and deployment scripts for Oracle Service Bus PS5 patch set 5
 
 run the pom.xml with "mvn package" or "mvn deploy -Dtarget-env=dev" 
-or just do it with java directly
+
+. osb.sh  ( load my maven , java variables /default )
+
+mvn package                 , builds all projects from the source folder ( OEPE Workspace )
+mvn deploy -Dtarget-env=dev , deploy to the dev OSB folder
+
+for an export of the OSB projects from the OSB Server run "mvn deploy -Dtarget-env=dev" in the export folder
+
+for an build + export of a specific OSB project run "mvn deploy -Dtarget-env=dev" in a OSB project folder
 
 
 My Environment Oracle OSB PS6 or 11.1.1.6
+
 middleware home   /opt/oracle/wls/wls11g
 OSB & Oracle home /opt/oracle/wls/wls11g/Oracle_OSB1
 WebLogic home     /opt/oracle/wls/wls11g/wlserver_10.3
@@ -14,44 +23,52 @@ my maven settings.xml
 
     <profile>
       <id>env-default</id>
-
       <properties>
         <fmw.home>/opt/oracle/wls/wls11g</fmw.home>
         <eclipse.home>/opt/oracle/wls/wls11g/oepe11.1.1.8</eclipse.home>
         <weblogic.home>/opt/oracle/wls/wls11g/wlserver_10.3</weblogic.home>
         <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>        
       </properties>
-
     </profile>
-
 
     <profile>
       <id>env-dev</id>
-
       <activation>
         <property>
           <name>target-env</name>
           <value>dev</value>
         </property>
       </activation>
-
       <properties>
-
         <wls.username>weblogic</wls.username>
         <wls.password>weblogic1</wls.password>
         <wls.server>t3://devagent1.alfa.local:9001</wls.server>
-
-        <osb.all.projects>None</osb.all.projects>
-        <osb.all.plan>None</osb.all.plan>
-        
+        <osb.all.import.projects>None</osb.all.import.projects>
+        <osb.all.import.plan>None</osb.all.import.plan>
+        <osb.all.export.projects>None</osb.all.export.projects>
+        <osb.all.export.plan>all_plan.xml</osb.all.export.plan>
       </properties>
-
     </profile>
   </profiles>
 
   <activeProfiles>
     <activeProfile>env-default</activeProfile>
   </activeProfiles>
+
+. osb.sh
+mvn package
+mvn deploy -Dtarget-env=dev
+
+
+
+Important:
+with java as goal for the exec-maven-plugin does not seems to work because you are running inside 
+the maven jvm ( no fork ) and need to set MAVEN_OPTS parameters to pass on -D parameters but all this
+Also adding dependecies libraries and using includeProjectDependencies does also work.
+
+need to use exec as goal to start a new process and use commandlineArgs, you can't use arguments
+
+
 
 manual export from workspace amd run without maven with a java command
 
@@ -80,15 +97,7 @@ java -classpath "/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.confi
   -includeDependencies true 
 
 
-or run it with maven
-
-# load environment
-
-. osb.sh
-mvn package
-mvn deploy -Dtarget-env=dev
-
-or do it manually with java ( deployment with WLST)
+or do a manual import with java ( deployment with WLST)
 
 java -classpath /opt/oracle/wls/wls11g/wlserver_10.3/server/lib/weblogic.jar:
                 /opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar:
@@ -104,15 +113,6 @@ java -classpath /opt/oracle/wls/wls11g/wlserver_10.3/server/lib/weblogic.jar:
                 None 
                 /home/oracle/projects/soa_tools/maven_osb_ps5/export/Rel_XSD.jar 
                 None
-
-
-
-Important:
-with java as goal for the exec-maven-plugin does not seems to work because you are running inside 
-the maven jvm ( no fork ) and need to set MAVEN_OPTS parameters to pass on -D parameters but all this
-Also adding dependecies libraries and using includeProjectDependencies does also work.
-
-need to use exec as goal to start a new process and use commandlineArgs, you can't use arguments
 
 
 
