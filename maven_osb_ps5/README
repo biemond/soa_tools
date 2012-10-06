@@ -1,2 +1,88 @@
 Maven OSB deployment scripts for OSB PS5 patch set 5
 
+Export from maven or just java directly
+
+Oracle OSB PS6 or 11.1.1.6
+middleware home   /opt/oracle/wls/wls11g
+OSB & Oracle home /opt/oracle/wls/wls11g/Oracle_OSB1
+WebLogic home     /opt/oracle/wls/wls11g/wlserver_10.3
+Oepe home         /opt/oracle/wls/wls11g/oepe11.1.1.8
+
+
+somehow with java or with maven you need to do the following
+copy everything from /opt/oracle/wls/wls11g/Oracle_OSB1/eclipse140
+to /opt/oracle/wls/wls11g/oepe11.1.1.8
+
+
+run with a java command
+
+java -classpath "/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.configfwk_1.6.0.0.jar:
+            /opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar:
+            /opt/oracle/wls/wls11g/Oracle_OSB1/lib/alsb.jar:
+            /opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-wls.jar:
+            /opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-impl.jar:
+            /opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-api.jar:
+            /opt/oracle/wls/wls11g/wlserver_10.3/server/lib/weblogic.jar:
+            /opt/oracle/wls/wls11g/wlserver_10.3/server/lib/wls-api.jar:
+            /opt/oracle/wls/wls11g/oepe11.1.1.8/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar" 
+  -Dsun.lang.ClassLoader.allowArraySyntax=true 
+  -Dweblogic.home=/opt/oracle/wls/wls11g/wlserver_10.3 
+  -Dharvester.home=/opt/oracle/wls/wls11g/Oracle_OSB1/harvester 
+  -Dosb.home=/opt/oracle/wls/wls11g/Oracle_OSB1 
+  -Dosgi.bundlefile.limit=750 
+  -Dosgi.nl=en_US 
+  -Dmiddleware.home=/opt/oracle/wls/wls11g 
+  org.eclipse.equinox.launcher.Main 
+  -data /home/oracle/projects/soa_tools/maven_osb_ps5/source 
+  -application com.bea.alsb.core.ConfigExport 
+  -configProject "OSB Configuration" 
+  -configJar /home/oracle/projects/soa_tools/maven_osb_ps5/export/Rel_XSD.jar 
+  -configSubProjects  "ReliableMessageWS,XSDvalidation" 
+  -includeDependencies true 
+
+
+or run it with maven
+
+# load environment
+
+. osb.sh
+mvn test
+
+
+
+
+with java as goal, it does not work because you are running inside maven and need to set MAVEN_OPTS parameters
+to pass on -D parameters  
+
+need to use exec as goal to start a new process also can't use dependencies because the jars are added 
+to a local repository and this will errors. 
+
+
+one time add jars to your local repository
+
+mvn install:install-file -DgroupId=ora.osb -DartifactId=configfwk -Dversion=1.6.0.0 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.common.configfwk_1.6.0.0.jar 
+
+mvn install:install-file -DgroupId=ora.osb -DartifactId=xmlbeans -Dversion=2.2.0.0 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar
+
+mvn install:install-file -DgroupId=ora.osb -DartifactId=alsb -Dversion=11.1.1.6 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/lib/alsb.jar
+
+mvn install:install-file -DgroupId=ora.osb -DartifactId=sb.kernel.impl -Dversion=11.1.1.6 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-impl.jar
+
+mvn install:install-file -DgroupId=ora.osb -DartifactId=sb.kernel.wls -Dversion=11.1.1.6 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-wls.jar
+
+mvn install:install-file -DgroupId=ora.osb -DartifactId=sb.kernel.api -Dversion=11.1.1.6 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/Oracle_OSB1/lib/sb-kernel-api.jar
+
+mvn install:install-file -DgroupId=ora.wls -DartifactId=weblogic -Dversion=10.3.6 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/wlserver_10.3/server/lib/weblogic.jar
+
+mvn install:install-file -DgroupId=ora.wls -DartifactId=wls.api -Dversion=10.3.6 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/wlserver_10.3/server/lib/wls-api.jar
+
+mvn install:install-file -DgroupId=ora.oepe -DartifactId=equinox -Dversion=1.2.0 -Dpackaging=jar 
+-Dfile=/opt/oracle/wls/wls11g/oepe11.1.1.8/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar
