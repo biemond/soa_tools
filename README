@@ -1,7 +1,34 @@
-# ANT macrodef around WebLogic WLST scripts
-# ant is for soa suite 11g, flexible deployment of composites with plans + deployment of mds
-# ant_osb , deployment framework for OSB, export from OEPE, import & export WLS
-# ant_osb_ps5 , deployment framework for OSB for PS5 , plus a demo workspace + export from OEPE, import & export WLS
-# ant_mds , a standalone mds deployment for soa suite 11g, also in ant folder
-# ant_wls , create users with group , reset & create datasources, JMS file/jdbc persistence store , JMS servers , SAF agents, JMS modules , Sub Deployments, JMS objects
-# ant_resourceAdapter, deploy jms ,aq and db resource adapters   
+ant, is for Oracle SOA Suite 11g, 
+build, flexible deployment of composites with plans 
+MDS deployment
+
+ant_osb_ps5, 
+build & deployment framework for OSB for PS5, 
+plus a demo workspace 
+export from an OEPE workspace, import & export to OSB on WebLogic
+
+maven_osb_ps5, 
+build & deployment framework for OSB for PS5, 
+plus a demo workspace 
+export from an OEPE workspace, import & export to OSB on WebLogic
+
+ant_mds, 
+a standalone mds deployment for soa suite 11g, also in ant folder
+
+ant_wls,
+Create WebLogic artifacts with ANT
+
+create users with group, 
+reset & create datasources, 
+JMS file/jdbc persistence store, 
+JMS servers,
+SAF agents,
+JMS modules,
+Sub Deployments,
+JMS objects
+
+ant_resourceAdapter, 
+configure and deploy JMS, AQ and DB JCA resource adapters on Oracle WebLogic
+
+
+ 
