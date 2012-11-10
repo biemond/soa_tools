@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
-  <artifactId>osb.all.projects</artifactId>
+  <artifactId>osb.all.exports.projects</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,6 +31,7 @@
          <executable>java</executable>
          <commandlineArgs>-classpath ${weblogic.home}/server/lib/weblogic.jar:${osb.home}/modules/com.bea.core.xml.xmlbeans_2.2.0.0_2-5-1.jar:${osb.home}/lib/alsb.jar:${osb.home}/lib/sb-kernel-wls.jar:${osb.home}/lib/sb-kernel-impl.jar:${osb.home}/lib/sb-kernel-api.jar:${osb.home}/modules/com.bea.common.configfwk_1.6.0.0.jar weblogic.WLST ${project.basedir}/../export.py ${wls.username} ${wls.password} ${wls.server} ${osb.all.export.projects} ${project.basedir}/../import/${project.artifactId}-${project.version}.jar ${osb.all.export.plan}
          </commandlineArgs>
+         <removeAll>true</removeAll>
         </configuration>
        </execution>
 
@@ -43,18 +44,19 @@
 
   <distributionManagement>
 
-    <repository>
-      <id>myLocal</id>
-      <name>local repository</name>
-      <url>file:///home/oracle/.m2/repository</url>
-    </repository>
-
-    <snapshotRepository>
-      <id>myLocalSnapshot</id>
-      <name>local snapshot repository</name>
-      <url>file:///home/oracle/.m2/repository</url>
-    </snapshotRepository>
-
+     <repository>
+       <id>central</id>
+       <name>hudson.alfa.local-releases</name>
+       <url>http://localhost:8081/artifactory/libs-release-local</url>
+       <uniqueVersion>false</uniqueVersion>
+     </repository>
+     <snapshotRepository>
+       <id>snapshots</id>
+       <name>hudson.alfa.local-snapshots</name>
+       <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+       <uniqueVersion>false</uniqueVersion>
+     </snapshotRepository>
+     
   </distributionManagement>
 
 </project>

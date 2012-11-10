@@ -79,7 +79,19 @@
   </dependencies>
 
   <distributionManagement>
+<!--
+    <repository>
+      <id>myLocal</id>
+      <name>local repository</name>
+      <url>file:///home/oracle/.m2/repository</url>
+    </repository>
 
+    <snapshotRepository>
+      <id>myLocalSnapshot</id>
+      <name>local snapshot repository</name>
+      <url>file:///home/oracle/.m2/repository</url>
+    </snapshotRepository>
+-->
      <repository>
        <id>central</id>
        <name>hudson.alfa.local-releases</name>
