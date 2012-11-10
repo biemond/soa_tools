@@ -7,6 +7,9 @@ run the pom.xml with "mvn package" or "mvn deploy -Dtarget-env=dev"
 mvn package                 , builds all projects from the source folder ( OEPE Workspace )
 mvn deploy -Dtarget-env=dev , deploy to the dev OSB folder
 
+mvn release:prepare
+
+
 for an export of the OSB projects from the OSB Server run "mvn deploy -Dtarget-env=dev" in the export folder
 
 for an build + export of a specific OSB project run "mvn deploy -Dtarget-env=dev" in a OSB project folder

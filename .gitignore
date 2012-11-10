@@ -1,2 +1,7 @@
 .svn
 .DS_Store
+deploy/
+classes/
+target/
+configfwkdebug.xml
+alsbdebug.xml

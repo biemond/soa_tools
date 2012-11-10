@@ -8,6 +8,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <scm>
+    <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
+    <developerConnection>scm:git:https://github.com/biemond/soa_tools.git</developerConnection>
+    <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
+  </scm>  
   <build>
     <plugins>
      <plugin>
