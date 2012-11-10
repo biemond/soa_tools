@@ -10,6 +10,11 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    
     <buildDirectory>${project.basedir}/../../target</buildDirectory>
   </properties>
+  <scm>
+    <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
+    <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
+    <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
+  </scm>  
   <build>
     <directory>${buildDirectory}</directory>
     <plugins>
