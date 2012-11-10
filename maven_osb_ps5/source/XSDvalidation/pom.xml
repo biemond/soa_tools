@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>osb.xsdvalidation</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    
@@ -12,6 +12,7 @@
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
     <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
+    <tag>osb.xsdvalidation-1.2</tag>
   </scm>  
   <build>
     <directory>${buildDirectory}</directory>
