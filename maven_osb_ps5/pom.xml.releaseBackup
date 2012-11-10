@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>osb.all.projects</artifactId>
-  <version>1.3.2-SNAPSHOT</version>
+  <version>1.3.3-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    
@@ -71,6 +71,13 @@
             </goals>
           </execution>
         </executions>
+     </plugin>
+     <plugin>
+       <artifactId>maven-release-plugin</artifactId>
+       <configuration>
+         <releaseProfiles>release</releaseProfiles>
+         <goals>deploy assembly:single</goals>
+       </configuration>
      </plugin>
     </plugins>
   </build>
