@@ -24,39 +24,128 @@ Oepe home         /opt/oracle/wls/wls11g/oepe11.1.1.8
 
 my maven settings.xml
 
+  <servers>
+  	<server>
+      <id>central</id>
+      <username>admin</username>
+      <password>password</password>
+    </server>
+  	<server>
+      <id>snapshots</id>
+      <username>admin</username>
+      <password>password</password>
+    </server>
+  </servers>
+
+
     <profile>
       <id>env-default</id>
+
       <properties>
         <fmw.home>/opt/oracle/wls/wls11g</fmw.home>
         <eclipse.home>/opt/oracle/wls/wls11g/oepe11.1.1.8</eclipse.home>
         <weblogic.home>/opt/oracle/wls/wls11g/wlserver_10.3</weblogic.home>
         <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>        
       </properties>
+            <repositories>
+                  <repository>
+                        <id>central</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <snapshots>
+                              <enabled>false</enabled>
+                        </snapshots>
+                  </repository>
+                  <repository>
+                        <id>snapshots</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <releases>
+                              <enabled>false</enabled>
+                        </releases>
+                  </repository>
+            </repositories>
+            <pluginRepositories>
+                  <pluginRepository>
+                        <id>central</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <snapshots>
+                              <enabled>false</enabled>
+                        </snapshots>
+                  </pluginRepository>
+                  <pluginRepository>
+                        <id>snapshots</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <releases>
+                              <enabled>false</enabled>
+                        </releases>
+                  </pluginRepository>
+            </pluginRepositories>
+
     </profile>
+
 
     <profile>
       <id>env-dev</id>
+
       <activation>
         <property>
           <name>target-env</name>
           <value>dev</value>
         </property>
       </activation>
+
       <properties>
+
         <wls.username>weblogic</wls.username>
         <wls.password>weblogic1</wls.password>
-        <wls.server>t3://devagent1.alfa.local:9001</wls.server>
+        <wls.server>t3://devagent1.alfa.local:7001</wls.server>
+
         <osb.all.import.projects>None</osb.all.import.projects>
         <osb.all.import.plan>None</osb.all.import.plan>
         <osb.all.export.projects>None</osb.all.export.projects>
         <osb.all.export.plan>all_plan.xml</osb.all.export.plan>
+        
       </properties>
+            <repositories>
+                  <repository>
+                        <id>central</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <snapshots>
+                              <enabled>false</enabled>
+                        </snapshots>
+                  </repository>
+                  <repository>
+                        <id>snapshots</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <releases>
+                              <enabled>false</enabled>
+                        </releases>
+                  </repository>
+            </repositories>
+            <pluginRepositories>
+                  <pluginRepository>
+                        <id>central</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <snapshots>
+                              <enabled>false</enabled>
+                        </snapshots>
+                  </pluginRepository>
+                  <pluginRepository>
+                        <id>snapshots</id>
+                        <url>http://localhost:8081/artifactory/repo</url>
+                        <releases>
+                              <enabled>false</enabled>
+                        </releases>
+                  </pluginRepository>
+            </pluginRepositories>
+
+
     </profile>
   </profiles>
 
   <activeProfiles>
     <activeProfile>env-default</activeProfile>
   </activeProfiles>
+
 
 . osb.sh
 mvn package
