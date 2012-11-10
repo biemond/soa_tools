@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>osb.all.projects</artifactId>
-  <version>1.3.2</version>
+  <version>1.3.2-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    
   </properties>
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
-    <developerConnection>scm:git:https://github.com/biemond/soa_tools.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
     <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
   </scm>  
   <build>
