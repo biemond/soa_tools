@@ -6,7 +6,6 @@ run the pom.xml with "mvn package" or "mvn deploy -Dtarget-env=dev"
 
 mvn package                 , builds all projects from the source folder ( OEPE Workspace )
 mvn deploy -Dtarget-env=dev , deploy to the dev OSB folder
-
 mvn release:prepare
 mvn release:perform
 
