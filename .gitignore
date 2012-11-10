@@ -6,3 +6,5 @@ target/
 configfwkdebug.xml
 alsbdebug.xml
 .metadata/
+osb.*.jar
+security/
