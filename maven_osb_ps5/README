@@ -5,12 +5,12 @@ Maven OSB build, release POM for Oracle Service Bus PS5 patch set 5
 Usage
 -----
 
-**. osb.sh**  ( sets maven, java environment variables )
+__. osb.sh__  ( sets maven, java environment variables )
 
-**mvn package**, builds all or 1 project depends on the location in the source folder ( OEPE Workspace )  
-**mvn deploy -Dtarget-env=dev**, deploy to the dev OSB folder  
-**mvn release:prepare**, prepare a release  
-**mvn release:perform -Dtarget-env=dev -DconnectionUrl=scm:git:git@github.com:biemond/soa_tools.git**  
+__mvn package__, builds all or 1 project depends on the location in the source folder ( OEPE Workspace )  
+__mvn deploy -Dtarget-env=dev__, deploy to the dev OSB folder  
+__mvn release:prepare__, prepare a release  
+__mvn release:perform -Dtarget-env=dev -DconnectionUrl=scm:git:git@github.com:biemond/soa_tools.git__  
 
 
 for an export of the OSB projects from the OSB Server run "mvn deploy -Dtarget-env=dev" in the export folder
