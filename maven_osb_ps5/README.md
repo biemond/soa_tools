@@ -2,6 +2,17 @@ Maven OSB build, release POM for Oracle Service Bus PS5 patch set 5
 ===================================================================
 
 
+main pom ( /pom.xml ) which build the OSB workspace and its 2 projects
+
+2 parent poms
+__1 for building OSB workspace ( /parent/workspace/pom.xml )
+__1 for building OSB project ( /parent/project/pom.xml )
+
+workspace pom ( /source/pom.xml ) --> OSB workspace parent pom
+project XSDvalidation pom ( /source/XSDvalidation/pom.xml ) --> OSB project parent pom
+project ReliableMessageWS pom ( /source/ReliableMessageWS/pom.xml ) --> OSB project parent pom
+
+
 Usage
 -----
 
