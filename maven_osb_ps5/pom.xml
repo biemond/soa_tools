@@ -16,6 +16,6 @@
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
     <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
-    <tag>osb.0.1</tag>
+    <tag>osb.0.1.1</tag>
   </scm> 
 </project>
