@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>osb</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
   <description>Build script for all OSB workspaces and projects</description>
   <packaging>pom</packaging>
   <name>Parent Project</name>
@@ -16,6 +16,5 @@
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
     <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
-    <tag>osb.0.1</tag>
   </scm> 
 </project>
