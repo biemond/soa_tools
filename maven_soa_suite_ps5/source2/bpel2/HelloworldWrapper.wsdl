@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="HelloWorldService"
+     targetNamespace="http://eu.tennet.helloworldservice"
+     xmlns:svc="http://eu.tennet.helloworldservice"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="BPELProcessMDS">
+        <plnk:role name="HelloWorldService" portType="svc:HelloWorldService"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://eu.tennet.helloworldservice" location="oramds:/apps/tennet/wsdl/Helloworld.wsdl"/>
+</wsdl:definitions>
