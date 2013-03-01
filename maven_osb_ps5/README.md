@@ -19,24 +19,24 @@ Usage
 __. osb.sh__  ( sets maven, java environment variables )
 
 __mvn package__, builds all or 1 project depends on the location in the source folder ( OEPE Workspace )  
-__mvn deploy -Dtarget-env=dev__, deploy to the dev OSB folder  
+__mvn deploy -Dtarget-env=dev-osb__, deploy to the dev OSB folder  
 __mvn release:prepare__, prepare a release  
-__mvn release:perform -Dtarget-env=dev -DconnectionUrl=scm:git:git@github.com:biemond/soa_tools.git__  
+__mvn release:perform -Dtarget-env=dev-osb -DconnectionUrl=scm:git:git@github.com:biemond/soa_tools.git__  
 
 
-for an export of the OSB projects from the OSB Server run "mvn deploy -Dtarget-env=dev" in the export folder
+for an export of the OSB projects from the OSB Server run "mvn deploy -Dtarget-env=dev-osb" in the export folder
 
-for an build + export of a specific OSB project run "mvn deploy -Dtarget-env=dev" in a OSB project folder
+for an build + export of a specific OSB project run "mvn deploy -Dtarget-env=dev-osb" in a OSB project folder
 
 My Environment settings
 -----------------------
 
 Oracle OSB PS6 or 11.1.1.6
 
-middleware home   /opt/oracle/wls/wls11g  
-OSB & Oracle home /opt/oracle/wls/wls11g/Oracle_OSB1  
-WebLogic home     /opt/oracle/wls/wls11g/wlserver_10.3  
-Oepe home         /opt/oracle/wls/wls11g/oepe11.1.1.8  
+middleware home   /opt/wls/Middleware11gR1  
+OSB & Oracle home /opt/wls/Middleware11gR1/Oracle_OSB1  
+WebLogic home     /opt/wls/Middleware11gR1/wlserver_10.3  
+Oepe home         /opt/wls/Middleware11gR1/oepe11.1.1.8  
 
 
 Settings.xml
@@ -54,64 +54,31 @@ Settings.xml
       </server>
     </servers>
 
-
+    <profiles>
     <profile>
-      <id>env-default</id>
+      <id>osb-default</id>
 
       <properties>
-        <fmw.home>/opt/oracle/wls/wls11g</fmw.home>
-        <eclipse.home>/opt/oracle/wls/wls11g/oepe11.1.1.8</eclipse.home>
-        <weblogic.home>/opt/oracle/wls/wls11g/wlserver_10.3</weblogic.home>
-        <osb.home>/opt/oracle/wls/wls11g/Oracle_OSB1</osb.home>        
+        <fmw.home>/opt/wls/Middleware11gR1</fmw.home>
+        <eclipse.home>/opt/wls/Middleware11gR1/oepe11.1.1.8</eclipse.home>
+        <weblogic.home>/opt/wls/Middleware11gR1/wlserver_10.3</weblogic.home>
+        <osb.home>/opt/wls/Middleware11gR1/Oracle_OSB1</osb.home>        
       </properties>
-            <repositories>
-                  <repository>
-                        <id>central</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <snapshots>
-                              <enabled>false</enabled>
-                        </snapshots>
-                  </repository>
-                  <repository>
-                        <id>snapshots</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <releases>
-                              <enabled>false</enabled>
-                        </releases>
-                  </repository>
-            </repositories>
-            <pluginRepositories>
-                  <pluginRepository>
-                        <id>central</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <snapshots>
-                              <enabled>false</enabled>
-                        </snapshots>
-                  </pluginRepository>
-                  <pluginRepository>
-                        <id>snapshots</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <releases>
-                              <enabled>false</enabled>
-                        </releases>
-                  </pluginRepository>
-            </pluginRepositories>
 
     </profile>
 
 
     <profile>
-      <id>env-dev</id>
+      <id>env-dev-osb</id>
 
       <activation>
         <property>
           <name>target-env</name>
-          <value>dev</value>
+          <value>dev-osb</value>
         </property>
       </activation>
 
       <properties>
-
         <wls.username>weblogic</wls.username>
         <wls.password>weblogic1</wls.password>
         <wls.server>t3://devagent1.alfa.local:7001</wls.server>
@@ -120,47 +87,13 @@ Settings.xml
         <osb.all.import.plan>None</osb.all.import.plan>
         <osb.all.export.projects>None</osb.all.export.projects>
         <osb.all.export.plan>all_plan.xml</osb.all.export.plan>
-        
       </properties>
-            <repositories>
-                  <repository>
-                        <id>central</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <snapshots>
-                              <enabled>false</enabled>
-                        </snapshots>
-                  </repository>
-                  <repository>
-                        <id>snapshots</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <releases>
-                              <enabled>false</enabled>
-                        </releases>
-                  </repository>
-            </repositories>
-            <pluginRepositories>
-                  <pluginRepository>
-                        <id>central</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <snapshots>
-                              <enabled>false</enabled>
-                        </snapshots>
-                  </pluginRepository>
-                  <pluginRepository>
-                        <id>snapshots</id>
-                        <url>http://localhost:8081/artifactory/repo</url>
-                        <releases>
-                              <enabled>false</enabled>
-                        </releases>
-                  </pluginRepository>
-            </pluginRepositories>
-
 
     </profile>
     </profiles>
   
     <activeProfiles>
-      <activeProfile>env-default</activeProfile>
+      <activeProfile>osb-default</activeProfile>
     </activeProfiles>
   
 
