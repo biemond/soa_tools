@@ -8,6 +8,17 @@
   <description>Core POM for SOA MDS project</description>
   <packaging>pom</packaging>
 
+
+  <dependencyManagement>
+     <dependencies>
+       <dependency>
+         <groupId>biemond</groupId>
+         <artifactId>soa.metadata</artifactId>
+         <version>1.0.2-SNAPSHOT</version>
+       </dependency>
+     </dependencies>
+  </dependencyManagement>   
+
   <build>
     <directory>${buildDirectory}</directory>
     <plugins>
@@ -27,7 +38,6 @@
                 <artifactItem>
                   <groupId>biemond</groupId>
                   <artifactId>soa.metadata</artifactId>
-                  <version>1.0.2-SNAPSHOT</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${buildDirectory}/mds/seed/apps</outputDirectory>
@@ -39,15 +49,21 @@
            </execution>
          </executions>
       </plugin>
+
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
         <executions>
           <execution>
             <id>sca-package</id>
             <phase>package</phase>
             <configuration>
               <target>
+                <replace  file="${basedir}/../.adf/META-INF/adf-config.xml" 
+                	        token="${mds.home}" 
+                	        value="${buildDirectory}/mds"/>
+
+
                 <property name="build.compiler"        value="extJavac" />
                 <property name="java.passed.home"      value="${java.home}" />
                 <property name="compositeName"         value="${soa.composite.name}" />
@@ -58,7 +74,12 @@
                 <property name="scac.output"           value="${buildDirectory}/${soa.composite.name}.xml"/>
                 <property name="scac.error"            value="${buildDirectory}/${soa.composite.name}.err"/>
                 <property name="scac.displayLevel"     value="3"/>
-                <ant antfile="${sca.home}/ant-sca-package.xml" dir="${sca.home}/" target="package" />
+                <ant antfile="${sca.home}/ant-sca-package.xml" dir="${sca.home}/" target="package"/>
+
+                <replace  file="${basedir}/../.adf/META-INF/adf-config.xml" 
+                	        token="${buildDirectory}/mds" 
+                	        value="${mds.home}"/>
+
               </target>
             </configuration>
             <goals>

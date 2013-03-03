@@ -23,7 +23,7 @@
       <persistence-config>
         <metadata-namespaces>
           <namespace metadata-store-usage="mstore-usage_1" path="/soa/shared"/>
-          <!--namespace metadata-store-usage="mstore-usage_2" path="/apps"/-->
+          <namespace metadata-store-usage="mstore-usage_2" path="/apps"/>
         </metadata-namespaces>
         <metadata-store-usages>
           <metadata-store-usage id="mstore-usage_1">
@@ -33,13 +33,13 @@
               <property value="seed" name="partition-name"/>
             </metadata-store>
           </metadata-store-usage>
-          <!--metadata-store-usage id="mstore-usage_2">
+          <metadata-store-usage id="mstore-usage_2">
             <metadata-store class-name="oracle.mds.persistence.stores.file.FileMetadataStore">
               <property value="${mds.home}"
                         name="metadata-path"/>
               <property value="seed" name="partition-name"/>
             </metadata-store>
-          </metadata-store-usage-->
+          </metadata-store-usage>
         </metadata-store-usages>
       </persistence-config>
     </mds-config>

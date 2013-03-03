@@ -23,6 +23,22 @@
 
   </properties>
 
+<!--
+   defined in parent pom
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>biemond</groupId>
+        <artifactId>soa.metadata</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+      </dependency>
+     </dependencies>
+  </dependencyManagement>    
+-->
+
+ 
+
+
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>

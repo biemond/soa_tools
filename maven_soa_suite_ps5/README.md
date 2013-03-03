@@ -9,7 +9,7 @@ main pom ( /pom.xml ) which build the Soa Suite workspaces
 1 for building SOA project with MDS dependency  ( /parent/soa/project_mds/pom.xml )  
 
 workspace MetaDataServices ( /MetaDataServices/pom.xml ) --> MetaData MDS workspace parent pom  
-project BPEL1 pom ( /source2/bpel1/pom.xml ) --> Soa Suite project pom  
+project BPEL1 pom ( /source2/bpel1/pom.xml ) --> Soa Suite MDS project pom  
 project BPEL2 pom ( /source2/bpel1/pom.xml ) --> Soa Suite MDS project pom  
 
 
@@ -25,7 +25,7 @@ __mvn release:perform -Dtarget-env=dev-soa -DconnectionUrl=scm:git:git@github.co
 
 
 my mds config in adf-config.xml, with ${mds.home} which points to file mds location 
-maven with replace ${mds.home} with own local location.     
+maven with replace ${mds.home} with own mds local location in the target folder.     
 
     <adf-mds-config xmlns="http://xmlns.oracle.com/adf/mds/config">
       <mds-config xmlns="http://xmlns.oracle.com/mds/config">
