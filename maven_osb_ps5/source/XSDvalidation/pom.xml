@@ -8,7 +8,7 @@
   </parent>
   <groupId>biemond</groupId>
   <artifactId>osb.source.xsdvalidation</artifactId>
-  <version>1.5.0</version>
+  <version>1.4.0-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>osb</artifactId>
-  <version>1.5.0</version>
+  <version>0.2.0-SNAPSHOT</version>
   <description>Build script for all OSB workspaces and projects</description>
   <packaging>pom</packaging>
   <name>Parent Project</name>
