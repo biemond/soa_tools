@@ -51,19 +51,8 @@
 
       </executions>
      </plugin>
-
-     <plugin>
-       <artifactId>maven-release-plugin</artifactId>
-       <version>2.3.2</version>
-       <configuration>
-         <releaseProfiles>release</releaseProfiles>
-         <goals>deploy assembly:single</goals>
-       </configuration>
-     </plugin>
     </plugins>
   </build>
-
-
 
   <distributionManagement>
      <repository>
@@ -79,6 +68,5 @@
        <uniqueVersion>false</uniqueVersion>
      </snapshotRepository>
   </distributionManagement>  
-
 
 </project>
