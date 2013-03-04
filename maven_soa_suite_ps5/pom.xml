@@ -21,6 +21,13 @@
     <url>https://github.com/biemond/soa_tools/tree/master/maven_soa_suite_ps5</url>
   </scm> 
 
+  <scm>
+    <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
+    <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
+    <url>https://github.com/biemond/soa_tools/tree/master/maven_soa_suite_ps5</url>
+    <tag>main.1.0.0</tag>
+  </scm> 
+
 
   <distributionManagement>
      <repository>
