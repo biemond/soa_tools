@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>soa</artifactId>
-  <version>1.0.9</version>
+  <version>1.0.8-SNAPSHOT</version>
   <description>Build script for all SOA workspaces and projects</description>
   <packaging>pom</packaging>
   <name>Parent Project</name>
