@@ -31,6 +31,10 @@
                 <property name="scac.error"            value="${buildDirectory}/${soa.composite.name}.err"/>
                 <property name="scac.displayLevel"     value="3"/>
                 <ant antfile="${sca.home}/ant-sca-package.xml" dir="${sca.home}/" target="package" />
+
+                <copy file="${basedir}/deploy/sca_${soa.composite.name}_rev${soa.composite.revision}.jar" 
+                	    tofile="${buildDirectory}/${project.artifactId}-${project.version}.jar"/> 
+
               </target>
             </configuration>
             <goals>

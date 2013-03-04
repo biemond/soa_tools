@@ -79,6 +79,8 @@
                 <replace  file="${basedir}/../.adf/META-INF/adf-config.xml" 
                 	        token="${buildDirectory}/mds" 
                 	        value="${mds.home}"/>
+                <copy file="${basedir}/deploy/sca_${soa.composite.name}_rev${soa.composite.revision}.jar" 
+                	    tofile="${buildDirectory}/${project.artifactId}-${project.version}.jar"/> 
 
               </target>
             </configuration>
