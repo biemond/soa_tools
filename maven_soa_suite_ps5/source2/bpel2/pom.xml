@@ -42,7 +42,7 @@
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
-    <url>https://github.com/biemond/soa_tools/tree/master/maven_soa_suite_ps5</url>
+    <url>https://github.com/biemond/soa_tools/maven_soa_suite_ps5</url>
   </scm> 
   
 
