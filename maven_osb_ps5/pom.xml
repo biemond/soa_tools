@@ -7,17 +7,30 @@
   <description>Build script for all OSB workspaces and projects</description>
   <packaging>pom</packaging>
   <name>Parent Project</name>
+
   <modules>
     <module>source</module>
     <module>source/ReliableMessageWS</module>
 	  <module>source/XSDvalidation</module>
   </modules>
+
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
     <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps5</url>
     <tag>osb.0.2.0</tag>
   </scm> 
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+    </plugins>
+  </build>
+
 
 
   <distributionManagement>
