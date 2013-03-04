@@ -4,7 +4,7 @@
 
   <groupId>biemond</groupId>
   <artifactId>maven_soa_suite_ps5.MetaDataServices</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2-SNAPSHOT</version>
 
 
   <properties>
