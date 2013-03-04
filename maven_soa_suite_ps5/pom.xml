@@ -8,11 +8,11 @@
   <packaging>pom</packaging>
   <name>Parent Project</name>
 
-  <modules>
+  <!--modules>
 	  <module>MetaDataServices</module>
 	  <module>source2/bpel1</module>
 	  <module>source2/bpel2</module>
-  </modules>
+  </modules-->
 
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
