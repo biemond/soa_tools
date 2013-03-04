@@ -3,16 +3,17 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>biemond</groupId>
   <artifactId>soa</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.7-SNAPSHOT</version>
   <description>Build script for all SOA workspaces and projects</description>
   <packaging>pom</packaging>
   <name>Parent Project</name>
 
-  <!--modules>
+  <modules>
 	  <module>MetaDataServices</module>
-	  <module>source2/bpel1</module>
+<!--	  <module>source2/bpel1</module>
 	  <module>source2/bpel2</module>
-  </modules-->
+-->
+  </modules>
 
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
