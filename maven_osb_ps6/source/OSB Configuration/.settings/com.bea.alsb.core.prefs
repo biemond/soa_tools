@@ -1,0 +1,10 @@
+#Thu Oct 04 20:16:14 CEST 2012
+ACTIVATION_DESCRIPTION_PROPERTY=Publish from Oracle Service Bus IDE.
+CUSTOMIZATION_FILE_PROPERTY=
+DISCARD_SESSION_PROPERTY=true
+KEYSTORE_PROPERTYfile=
+KEYSTORE_PROPERTYpassword=
+PUBLISH_SESSION_NAME_PROPERTY=OSB_Publish
+SERVER_PROPERTY=
+container.referenced.projects=XSDvalidation|ReliableMessageWS|
+eclipse.preferences.version=1

@@ -1,0 +1,41 @@
+<wsdl:definitions name="ValidationWS" targetNamespace="http://whitehorses.nl/validation/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://whitehorses.nl/validation/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:req="http://whitehorses.nl/request" xmlns:resp="http://whitehorses.nl/response">
+  <wsdl:types>
+    <xsd:schema>
+    	<xsd:import namespace="http://whitehorses.nl/request" schemaLocation="../xsd/request.xsd">
+    	</xsd:import>
+    </xsd:schema>
+    <xsd:schema>
+    	<xsd:import namespace="http://whitehorses.nl/response" schemaLocation="../xsd/response.xsd">
+    	</xsd:import>
+    </xsd:schema>
+   </wsdl:types>
+  <wsdl:message name="OperationRequest"> 
+    <wsdl:part element="req:request" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="OperationResponse">
+    <wsdl:part element="resp:response" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="ValidationWS">
+    <wsdl:operation name="Operation">
+      <wsdl:input message="tns:OperationRequest"/>
+      <wsdl:output message="tns:OperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ValidationWSSOAP" type="tns:ValidationWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Operation">
+      <soap:operation soapAction="http://whitehorses.nl/validation/Operation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ValidationWS">
+    <wsdl:port binding="tns:ValidationWSSOAP" name="ValidationWSSOAP">
+      <soap:address location="http://whitehorses.nl/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

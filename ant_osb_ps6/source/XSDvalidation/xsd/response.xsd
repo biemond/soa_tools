@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://whitehorses.nl/response" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://whitehorses.nl/response" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="unqualified">
+	<xs:element name="response">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="runid" type="xs:short"/>
+				<xs:element name="message" type="xs:string" minOccurs="0"/>
+				<xs:element name="errorid" type="xs:string" minOccurs="0"/>
+				<xs:element name="error" type="xs:anyType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
