@@ -1,6 +1,20 @@
 soa_tools github repository
 ===========================
 
+maven_osb_ps6
+------------- 
+build & deployment framework for OSB for PS6 with maven, plus a demo workspace 
+- Package and deploy from an OEPE (Oracle Eclipse) workspace, project
+- Import to OSB on WebLogic
+- Export from OSB on WebLogic
+
+maven_osb_ps6_tool
+------------------ 
+maven build & deployment framework for OSB for PS6 with the new offline configjar tool, plus a demo workspace 
+- Package and deploy from an workspace, project
+- Import to OSB on WebLogic
+- Export from OSB on WebLogic
+
 ant
 ---
 Oracle SOA Suite 11g building utilities
