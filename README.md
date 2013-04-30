@@ -15,27 +15,11 @@ maven build & deployment framework for OSB for PS6 with the new offline configja
 - Import to OSB on WebLogic
 - Export from OSB on WebLogic
 
-ant
----
-Oracle SOA Suite 11g building utilities
-- compile
-- package
-- deploy composite with or without deployments plans
-- deploy MDS (metadata )
-- Logs actions
-- Stores deployments 
-
-maven_soa_ps5
+maven_soa_suite_ps5
 ------------- 
 build & deployment framework for Oracle SOA Suite 11g with maven, plus a demo workspace 
 - Package and deploy from a Soa Suite project
 - Package and deploy from a Metadata MDS project
-
-
-ant_mds
--------
-Oracle SOA Suite 11g MDS deployment utilities
-
 
 ant_osb_ps5
 ----------- 
@@ -50,6 +34,21 @@ build & deployment framework for OSB for PS5 with maven, plus a demo workspace
 - Package and deploy from an OEPE (Oracle Eclipse) workspace, project
 - Import to OSB on WebLogic
 - Export from OSB on WebLogic
+
+ant
+---
+Oracle SOA Suite 11g building utilities
+- compile
+- package
+- deploy composite with or without deployments plans
+- deploy MDS (metadata )
+- Logs actions
+- Stores deployments 
+
+
+ant_mds
+-------
+Oracle SOA Suite 11g MDS deployment utilities
 
 ant_wls
 -------
