@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>biemond.core.osb</groupId>
+  <artifactId>tool</artifactId>
+  <version>1.0</version>
+  <description>Core POM for OSB project</description>
+  <packaging>pom</packaging>
+
+  <build>
+    <directory>${buildDirectory}</directory>
+    <plugins>
+     <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.2</version>
+        <executions>
+           <execution>
+              <phase>prepare-package</phase>
+                <goals>
+                   <goal>replace</goal>
+                </goals>                    
+           </execution>
+         </executions>
+         <configuration>
+            <ignoreMissingFile>true</ignoreMissingFile>
+            <file>${project.basedir}/osb.xml</file>
+            <outputFile>${buildDirectory}/osb.xml</outputFile>
+            <regex>false</regex>
+            <replacements>
+               <replacement>
+                  <token>$WORKSPACE_HOME$</token>
+                  <value>${osbProjectBase}</value>
+               </replacement>
+               <replacement>
+                  <token>$OSBINCLUDESYSTEM$</token>
+                  <value>${osbIncludeSystem}</value>
+               </replacement>
+               <replacement>
+                  <token>$BUILDDIR$</token>
+                  <value>${buildDirectory}</value>
+               </replacement>
+               <replacement>
+                  <token>$ARTIFACTID$</token>
+                  <value>${project.artifactId}</value>
+               </replacement>
+               <replacement>
+                  <token>$VERSION$</token>
+                  <value>${project.version}</value>
+               </replacement>               
+            </replacements>    
+         </configuration>
+      </plugin>
+     <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>1.2.1</version>
+      <executions>
+       <execution>
+        <id>buildProjectWithConfigJar</id> 
+        <phase>package</phase>
+        <goals>
+          <goal>exec</goal>
+        </goals>
+        <configuration>
+         <includeProjectDependencies>false</includeProjectDependencies>
+         <includePluginDependencies>false</includePluginDependencies>
+         <workingDirectory>${buildOsbBase}</workingDirectory>
+         <executable>java</executable>
+         <commandlineArgs>-Xms32m -Xmx200m -XX:MaxPermSize=128m -Dosb.home=${osb.home} -Dweblogic.home=${wl.home} -classpath ${osb.tool.classpath} com.bea.alsb.tools.configjar.ConfigJar -settingsfile ${buildDirectory}/osb.xml</commandlineArgs>
+         <removeAll>true</removeAll>
+        </configuration>
+       </execution>
+
+       <execution>
+        <id>deployAllToOSBwithNoPlan</id>
+        <phase>deploy</phase>
+        <goals>
+          <goal>exec</goal>
+        </goals>
+        <configuration>
+         <includeProjectDependencies>false</includeProjectDependencies>
+         <includePluginDependencies>false</includePluginDependencies>
+         <workingDirectory>${buildOsbBase}/plans</workingDirectory>
+         <executable>java</executable>
+         <commandlineArgs>-Dwlst.offline.log=/tmp/osb_project.log -classpath ${osb.deploy.classpath} weblogic.WLST -skipWLSModuleScanning ${buildOsbBase}/import.py ${wls.username} ${wls.password} ${wls.server} ${osb.all.import.projects} ${buildOsbBase}/target/${project.artifactId}-${project.version}.jar ${osb.all.import.plan}
+         </commandlineArgs>
+        </configuration>
+       </execution>
+
+      </executions>
+     </plugin>
+     <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.4</version>
+     </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+     <repository>
+       <id>central</id>
+       <name>hudson.alfa.local-releases</name>
+       <url>http://localhost:8081/artifactory/libs-release-local</url>
+       <uniqueVersion>false</uniqueVersion>
+     </repository>
+     <snapshotRepository>
+       <id>snapshots</id>
+       <name>hudson.alfa.local-snapshots</name>
+       <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+       <uniqueVersion>false</uniqueVersion>
+     </snapshotRepository>
+  </distributionManagement>  
+
+</project>

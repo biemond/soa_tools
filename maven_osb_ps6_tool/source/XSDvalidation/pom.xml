@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>biemond.core.osb</groupId>
-    <artifactId>OSBproject</artifactId>
+    <artifactId>tool</artifactId>
     <version>1.0</version>
-    <relativePath>../../parent/project/pom.xml</relativePath>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
   <groupId>biemond</groupId>
   <artifactId>osb.source.xsdvalidation</artifactId>
@@ -14,18 +14,15 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    
     <buildDirectory>${project.basedir}/../../target</buildDirectory>
-
-    <osb.workspace.folder>source</osb.workspace.folder>
-    <osb.project>"XSDvalidation"</osb.project>
-    <osb.config.project>"OSB Configuration"</osb.config.project>
-    <osb.include.dependencies>true</osb.include.dependencies>
-
+    <buildOsbBase>${project.basedir}/../../</buildOsbBase>
+    <osbProjectBase>${project.basedir}/../</osbProjectBase>
+    <osbIncludeSystem>true</osbIncludeSystem>
   </properties>
 
   <scm>
     <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
     <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
-    <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps6</url>
+    <url>https://github.com/biemond/soa_tools/tree/master/maven_osb_ps6_tool</url>
     <tag>HEAD</tag>
   </scm>  
 

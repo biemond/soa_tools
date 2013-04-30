@@ -11,12 +11,7 @@ export COMMON_COMPONENTS_HOME=$MW_HOME/oracle_common
 export MODULES_DIR=$MW_HOME/modules
 
 export PATH=$WL_HOME/server/bin:$JAVA_HOME/jre/bin:$JAVA_HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-#export PATH=$WL_HOME/server/bin:$MODULES_DIR/org.apache.ant_1.7.1/bin:$JAVA_HOME/jre/bin:$JAVA_HOME/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 export MEM_ARGS="-Xms32m -Xmx200m -XX:MaxPermSize=128m"
-
-
-#export ANT_HOME=$MODULES_DIR/org.apache.ant_1.7.1
-#export ANT_OPTS="-Dosb.home=$OSB_HOME -Dweblogic.home=$WL_HOME"
 
 export CONFIGJAR_HOME="$OSB_HOME/tools/configjar"
 export JAVA_OPTS="-Dosb.home=$OSB_HOME -Dweblogic.home=$WL_HOME"

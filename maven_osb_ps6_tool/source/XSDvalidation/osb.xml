@@ -1,0 +1,10 @@
+<configjarSettings xmlns="http://www.bea.com/alsb/tools/configjar/config">
+    <source>
+        <project dir="$WORKSPACE_HOME$/XSDvalidation"/>
+        <system  dir="$WORKSPACE_HOME$/OSB Configuration"/>
+    </source>
+    <configjar jar="$BUILDDIR$/$ARTIFACTID$-$VERSION$.jar">
+         <projectLevel includeSystem="$OSBINCLUDESYSTEM$"/>
+    </configjar>
+</configjarSettings>
+
