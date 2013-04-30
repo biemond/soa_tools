@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>biemond.core.osb</groupId>
+  <artifactId>OSBworkspace</artifactId>
+  <version>1.0</version>
+  <description>Core POM for OSB workspace</description>
+  <packaging>pom</packaging>
+
+  <build>
+    <directory>${buildDirectory}</directory>
+    <plugins>
+     <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>1.2.1</version>
+      <executions>
+       <execution>
+       	<id>buildWorkspaceFromOEPE</id> 
+        <phase>package</phase>
+        <goals>
+          <goal>exec</goal>
+        </goals>
+        <configuration>
+         <includeProjectDependencies>false</includeProjectDependencies>
+         <includePluginDependencies>false</includePluginDependencies>
+         <workingDirectory>${project.basedir}/../</workingDirectory>
+         <executable>java</executable>
+         <commandlineArgs>-XX:MaxPermSize=128m -Dmiddleware.home=${fmw.home} -Dweblogic.home=${weblogic.home} -Dosb.home=${osb.home} -Dharvester.home=${osb.home}/harvester -Declipse.home=${eclipse.home} -Dosgi.nl=en_US -Dosgi.bundlefile.limit=750 -Dsun.lang.ClassLoader.allowArraySyntax=true -classpath ${eclipse.home}/plugins/org.eclipse.equinox.launcher_1.2.0.v20110502.jar:${osb.home}/modules/com.bea.common.configfwk_1.7.0.0.jar:${osb.home}/lib/alsb.jar:${osb.home}/lib/sb-kernel-wls.jar:${osb.home}/lib/sb-kernel-impl.jar:${osb.home}/lib/sb-kernel-api.jar:${weblogic.home}/server/lib/weblogic.jar:${weblogic.home}/server/lib/wls-api.jar: org.eclipse.equinox.launcher.Main -application com.bea.alsb.core.ConfigExport -data ${project.basedir}/../${osb.workspace.folder} -configProject ${osb.config.project} -configJar ${project.basedir}/../target/${project.artifactId}-${project.version}.jar -includeDependencies ${osb.include.dependencies}
+         </commandlineArgs>
+         <removeAll>true</removeAll>
+        </configuration>
+       </execution>
+
+       <execution>
+       	<id>deployAllToOSBwithNoPlan</id>
+        <phase>deploy</phase>
+        <goals>
+          <goal>exec</goal>
+        </goals>
+        <configuration>
+         <includeProjectDependencies>false</includeProjectDependencies>
+         <includePluginDependencies>false</includePluginDependencies>
+         <workingDirectory>${project.basedir}/../plans</workingDirectory>
+         <executable>java</executable>
+         <commandlineArgs>-Dwlst.offline.log=/tmp/osb_project.log -classpath ${weblogic.home}/server/lib/weblogic.jar:${osb.home}/lib/alsb.jar:${osb.home}/lib/sb-kernel-wls.jar:${osb.home}/lib/sb-kernel-impl.jar:${osb.home}/lib/sb-kernel-api.jar:${osb.home}/modules/com.bea.common.configfwk_1.7.0.0.jar weblogic.WLST -skipWLSModuleScanning ${project.basedir}/../import.py ${wls.username} ${wls.password} ${wls.server} ${osb.all.import.projects} ${project.basedir}/../target/${project.artifactId}-${project.version}.jar ${osb.all.import.plan}
+         </commandlineArgs>
+        </configuration>
+       </execution>
+
+      </executions>
+     </plugin>
+     <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.4</version>
+     </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+     <repository>
+       <id>central</id>
+       <name>hudson.alfa.local-releases</name>
+       <url>http://localhost:8081/artifactory/libs-release-local</url>
+       <uniqueVersion>false</uniqueVersion>
+     </repository>
+     <snapshotRepository>
+       <id>snapshots</id>
+       <name>hudson.alfa.local-snapshots</name>
+       <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+       <uniqueVersion>false</uniqueVersion>
+     </snapshotRepository>
+  </distributionManagement>  
+
+</project>

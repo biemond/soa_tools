@@ -1,7 +1,9 @@
 <definitions targetNamespace="http://wsrm.osbbook" 
 name="HelloWorldService" 
-xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://wsrm.osbbook" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:tns="http://wsrm.osbbook" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns="http://schemas.xmlsoap.org/wsdl/">
 	<types>
 		<xsd:schema>
 			<xsd:import namespace="http://wsrm.osbbook" schemaLocation="../xsd/Helloworld.xsd"/>

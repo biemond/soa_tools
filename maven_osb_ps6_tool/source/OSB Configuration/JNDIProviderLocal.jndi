@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:con="http://www.bea.com/wli/sb/resources/config">
+  <con:description>Local JNDI</con:description>
+  <con:providerUrl>t3://localhost:7001</con:providerUrl>
+</xml-fragment>
