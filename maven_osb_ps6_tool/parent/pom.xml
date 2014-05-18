@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>biemond.core.osb</groupId>
+  <groupId>nl.amis.core.osb</groupId>
   <artifactId>tool</artifactId>
   <version>1.0</version>
   <description>Core POM for OSB project</description>
@@ -73,7 +73,7 @@
         </configuration>
        </execution>
 
-       <execution>
+       <!--execution>
         <id>deployAllToOSBwithNoPlan</id>
         <phase>deploy</phase>
         <goals>
@@ -87,7 +87,7 @@
          <commandlineArgs>-Dwlst.offline.log=/tmp/osb_project.log -classpath ${osb.deploy.classpath} weblogic.WLST -skipWLSModuleScanning ${buildOsbBase}/import.py ${wls.username} ${wls.password} ${wls.server} ${osb.all.import.projects} ${buildOsbBase}/target/${project.artifactId}-${project.version}.jar ${osb.all.import.plan}
          </commandlineArgs>
         </configuration>
-       </execution>
+       </execution-->
 
       </executions>
      </plugin>
@@ -100,18 +100,18 @@
   </build>
 
   <distributionManagement>
-     <repository>
-       <id>central</id>
-       <name>hudson.alfa.local-releases</name>
-       <url>http://localhost:8081/artifactory/libs-release-local</url>
-       <uniqueVersion>false</uniqueVersion>
-     </repository>
-     <snapshotRepository>
-       <id>snapshots</id>
-       <name>hudson.alfa.local-snapshots</name>
-       <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
-       <uniqueVersion>false</uniqueVersion>
-     </snapshotRepository>
-  </distributionManagement>  
+    <repository>
+      <id>central</id>
+      <name>releases</name>
+      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>snapshots</name>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

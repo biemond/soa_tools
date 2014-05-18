@@ -1,8 +1,8 @@
 #!/bin/sh
 
-export MW_HOME=/opt/wls/Middleware11gR1
+export MW_HOME=/Users/edwin/Oracle/Middleware11.1.1.7_OSB
 export OSB_HOME=$MW_HOME/Oracle_OSB1
-export JAVA_HOME=/usr/java/jdk1.7.0_17
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home
 
 export BEA_HOME=$MW_HOME
 export WL_HOME=$MW_HOME/wlserver_10.3
@@ -27,4 +27,4 @@ export CLASSPATH
 cd $OSB_HOME/tools/configjar
 
 
-$JAVA_HOME/bin/java $JAVA_OPTS com.bea.alsb.tools.configjar.ConfigJar -settingsfile /home/oracle/projects/soa_tools/maven_osb_ps6_tool/osb_export_projects.xml
+$JAVA_HOME/bin/java $JAVA_OPTS com.bea.alsb.tools.configjar.ConfigJar -settingsfile /Users/edwin/projects/soa_tools/maven_osb_ps6_tool/osb_export_projects.xml

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>biemond</groupId>
+  <groupId>nl.amis</groupId>
   <artifactId>osb</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.1-SNAPSHOT</version>
   <description>Build script for all OSB workspaces and projects</description>
   <packaging>pom</packaging>
   <name>Parent Project</name>
@@ -32,21 +32,19 @@
   </build>
 
 
-
   <distributionManagement>
-     <repository>
-       <id>central</id>
-       <name>hudson.alfa.local-releases</name>
-       <url>http://localhost:8081/artifactory/libs-release-local</url>
-       <uniqueVersion>false</uniqueVersion>
-     </repository>
-     <snapshotRepository>
-       <id>snapshots</id>
-       <name>hudson.alfa.local-snapshots</name>
-       <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
-       <uniqueVersion>false</uniqueVersion>
-     </snapshotRepository>
-  </distributionManagement>  
-
+    <repository>
+      <id>central</id>
+      <name>releases</name>
+      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>snapshots</name>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

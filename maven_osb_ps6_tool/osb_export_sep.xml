@@ -1,12 +1,12 @@
 <configjarSettings xmlns="http://www.bea.com/alsb/tools/configjar/config">
     <source>
-        <project dir="/home/oracle/projects/soa_tools/maven_osb_ps6_tool/source/ReliableMessageWS"/>
-        <system  dir="/home/oracle/projects/soa_tools/maven_osb_ps6_tool/source/OSB Configuration"/>
+        <project dir="/Users/edwin/projects/soa_tools/maven_osb_ps6_tool/source/ReliableMessageWS"/>
+        <system  dir="/Users/edwin/projects/soa_tools/maven_osb_ps6_tool/source/OSB Configuration"/>
     </source>
-    <configjar jar="/home/oracle/projects/soa_tools/maven_osb_ps6_tool/export/sbconfig-rel.jar">
+    <configjar jar="/Users/edwin/projects/soa_tools/maven_osb_ps6_tool/export/sbconfig-rel.jar">
         <projectLevel includeSystem="false"/>
     </configjar>
-    <configjar jar="/home/oracle/projects/soa_tools/maven_osb_ps6_tool/export/sbconfig-rel-system.jar">
+    <configjar jar="/Users/edwin/projects/soa_tools/maven_osb_ps6_tool/export/sbconfig-rel-system.jar">
          <resourceLevel>
             <resources>
                 <include name="**/*.jndi"/>
