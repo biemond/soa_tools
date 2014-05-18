@@ -8,17 +8,6 @@
   <description>Core POM for SOA MDS project</description>
   <packaging>pom</packaging>
 
-
-  <dependencyManagement>
-     <dependencies>
-       <dependency>
-         <groupId>nl.amis</groupId>
-         <artifactId>soa.metadata</artifactId>
-         <version>1.2.1-SNAPSHOT</version>
-       </dependency>
-     </dependencies>
-  </dependencyManagement>   
-
   <build>
     <directory>${buildDirectory}</directory>
     <plugins>
