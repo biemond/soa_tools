@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>biemond.core.soa</groupId>
+    <artifactId>SOAMDSproject</artifactId>
+    <version>1.0</version>
+    <relativePath>../../parent/soa/project_mds/pom.xml</relativePath>
+  </parent>
+
+  <groupId>biemond</groupId>
+  <artifactId>soa.source2.bpel2</artifactId>
+  <version>1.2.1-SNAPSHOT</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    
+    <buildDirectory>${project.basedir}/../../target</buildDirectory>
+
+    <soa.composite.name>bpel2</soa.composite.name>
+    <soa.composite.revision>1.0</soa.composite.revision>
+    <soa.composite.partition>default</soa.composite.partition>
+
+  </properties>
+
+
+
+  <scm>
+    <connection>scm:git:git@github.com:biemond/soa_tools.git</connection>
+    <developerConnection>scm:git:git@github.com:biemond/soa_tools.git</developerConnection>
+    <url>scm:git:git@github.com:biemond/soa_tools.git</url>
+    <tag>HEAD</tag>
+  </scm> 
+  
+
+</project>

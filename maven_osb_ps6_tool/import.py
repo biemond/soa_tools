@@ -164,6 +164,9 @@ def getSessionManagementMBean(sessionName):
 # IMPORT script init
 try:
     # import the service bus configuration
+    # not used
+    passphrase   = "osb"
+
 
     adminUser    = sys.argv[1]
     adminPassword= sys.argv[2]
@@ -171,7 +174,6 @@ try:
 
     importJar    = sys.argv[5]
     customFile   = sys.argv[6]
-    passphrase   = "osb"
     project      = sys.argv[4]
 
     connect(adminUser,adminPassword,adminUrl) 

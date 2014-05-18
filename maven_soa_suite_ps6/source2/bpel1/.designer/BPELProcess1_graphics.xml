@@ -1,0 +1,14 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<graphics>
+   <diagram optimizeLayout="false" popupEditor="false" fixedWidthSwimlanes="true" roundedPartnerlinks="true" centerZoom="true" validateOnLoad="true" confirmBeforeDelete="true" selectedPartnerLinkColor="0,0,153" swimlaneBackground="240,240,240" swimlaneDividerBackground="218,218,218" graphBackground="255,255,255" selectedBorderBackground="49,105,198" connectedPartnerLinkColor="204,204,255" connectablePartnerLinkColor="0,0,255" unconnectedPartnerLinkColor="192,192,192"/>
+   <annotationfile/>
+   <iconize/>
+   <partnerlink_locations>
+      <partnerlink name="bpelprocess1_client" x="2" y="184" side="left"/>
+   </partnerlink_locations>
+   <graph_layout viewport="0,0,708,477" show_swimlanes="true">
+      <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
+   </graph_layout>
+   <bookmarks/>
+</graphics>

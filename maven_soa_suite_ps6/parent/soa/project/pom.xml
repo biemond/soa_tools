@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>biemond.core.soa</groupId>
+  <artifactId>SOAproject</artifactId>
+  <version>1.0</version>
+  <description>Core POM for SOA project</description>
+  <packaging>pom</packaging>
+
+  <build>
+    <directory>${buildDirectory}</directory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sca-package</id>
+            <phase>package</phase>
+            <configuration>
+              <target>
+                <property name="build.compiler"        value="extJavac" />
+                <property name="java.passed.home"      value="${java.home}" />
+                <property name="compositeName"         value="${soa.composite.name}" />
+                <property name="compositeDir"          value="${basedir}" />
+                <property name="revision"              value="${soa.composite.revision}" />
+                <property name="scac.application.home" value="${basedir}/../" />
+				        <property name="failOnError"           value="true" />
+                <property name="scac.output"           value="${buildDirectory}/${soa.composite.name}.xml"/>
+                <property name="scac.error"            value="${buildDirectory}/${soa.composite.name}.err"/>
+                <property name="scac.displayLevel"     value="3"/>
+                <ant antfile="${sca.home}/ant-sca-package.xml" dir="${sca.home}/" target="package" />
+
+                <copy file="${basedir}/deploy/sca_${soa.composite.name}_rev${soa.composite.revision}.jar" 
+                	    tofile="${buildDirectory}/${project.artifactId}-${project.version}.jar"/> 
+
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <!--execution>
+           <id>sca-deploy</id>
+           <phase>deploy</phase>
+           <configuration>
+              <target>
+                <property name="serverURL" value="${wls.server}" />
+                <property name="user" value="${wls.username}" />
+                <property name="password" value="${wls.password}" />
+                <property name="sarLocation" value="${basedir}/deploy/sca_${soa.composite.name}_rev${soa.composite.revision}.jar" />
+                <property name="overwrite" value="true" />
+                <property name="forceDefault" value="true" />
+				        <property name="failOnError" value="true" />
+				        <property name="partition" value="${soa.composite.partition}" />
+                <ant antfile="${sca.home}/ant-sca-deploy.xml" dir="${sca.home}/" target="deploy" />
+              </target>
+           </configuration>
+           <goals>
+             <goal>run</goal>
+           </goals>
+          </execution-->
+       </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.4</version>
+     </plugin>
+     </plugins>
+  </build>
+
+
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>hudson.alfa.local-releases</name>
+      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>hudson.alfa.local-snapshots</name>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+  
+
+</project>
