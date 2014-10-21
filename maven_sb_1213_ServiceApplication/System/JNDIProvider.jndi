@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:description/>
+    <con:providerUrl>t3://10.10.10.10:7001</con:providerUrl>
+    <con:contextFactory>weblogic.jndi.WLInitialContextFactory</con:contextFactory>
+    <con:envProperties/>
+</xml-fragment>

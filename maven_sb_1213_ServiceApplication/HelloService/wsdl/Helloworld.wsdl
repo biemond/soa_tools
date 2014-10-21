@@ -1,0 +1,27 @@
+<definitions targetNamespace="http://oracle.greetings.service" name="HelloWorldService"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://oracle.greetings.service"
+             xmlns:tns2="http://oracle.greetings" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://oracle.greetings" schemaLocation="../xsd/Helloworld.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="sayHelloOneWay">
+    <part name="parameters" element="tns2:sayHelloOneWay"/>
+  </message>
+  <portType name="HelloWorldService">
+    <operation name="sayHelloOneWay">
+      <input message="tns:sayHelloOneWay"/>
+    </operation>
+  </portType>
+  <binding name="HelloWorldServiceSoapHttpPortBinding" type="tns:HelloWorldService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="sayHelloOneWay">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+  </binding>
+</definitions>

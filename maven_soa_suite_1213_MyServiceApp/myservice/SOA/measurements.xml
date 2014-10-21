@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:measurements xmlns:ns0="http://xmlns.oracle.com/bpm/analytics/measurementV20">
+   <ns0:compositeDN>myservice</ns0:compositeDN>
+   <ns0:measurementElements>
+      <ns0:measurementElement name="Composite_Measurement" type="COMPOSITE" enabled="true" userDefined="false">
+         <ns0:elementSelection>
+            <ns0:noneList>NONE</ns0:noneList>
+         </ns0:elementSelection>
+         <ns0:elementStates>
+            <ns0:allList>ALL</ns0:allList>
+         </ns0:elementStates>
+         <ns0:businessIndicators allDimensions="true" allMeasures="true" allAttributes="true"/>
+      </ns0:measurementElement>
+      <ns0:measurementElement name="EchoProcess_Measurement" type="COMPONENT" enabled="true" userDefined="false">
+         <ns0:componentName>EchoProcess</ns0:componentName>
+         <ns0:elementSelection>
+            <ns0:noneList>NONE</ns0:noneList>
+         </ns0:elementSelection>
+         <ns0:elementStates>
+            <ns0:allList>ALL</ns0:allList>
+         </ns0:elementStates>
+         <ns0:businessIndicators allDimensions="true" allMeasures="true" allAttributes="true"/>
+      </ns0:measurementElement>
+   </ns0:measurementElements>
+</ns0:measurements>

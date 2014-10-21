@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:con="http://www.bea.com/wli/sb/resources/config">
+    <con:serverURL>my.de.de</con:serverURL>
+    <con:description/>
+    <con:portNumber>110</con:portNumber>
+</xml-fragment>

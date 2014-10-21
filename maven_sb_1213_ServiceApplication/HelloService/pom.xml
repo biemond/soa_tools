@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+      <groupId>com.oracle.gradle.servicebus.test</groupId>
+      <artifactId>ServiceApplication</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.oracle.gradle.servicebus.test</groupId>
+    <artifactId>HelloService</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>sbar</packaging>
+
+    <properties>
+        <!--oracleHome>C:/Oracle/Middleware12.1.3_jdev_soa</oracleHome>
+        <system>false</system>
+        <oracleServerUrl>t3://localhost:7101</oracleServerUrl>
+        <oracleUsername>weblogic</oracleUsername>
+        <oraclePassword>weblogic1</oraclePassword-->
+        <!--customization></customization-->
+    </properties>
+
+   <build>
+    <sourceDirectory>.data/contentsets/</sourceDirectory>
+    <outputDirectory>.data/contentsets/.data/maven/classes/</outputDirectory>
+    <plugins>
+     <plugin>
+        <groupId>com.oracle.servicebus.plugin</groupId>
+        <artifactId>oracle-servicebus-plugin</artifactId>
+        <version>12.1.3-0-0</version>
+        <extensions>true</extensions>
+       <configuration>
+          <oracleHome>C:/Oracle/Middleware12.1.3_jdev_soa</oracleHome>
+          <system>false</system>
+          <oracleServerUrl>t3://localhost:7101</oracleServerUrl>
+          <oracleUsername>weblogic</oracleUsername>
+          <oraclePassword>weblogic1</oraclePassword>
+          <!--customization></customization-->
+       </configuration>
+     </plugin>
+    </plugins>
+   </build>
+
+   <description/>
+
+   <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>local-releases</name>
+      <url>file://c:/temp</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>local-snapshots</name>
+      <url>file://c:/temp</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>

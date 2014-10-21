@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:aler="http://www.bea.com/wli/monitoring/alert" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:env="http://www.bea.com/wli/config/env" xmlns:ema="http://www.bea.com/wli/sb/transports/email">
+    <aler:description/>
+    <aler:AlertToConsole>false</aler:AlertToConsole>
+    <aler:AlertToReportingDataSet>false</aler:AlertToReportingDataSet>
+    <aler:AlertToSNMP>false</aler:AlertToSNMP>
+    <aler:Destinations type="email">
+        <aler:config email-body="" xsi:type="ema:EmailActionProviderConfiguration" xmlns:ema="http://www.bea.com/wli/monitoring/alert/action/email">
+            <ema:transport-end-point-config>
+                <ema:config xsi:type="tran:EndPointConfiguration" xmlns:tran="http://www.bea.com/wli/sb/transports">
+                    <tran:provider-id>email</tran:provider-id>
+                    <tran:inbound>false</tran:inbound>
+                    <tran:URI>
+                        <env:value>mailto:aa@de.de</env:value>
+                    </tran:URI>
+                    <tran:provider-specific>
+                        <ema1:use-ssl xmlns:ema1="http://www.bea.com/wli/sb/transports/email">false</ema1:use-ssl>
+                        <ema1:outbound-properties xmlns:ema1="http://www.bea.com/wli/sb/transports/email">
+                            <ema1:smtp-resource ref="System/SMTP Servers/SMTPServer"/>
+                            <ema1:connection-timeout>0</ema1:connection-timeout>
+                            <ema1:timeout>0</ema1:timeout>
+                            <ema1:from-address/>
+                            <ema1:from-name/>
+                            <ema1:reply-to-address/>
+                            <ema1:reply-to-name/>
+                            <ema1:mail-session-jndiname/>
+                        </ema1:outbound-properties>
+                        <ema1:request-encoding xmlns:ema1="http://www.bea.com/wli/sb/transports/email">iso-8859-1</ema1:request-encoding>
+                    </tran:provider-specific>
+                </ema:config>
+            </ema:transport-end-point-config>
+        </aler:config>
+    </aler:Destinations>
+</xml-fragment>
